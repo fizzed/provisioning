@@ -18,7 +18,7 @@ Vagrant.configure(2) do |config|
 end
 ```
 
-### Outside vagrant
+### Non-vagrant (e.g. in a shell)
 
 ```
 curl -O https://raw.githubusercontent.com/jjlauer/vagrant-provision/master/linux/bootstrap-java8.sh
