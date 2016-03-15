@@ -1,8 +1,9 @@
 Provisioning Scripts
 ====================
 
-Scripts for provisioning Vagrant virtual machines or even bare
-metal installs of various operating systems.
+Scripts for provisioning machines.  Primarly used to provision
+vagrant instances, but can be used for config of machines in the
+cloud or bare metal.
 
 ### Vagrant
 
@@ -12,7 +13,7 @@ Vagrant.configure(2) do |config|
     guest.vm.box = "minimal/trusty64"
 
     # oracle java 8: arg is jre, server-jre, or jdk
-    config.vm.provision "shell", path: "linux/bootstrap-java8.sh", args: "server-jre"
+    config.vm.provision "shell", path: "https://raw.githubusercontent.com/jjlauer/vagrant-provision/master/linux/bootstrap-java8.sh", args: "server-jre"
   end
 end
 ```
@@ -20,7 +21,7 @@ end
 ### Outside vagrant
 
 ```
-curl -O https://github.com/jjlauer/vagrant-provision/blah
-sudo chmod +x 
-sudo 
+curl -O https://raw.githubusercontent.com/jjlauer/vagrant-provision/master/linux/bootstrap-java8.sh
+chmod +x ./bootstrap-java8.sh
+sudo ./bootstrap-java8.sh
 ```

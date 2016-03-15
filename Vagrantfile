@@ -5,7 +5,7 @@ Vagrant.configure(2) do |config|
     guest.vm.box = "minimal/trusty64"
 
     # oracle java 8: arg is jre, server-jre, or jdk
-    config.vm.provision "shell", path: "linux/bootstrap-java8.sh", args: "server-jre"
+    #config.vm.provision "shell", path: "linux/bootstrap-java8.sh", args: "server-jre"
   end
 
 
