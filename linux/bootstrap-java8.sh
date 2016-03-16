@@ -52,10 +52,9 @@ fi
 
 # does /etc/profile.d exist? (in case /etc/environment not used)
 if [ -d /etc/profile.d ]; then
-  if [ ! -f /etc/profile.d/java.sh ]; then
-    echo "if [ -z \"\$JAVA_HOME\" ]; then JAVA_HOME=/usr/lib/jvm/current; export JAVA_HOME; fi" > /etc/profile.d/java.sh    
-    echo "if ! [[ \$PATH == *\"\$JAVA_HOME\"* ]]; then PATH=\"\$JAVA_HOME/bin:\$PATH\"; export PATH; fi" >> /etc/profile.d/java.sh
-  fi
+  # always overwrite
+  echo "if [ -z \"\$JAVA_HOME\" ]; then JAVA_HOME=/usr/lib/jvm/current; export JAVA_HOME; fi" > /etc/profile.d/java.sh    
+  echo "if ! [[ \$PATH == *\"\$JAVA_HOME\"* ]]; then PATH=\"\$JAVA_HOME/bin:\$PATH\"; export PATH; fi" >> /etc/profile.d/java.sh
 fi
 
 echo "Installed $JAVA_TYPE $JAVA_VERSION"
