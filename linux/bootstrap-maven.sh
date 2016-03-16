@@ -24,7 +24,7 @@ ln -s /opt/maven/$MAVEN_VERSION /opt/maven/current
 # add to profile.d
 if [ -d /etc/profile.d ]; then
   if [ ! -f /etc/profile.d/maven.sh ]; then
-    echo "if [ -z \"\$MAVEN_HOME\" ]; then MAVEN_HOME=/opt/maven/; export MAVEN_HOME; fi" > /etc/profile.d/maven.sh    
+    echo "if [ -z \"\$MAVEN_HOME\" ]; then MAVEN_HOME=/opt/maven/current; export MAVEN_HOME; fi" > /etc/profile.d/maven.sh    
     echo "if ! [[ \$PATH == *\"\$MAVEN_HOME\"* ]]; then PATH=\"\$MAVEN_HOME/bin:\$PATH\"; export PATH; fi" >> /etc/profile.d/maven.sh
   fi
 fi
