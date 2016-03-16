@@ -17,8 +17,9 @@ echo "Installing Maven $MAVEN_VERSION..."
 
 curl -O "http://apache.spinellicreations.com/maven/maven-3/3.3.9/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz"
 tar zxvf apache-maven-$MAVEN_VERSION-bin.tar.gz
+mv apache-maven-$MAVEN_VERSION $MAVEN_VERSION
 mkdir --parents /opt/maven
-mv apache-maven-$MAVEN_VERSION /opt/maven/$MAVEN_VERSION
+mv $MAVEN_VERSION /opt/maven/
 ln -s /opt/maven/$MAVEN_VERSION /opt/maven/current
 
 # add to profile.d
