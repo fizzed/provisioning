@@ -11,7 +11,7 @@ echo "Installing mysql $MYSQL_VERSION..."
 
 # mysql common
 apt-get update
-apt-get install libaio1 libnuma1 apparmor
+apt-get -y install libaio1 libnuma1 apparmor
 wget https://dev.mysql.com/get/Downloads/MySQL-5.6/mysql-common_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 dpkg -i mysql-common_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 
