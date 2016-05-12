@@ -1,23 +1,54 @@
 #!/bin/sh
 
-##############################################
-# Install script for Oracle Java 8
-#  for debian, ubuntu, and centos
-#
-# Usage:
-#  arg0: "jre", "server-jre", or "jdk" (defaults to server-jre)
-#  config.vm.provision "shell", path: "linux/bootstrap-java8.sh", args: "server-jre"
-#
-##############################################
-
 export DEBIAN_FRONTEND=noninteractive
 
-# jdk, jre, or server-jre
-JAVA_TYPE="$1"
-if [ -z "$JAVA_TYPE" ]; then JAVA_TYPE="server-jre"; fi
+# defaults
+JAVA_TYPE="server-jre"     		# jdk, jre, or server-jre
+JAVA_VERSION="1.8.0_91"
 
-JAVA_VERSION="1.8.0_74"
-JAVA_FILE_VERSION="8u74"
+# arguments
+for i in "$@"; do
+  case $i in
+    --type=*)
+      JAVA_TYPE="${i#*=}"
+      ;;
+    --version=*)
+      JAVA_VERSION="${i#*=}"
+      ;;
+    *)
+      echo "Unknown argument '$i'"
+      exit 1  
+      ;;
+  esac
+done
+
+# java type valid?
+case $JAVA_TYPE in
+  jdk|jre|server-jre)
+    ;;
+  *)
+    echo "Unsupported java type $JAVA_TYPE (must be jdk, jre, or server-jre)"
+    exit 1
+    ;;
+esac
+
+# java versions valid? (we have to setup stuff so versions must be manually supported)
+case $JAVA_VERSION in
+  1.8.0_74)
+    JAVA_FILE_VERSION="8u74"
+    JAVA_URL_DIR="8u74-b02"
+    ;;
+  1.8.0_91)
+    JAVA_FILE_VERSION="8u91"
+    JAVA_URL_DIR="8u91-b14"
+    ;;
+  *)
+    echo "Unsupported java version $JAVA_VERSION (you'll need to add code to this script to correctly install it)"
+    exit 1  
+    ;;
+esac
+
+# http://download.oracle.com/otn-pub/java/jdk/8u91-b14/jdk-8u91-linux-x64.tar.gz
 
 # dependencies
 if type apt-get &>/dev/null; then
@@ -30,8 +61,8 @@ fi
 
 echo "Installing $JAVA_TYPE $JAVA_VERSION..."
 
-# download and install java 8 server jre
-curl -O -v -j -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/8u74-b02/$JAVA_TYPE-$JAVA_FILE_VERSION-linux-x64.tar.gz
+# download and install java 8 file
+curl -O -j -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/$JAVA_URL_DIR/$JAVA_TYPE-$JAVA_FILE_VERSION-linux-x64.tar.gz
 tar zxvf $JAVA_TYPE-$JAVA_FILE_VERSION-linux-x64.tar.gz
 mkdir --parents /usr/lib/jvm
 mv jdk$JAVA_VERSION /usr/lib/jvm/

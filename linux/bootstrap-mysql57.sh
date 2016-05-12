@@ -2,36 +2,55 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
-MYSQL_ROOT_PASSWORD="$1"
-if [ -z "$MYSQL_ROOT_PASSWORD" ]; then MYSQL_ROOT_PASSWORD="test"; fi
-
+# defaults
 MYSQL_VERSION="5.7.12"
+MYSQL_ROOT_PASSWORD="test"
+MYSQL_CREATE_DB=
+
+# arguments
+for i in "$@"; do
+  case $i in
+    --version=*)
+      MYSQL_VERSION="${i#*=}"
+      ;;
+    --rootpw=*)
+      MYSQL_ROOT_PASSWORD="${i#*=}"
+      ;;
+    --createdb=*)
+      MYSQL_CREATE_DB="${i#*=}"
+      ;;
+    *)
+      echo "Unknown argument '$i'"
+      exit 1  
+      ;;
+  esac
+done
 
 echo "Installing mysql $MYSQL_VERSION..."
 
 # mysql common
 apt-get update
 apt-get -y install libaio1 libnuma1 apparmor libmecab2 psmisc
-wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-common_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
+wget --no-verbose https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-common_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 dpkg -i mysql-common_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 
 # mysql client
-wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-community-client_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
+wget --no-verbose https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-community-client_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 dpkg -i mysql-community-client_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 
 # mysql client #2
-wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-client_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
-dpkg -i mysql-client_5.7.12-1ubuntu14.04_amd64.deb
+wget --no-verbose https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-client_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
+dpkg -i mysql-client_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 
 # mysql server
-wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-community-server_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
+wget --no-verbose https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-community-server_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 echo "mysql-community-server  mysql-community-server/re-root-pass     password	$MYSQL_ROOT_PASSWORD" | sudo debconf-set-selections
 echo "mysql-community-server  mysql-community-server/root-pass        password	$MYSQL_ROOT_PASSWORD" | sudo debconf-set-selections
 echo "mysql-community-server  mysql-community-server/remove-data-dir  boolean true"  | sudo debconf-set-selections
 dpkg -i mysql-community-server_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 
 # mysql server #2
-wget https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-server_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
+wget --no-verbose https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-server_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 dpkg -i mysql-server_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 
 # by default mysql only allows localhost (not via port forward)
@@ -44,5 +63,11 @@ echo "FLUSH PRIVILEGES" | mysql -u root -p$MYSQL_ROOT_PASSWORD
 sed -i "s/= 127.0.0.1/= 0.0.0.0/" /etc/mysql/my.cnf
 
 service mysql restart
+
+# create a database?
+if [ ! -z "$MYSQL_CREATE_DB" ]; then
+  echo "Creating database $MYSQL_CREATE_DB..."
+  echo "CREATE DATABASE $MYSQL_CREATE_DB" | mysql -u root -p$MYSQL_ROOT_PASSWORD
+fi
 
 echo "Installed mysql $MYSQL_VERSION"
