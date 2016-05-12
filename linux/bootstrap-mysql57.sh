@@ -35,14 +35,17 @@ wget --no-verbose https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-common_$MY
 dpkg -i mysql-common_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 
 # mysql client
+echo "Downloading mysql-community-client..."
 wget --no-verbose https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-community-client_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 dpkg -i mysql-community-client_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 
 # mysql client #2
+echo "Downloading mysql-client..."
 wget --no-verbose https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-client_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 dpkg -i mysql-client_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 
 # mysql server
+echo "Downloading mysql-community-server..."
 wget --no-verbose https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-community-server_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 echo "mysql-community-server  mysql-community-server/re-root-pass     password	$MYSQL_ROOT_PASSWORD" | sudo debconf-set-selections
 echo "mysql-community-server  mysql-community-server/root-pass        password	$MYSQL_ROOT_PASSWORD" | sudo debconf-set-selections
@@ -50,6 +53,7 @@ echo "mysql-community-server  mysql-community-server/remove-data-dir  boolean tr
 dpkg -i mysql-community-server_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 
 # mysql server #2
+echo "Downloading mysql-server..."
 wget --no-verbose https://dev.mysql.com/get/Downloads/MySQL-5.7/mysql-server_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 dpkg -i mysql-server_$MYSQL_VERSION-1ubuntu14.04_amd64.deb
 
