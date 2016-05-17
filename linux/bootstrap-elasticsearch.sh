@@ -28,7 +28,13 @@ echo "Downloading elasticsearch..."
 wget --no-verbose https://download.elastic.co/elasticsearch/release/org/elasticsearch/distribution/deb/elasticsearch/$ES_VERSION/elasticsearch-$ES_VERSION.deb
 dpkg -i elasticsearch-$ES_VERSION.deb
 
+# elastic has awful java detection - tell it where java_home is
+echo "Configuring elasticsearch to search $JAVA_HOME for java"
 echo "JAVA_HOME=\"$JAVA_HOME\"" >> /etc/default/elasticsearch
+
+# port forwards only work to a real ip, not localhost
+echo "Configuring elasticsearch to bind to all network interfaces (not just localhost by default)"
+sed -i "s/^.*network\.host.*$/network.host: 0.0.0.0/" /etc/elasticsearch/elasticsearch.yml
 
 service elasticsearch restart
 
