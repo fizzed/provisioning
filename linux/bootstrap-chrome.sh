@@ -3,12 +3,6 @@
 export DEBIAN_FRONTEND=noninteractive
 
 #=========================================================
-echo "Install XvFB..."
-#=========================================================
-apt-get -y install xvfb
-/usr/bin/Xvfb :99 -screen 0 1024x768x24 -ac &
-
-#=========================================================
 echo "Download the latest chrome..."
 #=========================================================
 wget "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
