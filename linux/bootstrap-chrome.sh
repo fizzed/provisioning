@@ -6,7 +6,7 @@ export DEBIAN_FRONTEND=noninteractive
 echo "Install XvFB..."
 #=========================================================
 apt-get -y install xvfb
-/usr/bin/Xvfb :99 -screen 0 1024x768x24
+/usr/bin/Xvfb :99 -screen 0 1024x768x24 -ac &
 
 #=========================================================
 echo "Download the latest chrome..."
