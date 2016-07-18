@@ -31,7 +31,7 @@ echo "Installing kibana $KB_VERSION..."
 echo "Downloading kibana..."
 # https://download.elastic.co/kibana/kibana/kibana_4.5.3_amd64.deb
 wget --no-verbose https://download.elastic.co/kibana/kibana/kibana_$KB_VERSION\_$ARCH.deb
-dpkg -i kibana_$KB_VERSION_$ARCH.deb
+dpkg -i kibana_$KB_VERSION\_$ARCH.deb
 
 # tell kibana where java_home is
 echo "Configuring kibana to search $JAVA_HOME for java"
