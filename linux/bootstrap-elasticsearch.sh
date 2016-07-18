@@ -5,6 +5,7 @@ export DEBIAN_FRONTEND=noninteractive
 # defaults
 ES_VERSION="2.3.2"
 JAVA_HOME=/usr/lib/jvm/current
+PORT=9200
 
 # arguments
 for i in "$@"; do
@@ -14,6 +15,9 @@ for i in "$@"; do
       ;;
     --javahome=*)
       JAVA_HOME="${i#*=}"
+      ;;
+    --port=*)
+      PORT="${i#*=}"
       ;;
     *)
       echo "Unknown argument '$i'"
@@ -35,6 +39,7 @@ echo "JAVA_HOME=\"$JAVA_HOME\"" >> /etc/default/elasticsearch
 # port forwards only work to a real ip, not localhost
 echo "Configuring elasticsearch to bind to all network interfaces (not just localhost by default)"
 sed -i "s/^.*network\.host.*$/network.host: 0.0.0.0/" /etc/elasticsearch/elasticsearch.yml
+echo "http.port: "$PORT >> /etc/elasticsearch/elasticsearch.yml
 
 service elasticsearch restart
 
