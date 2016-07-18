@@ -21,7 +21,7 @@ for i in "$@"; do
       ;;
     *)
       echo "Unknown argument '$i'"
-      exit 1  
+      exit 1
       ;;
   esac
 done
@@ -70,8 +70,12 @@ service mysql restart
 
 # create a database?
 if [ ! -z "$MYSQL_CREATE_DB" ]; then
-  echo "Creating database $MYSQL_CREATE_DB..."
-  echo "CREATE DATABASE $MYSQL_CREATE_DB" | mysql -u root -p$MYSQL_ROOT_PASSWORD
+  IFS=","
+  for DATABASE in $MYSQL_CREATE_DB
+  do
+    echo "Creating database $DATABASE..."
+    echo "CREATE DATABASE $DATABASE" | mysql -u root -p$MYSQL_ROOT_PASSWORD
+  done
 fi
 
 echo "Installed mysql $MYSQL_VERSION"
