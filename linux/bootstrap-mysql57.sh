@@ -5,7 +5,7 @@ export DEBIAN_FRONTEND=noninteractive
 # defaults
 MYSQL_VERSION="5.7.12"
 MYSQL_ROOT_PASSWORD="test"
-MYSQL_CREATE_DB=
+MYSQL_CREATE_DBS=
 
 # arguments
 for i in "$@"; do
@@ -16,12 +16,12 @@ for i in "$@"; do
     --rootpw=*)
       MYSQL_ROOT_PASSWORD="${i#*=}"
       ;;
-    --createdb=*)
-      MYSQL_CREATE_DB="${i#*=}"
+    --createdbs=*)
+      MYSQL_CREATE_DBS="${i#*=}"
       ;;
     *)
       echo "Unknown argument '$i'"
-      exit 1  
+      exit 1
       ;;
   esac
 done
@@ -69,9 +69,13 @@ sed -i "s/= 127.0.0.1/= 0.0.0.0/" /etc/mysql/my.cnf
 service mysql restart
 
 # create a database?
-if [ ! -z "$MYSQL_CREATE_DB" ]; then
-  echo "Creating database $MYSQL_CREATE_DB..."
-  echo "CREATE DATABASE $MYSQL_CREATE_DB" | mysql -u root -p$MYSQL_ROOT_PASSWORD
+if [ ! -z "$MYSQL_CREATE_DBS" ]; then
+  IFS=","
+  for DATABASE in $MYSQL_CREATE_DBS
+  do
+    echo "Creating database $DATABASE..."
+    echo "CREATE DATABASE $DATABASE" | mysql -u root -p$MYSQL_ROOT_PASSWORD
+  done
 fi
 
 echo "Installed mysql $MYSQL_VERSION"
