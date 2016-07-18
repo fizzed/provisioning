@@ -12,9 +12,6 @@ for i in "$@"; do
     --version=*)
       KB_VERSION="${i#*=}"
       ;;
-    --javahome=*)
-      JAVA_HOME="${i#*=}"
-      ;;
     --arch=*)
       ARCH="${i#*=}"
       ;;
