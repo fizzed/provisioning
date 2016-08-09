@@ -41,6 +41,11 @@ echo "Configuring elasticsearch to bind to all network interfaces (not just loca
 sed -i "s/^.*network\.host.*$/network.host: 0.0.0.0/" /etc/elasticsearch/elasticsearch.yml
 echo "http.port: "$PORT >> /etc/elasticsearch/elasticsearch.yml
 
+# run at startup
+chmod +x /etc/init.d/elasticsearch
+update-rc.d elasticsearch defaults 95 10
+
+# run now
 service elasticsearch restart
 
 echo "Installed elasticsearch $ES_VERSION"
