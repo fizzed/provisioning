@@ -4,7 +4,7 @@ export DEBIAN_FRONTEND=noninteractive
 
 # defaults
 JAVA_TYPE="server-jre"     		# jdk, jre, or server-jre
-JAVA_VERSION="1.8.0_91"
+JAVA_VERSION="1.8.0_102"
 
 # arguments
 for i in "$@"; do
@@ -42,6 +42,14 @@ case $JAVA_VERSION in
     JAVA_FILE_VERSION="8u91"
     JAVA_URL_DIR="8u91-b14"
     ;;
+  1.8.0_101)
+    JAVA_FILE_VERSION="8u101"
+    JAVA_URL_DIR="8u101-b13"
+    ;;
+  1.8.0_102)
+    JAVA_FILE_VERSION="8u102"
+    JAVA_URL_DIR="8u102-b14"
+    ;;
   *)
     echo "Unsupported java version $JAVA_VERSION (you'll need to add code to this script to correctly install it)"
     exit 1  
@@ -49,6 +57,8 @@ case $JAVA_VERSION in
 esac
 
 # http://download.oracle.com/otn-pub/java/jdk/8u91-b14/jdk-8u91-linux-x64.tar.gz
+# http://download.oracle.com/otn-pub/java/jdk/8u101-b13/jdk-8u101-linux-x64.tar.gz
+# http://download.oracle.com/otn-pub/java/jdk/8u102-b14/jdk-8u102-linux-x64.tar.gz
 
 # dependencies
 if type apt-get &>/dev/null; then
