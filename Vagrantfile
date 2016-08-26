@@ -26,6 +26,13 @@ Vagrant.configure(2) do |config|
     #config.vm.network "forwarded_port", guest: 6379, host: 6379
   end
 
+  config.vm.define "ubuntu16", primary: true do |guest|
+    guest.vm.box = "bento/ubuntu-16.04"
+
+    config.vm.provision "shell", path: "linux/bootstrap-mysql57.sh",
+      args: ["--version=5.7.14", "--rootpw=test", "--createdb=mydb"]
+    #config.vm.network "forwarded_port", guest: 3306, host: 3306
+  end
 
   config.vm.define "debian8", autostart: false do |guest|
     guest.vm.box = "minimal/jessie64"
