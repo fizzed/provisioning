@@ -3,8 +3,8 @@ Vagrant.configure(2) do |config|
   config.vm.define "ubuntu14", primary: true do |guest|
     guest.vm.box = "minimal/trusty64"
 
-    config.vm.provision "shell", path: "linux/bootstrap-java8.sh",
-      args: ["--type=server-jre", "--version=1.8.0_102"]
+    #config.vm.provision "shell", path: "linux/bootstrap-java8.sh",
+    #  args: ["--type=server-jre", "--version=1.8.0_102"]
     # to verify it installed:
     #  vagrant ssh -c "java -version"
 
@@ -21,8 +21,8 @@ Vagrant.configure(2) do |config|
     #config.vm.provision "shell", path: "linux/bootstrap-postgres95.sh"
     #config.vm.network "forwarded_port", guest: 5432, host: 5432
 
-    #config.vm.provision "shell", path: "linux/bootstrap-redis.sh",
-    #  args: ["--version=3.2.3", "--host=0.0.0.0", "--password=test"]
+    config.vm.provision "shell", path: "linux/bootstrap-redis.sh",
+      args: ["--version=3.2.3", "--host=0.0.0.0", "--port=6780", "--password=test"]
     #config.vm.network "forwarded_port", guest: 6379, host: 6379
   end
 
