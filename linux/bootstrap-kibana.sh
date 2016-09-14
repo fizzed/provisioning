@@ -2,6 +2,13 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
+# download cache
+DOWNLOAD_DIR=".download-cache"
+if [ -d "/vagrant" ]; then
+  DOWNLOAD_DIR="/vagrant/.download-cache"
+fi
+mkdir -p "$DOWNLOAD_DIR"
+
 # defaults
 KB_VERSION="4.5.3"
 ARCH="amd64"
@@ -37,8 +44,8 @@ done
 echo "Installing kibana $KB_VERSION..."
 
 echo "Downloading kibana..."
-wget --no-verbose https://download.elastic.co/kibana/kibana/kibana_$KB_VERSION\_$ARCH.deb
-dpkg -i kibana_$KB_VERSION\_$ARCH.deb
+wget --no-verbose -nc -P $DOWNLOAD_DIR https://download.elastic.co/kibana/kibana/kibana_$KB_VERSION\_$ARCH.deb
+dpkg -i $DOWNLOAD_DIR/kibana_$KB_VERSION\_$ARCH.deb
 
 echo "server.port: "$PORT >> /opt/kibana/config/kibana.yml
 echo "elasticsearch.url: \""$ES_URL"\"" >> /opt/kibana/config/kibana.yml
@@ -68,6 +75,5 @@ do
     fi
     sleep 1s
 done
-
 
 echo "Installed kibana $KB_VERSION"

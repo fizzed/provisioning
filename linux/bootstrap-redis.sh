@@ -2,13 +2,17 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
+# download cache
+DOWNLOAD_DIR=".download-cache"
+if [ -d "/vagrant" ]; then
+  DOWNLOAD_DIR="/vagrant/.download-cache"
+fi
+mkdir -p "$DOWNLOAD_DIR"
+
 # defaults
 VERSION="3.2.3"
-# bind to any address
 HOST=0.0.0.0
-# bind to non-default port
 PORT=
-# no password
 PASSWORD=
 
 # arguments
@@ -37,8 +41,8 @@ echo "Installing redis $VERSION..."
 
 echo "Downloading redis source..."
 # https://github.com/digitalocean/do_user_scripts/blob/master/Ubuntu-14.04/no-sql/redis.yml
-wget http://download.redis.io/releases/redis-$VERSION.tar.gz
-tar zxvf redis-$VERSION.tar.gz
+wget --no-verbose -nc -P $DOWNLOAD_DIR http://download.redis.io/releases/redis-$VERSION.tar.gz
+tar zxvf $DOWNLOAD_DIR/redis-$VERSION.tar.gz
 cd redis-$VERSION
 make
 make install

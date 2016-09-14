@@ -2,22 +2,18 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
-#=========================================================
+# download cache
+DOWNLOAD_DIR=".download-cache"
+if [ -d "/vagrant" ]; then
+  DOWNLOAD_DIR="/vagrant/.download-cache"
+fi
+mkdir -p "$DOWNLOAD_DIR"
+
 echo "Download the latest chrome..."
-#=========================================================
-wget "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
-dpkg -i google-chrome-stable_current_amd64.deb
-rm google-chrome-stable_current_amd64.deb
+wget --no-verbose -nc -P $DOWNLOAD_DIR "https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb"
+dpkg -i $DOWNLOAD_DIR/google-chrome-stable_current_amd64.deb
 apt-get install -y -f
 
-#=========================================================
-#echo "Download latest chrome driver..."
-#=========================================================
-#CHROMEDRIVER_VERSION=$(curl "http://chromedriver.storage.googleapis.com/LATEST_RELEASE")
-#wget "http://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
-#unzip chromedriver_linux64.zip
-#rm chromedriver_linux64.zip
-#chown vagrant:vagrant chromedriver
 
 
 

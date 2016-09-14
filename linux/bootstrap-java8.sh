@@ -2,6 +2,13 @@
 
 export DEBIAN_FRONTEND=noninteractive
 
+# download cache
+DOWNLOAD_DIR=".download-cache"
+if [ -d "/vagrant" ]; then
+  DOWNLOAD_DIR="/vagrant/.download-cache"
+fi
+mkdir -p "$DOWNLOAD_DIR"
+
 # defaults
 JAVA_TYPE="server-jre"     		# jdk, jre, or server-jre
 JAVA_VERSION="1.8.0_102"
@@ -71,9 +78,13 @@ fi
 
 echo "Installing $JAVA_TYPE $JAVA_VERSION..."
 
-# download and install java 8 file
-curl -O -j -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/$JAVA_URL_DIR/$JAVA_TYPE-$JAVA_FILE_VERSION-linux-x64.tar.gz
-tar zxvf $JAVA_TYPE-$JAVA_FILE_VERSION-linux-x64.tar.gz
+# download file if it doesn't exist yet
+JAVA_TARBALL_FILE="$JAVA_TYPE-$JAVA_FILE_VERSION-linux-x64.tar.gz"
+if [ ! -f "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" ]; then
+  curl -o "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" -j -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/$JAVA_URL_DIR/$JAVA_TARBALL_FILE
+fi
+
+tar zxvf $DOWNLOAD_DIR/$JAVA_TYPE-$JAVA_FILE_VERSION-linux-x64.tar.gz
 mkdir --parents /usr/lib/jvm
 mv jdk$JAVA_VERSION /usr/lib/jvm/
 ln -s /usr/lib/jvm/jdk$JAVA_VERSION /usr/lib/jvm/current
@@ -98,4 +109,8 @@ if [ -d /etc/profile.d ]; then
   echo "if ! [[ \$PATH == *\"\$JAVA_HOME\"* ]]; then PATH=\"\$JAVA_HOME/bin:\$PATH\"; export PATH; fi" >> /etc/profile.d/java.sh
 fi
 
-echo "Installed $JAVA_TYPE $JAVA_VERSION"
+echo "###########################################################"
+echo ""
+echo " Installed $JAVA_TYPE $JAVA_VERSION"
+echo ""
+echo "###########################################################"
