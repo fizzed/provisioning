@@ -16,7 +16,8 @@ NAME=Xvfb
 DAEMON=/usr/bin/$NAME
 SCRIPTNAME=/etc/init.d/$NAME
 
-DAEMON_OPTS=":99 -ac -screen 0 1024x768x24"
+#DAEMON_OPTS=":99 -ac -screen 0 1024x768x24"
+DAEMON_OPTS=":99 -ac -screen 0 1366x768x24"
 
 # Exit if the package is not installed
 [ -x "$DAEMON" ] || exit 0
