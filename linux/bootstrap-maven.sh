@@ -10,13 +10,35 @@
 #
 ##############################################
 
-MAVEN_VERSION="$1"
-if [ -z "$MAVEN_VERSION" ]; then MAVEN_VERSION="3.3.9"; fi
+# download cache
+DOWNLOAD_DIR=".download-cache"
+if [ -d "/vagrant" ]; then
+  DOWNLOAD_DIR="/vagrant/.download-cache"
+fi
+mkdir -p "$DOWNLOAD_DIR"
+
+# defaults
+MAVEN_VERSION="3.3.9"
+
+# arguments
+for i in "$@"; do
+  case $i in
+    --version=*)
+      MAVEN_VERSION="${i#*=}"
+      ;;
+    *)
+      echo "Unknown argument '$i'"
+      exit 1  
+      ;;
+  esac
+done
 
 echo "Installing Maven $MAVEN_VERSION..."
 
-curl -O "http://apache.spinellicreations.com/maven/maven-3/3.3.9/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz"
-tar zxvf apache-maven-$MAVEN_VERSION-bin.tar.gz
+echo "Downloading kibana..."
+wget --no-verbose -nc -P $DOWNLOAD_DIR "http://apache.spinellicreations.com/maven/maven-3/3.3.9/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz"
+
+tar zxvf $DOWNLOAD_DIR/apache-maven-$MAVEN_VERSION-bin.tar.gz
 mv apache-maven-$MAVEN_VERSION $MAVEN_VERSION
 mkdir --parents /opt/maven
 mv $MAVEN_VERSION /opt/maven/

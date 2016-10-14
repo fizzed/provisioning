@@ -3,19 +3,22 @@ Vagrant.configure(2) do |config|
   config.vm.define "ubuntu14", primary: true do |guest|
     guest.vm.box = "minimal/trusty64"
 
-    config.vm.provision "shell", path: "linux/bootstrap-java8.sh",
-      args: ["--type=server-jre", "--version=1.8.0_102"]
+    #config.vm.provision "shell", path: "linux/bootstrap-java8.sh",
+    #  args: ["--type=server-jre", "--version=1.8.0_102"]
     # to verify it installed:
     #  vagrant ssh -c "java -version"
 
-    config.vm.provision "shell", path: "linux/bootstrap-elasticsearch.sh",
-      args: ["--version=2.3.2", "--heapsize=64m"]
+	config.vm.provision "shell", path: "linux/bootstrap-maven.sh",
+      args: ["--version=3.3.9"]
+
+    #config.vm.provision "shell", path: "linux/bootstrap-elasticsearch.sh",
+    #  args: ["--version=2.3.2", "--heapsize=64m"]
     #config.vm.network "forwarded_port", guest: 9200, host: 9200
     # to verify it installed:
     #  curl http://localhost:9200
 
-    config.vm.provision "shell", path: "linux/bootstrap-kibana.sh",
-      args: ["--port=5601", "--es_url=http://localhost:9200", "--index=event*"]
+    #config.vm.provision "shell", path: "linux/bootstrap-kibana.sh",
+    #  args: ["--port=5601", "--es_url=http://localhost:9200", "--index=event*"]
 
     #config.vm.provision "shell", path: "linux/bootstrap-mysql57.sh",
     #  args: ["--version=5.7.14", "--port=3308", "--rootpw=test", "--createdb=mydb"]
