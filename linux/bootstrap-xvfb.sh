@@ -5,6 +5,7 @@ export DEBIAN_FRONTEND=noninteractive
 #=========================================================
 echo "Install Xvfb..."
 #=========================================================
+apt-get update
 apt-get -y install xvfb
 
 cat << EOF > /etc/init.d/Xvfb
