@@ -10,7 +10,7 @@ fi
 mkdir -p "$DOWNLOAD_DIR"
 
 # defaults
-KB_VERSION="4.5.3"
+KB_VERSION="5.0.1"
 ARCH="amd64"
 PORT=5601
 ES_URL="http://localhost:9200" # elasticsearch url
