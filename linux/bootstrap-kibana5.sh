@@ -69,14 +69,17 @@ if [ ! -z "$PLUGINS" ]; then
     done
 fi
 
-# run now
+# restart elasticsearch (not sure why, but it tends to die right after x-pack plugin install)
+service elasticsearch restart
+
+# run kibana
 service kibana restart
 
 # install default index
 while true;
 do
     echo "Waiting for Elasticsearch to start..."
-    curl -s -X GET $ES_URL
+    curl -s --user elastic:changeme -X GET $ES_URL
     if [ $? -eq "0" ]; then
         echo "Elasticsearch started!"
 	if [ ! -z "$INDEX" ]; then
@@ -84,12 +87,12 @@ do
 	    # set the default index
 	    #  >= v5 https://github.com/elastic/kibana/issues/5199
 	    #  <  v5 https://discuss.elastic.co/t/kibana-4-unattended-configuration-of-default-index-pattern/1737/3
-	    curl -XPUT $ES_URL/.kibana/index-pattern/$INDEX -d "{\"title\" : \"$INDEX\", \"timeFieldName\" : \"@timestamp\"}"
-	    curl -XPUT $ES_URL/.kibana/config/$KB_VERSION -d "{\"defaultIndex\" : \"$INDEX\"}"
+	    curl --user elastic:changeme -XPUT $ES_URL/.kibana/index-pattern/$INDEX -d "{\"title\" : \"$INDEX\", \"timeFieldName\" : \"@timestamp\"}"
+	    curl --user elastic:changeme -XPUT $ES_URL/.kibana/config/$KB_VERSION -d "{\"defaultIndex\" : \"$INDEX\"}"
 	fi
         break
     fi
-    sleep 1s
+    sleep 5s
 done
 
 echo "Installed kibana $KB_VERSION"
