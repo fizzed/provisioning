@@ -69,13 +69,12 @@ if [ ! -z "$PLUGINS" ]; then
     done
 fi
 
-# restart elasticsearch (not sure why, but it tends to die right after x-pack plugin install)
-service elasticsearch restart
-
 # run kibana
 service kibana restart
 
 # install default index
+ctr=0
+att=0
 while true;
 do
     echo "Waiting for Elasticsearch to start..."
@@ -92,7 +91,19 @@ do
 	fi
         break
     fi
-    sleep 5s
+    sleep 10s
+    ctr=$((ctr+10))
+    if [ "$ctr" -gt "60" ]; then
+	if [ "$att" -gt "0" ]; then
+	    echo "Somthing is wrong. Elasticsearch won't start"
+	    break
+	fi
+        # restart elasticsearch (not sure why, but it tends to die right after x-pack plugin install)
+        echo "Attempting Elasticsearch restart after 60 seconds of waiting"
+	service elasticsearch restart
+        ctr=0
+	att=$((att+1))
+    fi    
 done
 
 echo "Installed kibana $KB_VERSION"
