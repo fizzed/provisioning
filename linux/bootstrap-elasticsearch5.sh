@@ -72,7 +72,7 @@ if [ ! -z "$PLUGINS" ]; then
     do
 	echo "Installing Kibana plugin $i"
 	cd /usr/share/elasticsearch
-	sudo bin/elasticsearch-plugin install $i
+	bin/elasticsearch-plugin install $i
     done
 fi
 
