@@ -15,6 +15,7 @@ ARCH="amd64"
 PORT=5601
 ES_URL="http://localhost:9200" # elasticsearch url
 INDEX=""
+PLUGINS=""
 
 # arguments
 for i in "$@"; do
@@ -33,6 +34,9 @@ for i in "$@"; do
       ;;
     --index=*)
       INDEX="${i#*=}"
+      ;;
+    --plugins=*)
+      PLUGINS="${i#*=}"
       ;;
     *)
       echo "Unknown argument '$i'"
@@ -57,6 +61,7 @@ update-rc.d kibana defaults 94 11
 # run now
 service kibana restart
 
+# install default index
 while true;
 do
     echo "Waiting for Elasticsearch to start..."
@@ -75,5 +80,15 @@ do
     fi
     sleep 1s
 done
+
+# install plugins
+if [ ! -z "$PLUGINS" ]; then
+    for i in ${PLUGINS//,/ }
+    do
+	echo "Installing Kibana plugin $i"
+	cd /usr/share/kibana
+	sudo bin/kibana-plugin install $i
+    done
+fi
 
 echo "Installed kibana $KB_VERSION"

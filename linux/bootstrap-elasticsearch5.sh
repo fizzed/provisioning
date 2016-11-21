@@ -14,6 +14,7 @@ ES_VERSION="5.0.1"
 ES_HEAP_SIZE="128m"
 JAVA_HOME=/usr/lib/jvm/current
 PORT=9200
+PLUGINS=""
 
 # arguments
 for i in "$@"; do
@@ -29,6 +30,9 @@ for i in "$@"; do
       ;;
     --heapsize=*)
       ES_HEAP_SIZE="${i#*=}"
+      ;;
+    --plugins=*)
+      PLUGINS="${i#*=}"
       ;;
     *)
       echo "Unknown argument '$i'"
@@ -53,7 +57,7 @@ echo "ES_HEAP_SIZE=\"$ES_HEAP_SIZE\"" >> /etc/default/elasticsearch
 # port forwards only work to a real ip, not localhost
 echo "Configuring elasticsearch to bind to all network interfaces (not just localhost by default)"
 sed -i "s/^.*network\.host.*$/network.host: 0.0.0.0/" /etc/elasticsearch/elasticsearch.yml
-echo "http.port: "$PORT >> /etc/elasticsearch/elasticsearch.yml
+sed -i "s/^.*http\.port.*$/http.port: $PORT/" /etc/elasticsearch/elasticsearch.yml
 
 # run at startup
 chmod +x /etc/init.d/elasticsearch
@@ -61,6 +65,16 @@ update-rc.d elasticsearch defaults 95 10
 
 # run now
 service elasticsearch restart
+
+# install plugins
+if [ ! -z "$PLUGINS" ]; then
+    for i in ${PLUGINS//,/ }
+    do
+	echo "Installing Kibana plugin $i"
+	cd /usr/share/kibana
+	sudo bin/kibana-plugin install $i
+    done
+fi
 
 echo "###########################################################"
 echo ""
