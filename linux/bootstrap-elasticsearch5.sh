@@ -52,7 +52,7 @@ echo "Configuring elasticsearch to search $JAVA_HOME for java"
 echo "JAVA_HOME=\"$JAVA_HOME\"" >> /etc/default/elasticsearch
 
 # default heap size is large for dev
-echo "ES_HEAP_SIZE=\"$ES_HEAP_SIZE\"" >> /etc/default/elasticsearch
+#echo "ES_HEAP_SIZE=\"$ES_HEAP_SIZE\"" >> /etc/default/elasticsearch
 
 # port forwards only work to a real ip, not localhost
 echo "Configuring elasticsearch to bind to all network interfaces (not just localhost by default)"
