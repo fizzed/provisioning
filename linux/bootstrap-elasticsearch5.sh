@@ -70,7 +70,7 @@ service elasticsearch restart
 if [ ! -z "$PLUGINS" ]; then
     for i in ${PLUGINS//,/ }
     do
-	echo "Installing Kibana plugin $i"
+	echo "Installing Elastic plugin $i"
 	cd /usr/share/elasticsearch
 	bin/elasticsearch-plugin install $i
     done
