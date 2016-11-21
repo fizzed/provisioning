@@ -71,8 +71,8 @@ if [ ! -z "$PLUGINS" ]; then
     for i in ${PLUGINS//,/ }
     do
 	echo "Installing Kibana plugin $i"
-	cd /usr/share/kibana
-	sudo bin/kibana-plugin install $i
+	cd /usr/share/elasticsearch
+	sudo bin/elasticsearch-plugin install $i
     done
 fi
 
