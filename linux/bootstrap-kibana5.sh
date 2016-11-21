@@ -59,6 +59,16 @@ sed -i "s/^.*elasticsearch\.url.*$/elasticsearch.url: $ES_URL_ESC/" /etc/kibana/
 chmod +x /etc/init.d/kibana
 update-rc.d kibana defaults 94 11
 
+# install plugins
+if [ ! -z "$PLUGINS" ]; then
+    for i in ${PLUGINS//,/ }
+    do
+	echo "Installing Kibana plugin $i"
+	cd /usr/share/kibana
+	bin/kibana-plugin install $i
+    done
+fi
+
 # run now
 service kibana restart
 
@@ -81,15 +91,5 @@ do
     fi
     sleep 1s
 done
-
-# install plugins
-if [ ! -z "$PLUGINS" ]; then
-    for i in ${PLUGINS//,/ }
-    do
-	echo "Installing Kibana plugin $i"
-	cd /usr/share/kibana
-	bin/kibana-plugin install $i
-    done
-fi
 
 echo "Installed kibana $KB_VERSION"

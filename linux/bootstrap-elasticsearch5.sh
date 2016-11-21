@@ -63,9 +63,6 @@ sed -i "s/^.*http\.port.*$/http.port: $PORT/" /etc/elasticsearch/elasticsearch.y
 chmod +x /etc/init.d/elasticsearch
 update-rc.d elasticsearch defaults 95 10
 
-# run now
-service elasticsearch restart
-
 # install plugins
 if [ ! -z "$PLUGINS" ]; then
     for i in ${PLUGINS//,/ }
@@ -75,6 +72,9 @@ if [ ! -z "$PLUGINS" ]; then
 	bin/elasticsearch-plugin install $i
     done
 fi
+
+# run now
+service elasticsearch restart
 
 echo "###########################################################"
 echo ""
