@@ -53,7 +53,10 @@ dpkg -i $DOWNLOAD_DIR/kibana-$KB_VERSION-$ARCH.deb
 
 ES_URL_ESC=$(echo $ES_URL |sed -e 's/[\/&]/\\&/g')
 sed -i "s/^.*server\.port.*$/server.port: $PORT/" /etc/kibana/kibana.yml
+sed -i "s/^.*server\.host.*$/server.host: 0.0.0.0/" /etc/kibana/kibana.yml
 sed -i "s/^.*elasticsearch\.url.*$/elasticsearch.url: $ES_URL_ESC/" /etc/kibana/kibana.yml
+sed -i "s/^.*elasticsearch\.username.*$/elasticsearch.username: \"elastic\"/" /etc/kibana/kibana.yml
+sed -i "s/^.*elasticsearch\.password.*$/elasticsearch.password: \"changeme\"/" /etc/kibana/kibana.yml
 
 # run at startup
 chmod +x /etc/init.d/kibana
