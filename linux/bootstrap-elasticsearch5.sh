@@ -11,7 +11,7 @@ mkdir -p "$DOWNLOAD_DIR"
 
 # defaults
 ES_VERSION="5.0.1"
-ES_HEAP_SIZE="128m"
+ES_JAVA_OPTS="-Xms128m -Xmx128m"
 JAVA_HOME=/usr/lib/jvm/current
 PORT=9200
 PLUGINS=""
@@ -28,8 +28,8 @@ for i in "$@"; do
     --port=*)
       PORT="${i#*=}"
       ;;
-    --heapsize=*)
-      ES_HEAP_SIZE="${i#*=}"
+    --javaopts=*)
+      ES_JAVA_OPTS="${i#*=}"
       ;;
     --plugins=*)
       PLUGINS="${i#*=}"
@@ -51,8 +51,7 @@ dpkg -i $DOWNLOAD_DIR/elasticsearch-$ES_VERSION.deb
 echo "Configuring elasticsearch to search $JAVA_HOME for java"
 echo "JAVA_HOME=\"$JAVA_HOME\"" >> /etc/default/elasticsearch
 
-# default heap size is large for dev
-#echo "ES_HEAP_SIZE=\"$ES_HEAP_SIZE\"" >> /etc/default/elasticsearch
+echo "ES_JAVA_OPTS=\"$ES_JAVA_OPTS\"" >> /etc/default/elasticsearch
 
 # port forwards only work to a real ip, not localhost
 echo "Configuring elasticsearch to bind to all network interfaces (not just localhost by default)"
