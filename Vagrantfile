@@ -8,8 +8,8 @@ Vagrant.configure(2) do |config|
     # to verify it installed:
     #  vagrant ssh -c "java -version"
 
-	config.vm.provision "shell", path: "linux/bootstrap-maven.sh",
-      args: ["--version=3.3.9"]
+    #config.vm.provision "shell", path: "linux/bootstrap-maven.sh",
+    #  args: ["--version=3.3.9"]
 
     #config.vm.provision "shell", path: "linux/bootstrap-elasticsearch.sh",
     #  args: ["--version=2.3.2", "--heapsize=64m"]
@@ -30,6 +30,10 @@ Vagrant.configure(2) do |config|
     #config.vm.provision "shell", path: "linux/bootstrap-redis.sh",
     # args: ["--version=3.2.3", "--host=0.0.0.0", "--port=6780", "--password=test"]
     #config.vm.network "forwarded_port", guest: 6379, host: 6379
+    
+    #config.vm.provision "shell", path: "linux/bootstrap-minio.sh",
+    #  args: ["--port=8999", "--access-key=minio", "--access-secret=changeme"]
+    #config.vm.network "forwarded_port", guest: 8999, host: 8999
   end
 
   config.vm.define "ubuntu16", primary: true do |guest|
