@@ -57,6 +57,10 @@ case $JAVA_VERSION in
     JAVA_FILE_VERSION="8u102"
     JAVA_URL_DIR="8u102-b14"
     ;;
+  1.8.0_121)
+    JAVA_FILE_VERSION="8u121"
+    JAVA_URL_DIR="8u121-b13"
+    ;;
   *)
     echo "Unsupported java version $JAVA_VERSION (you'll need to add code to this script to correctly install it)"
     exit 1  

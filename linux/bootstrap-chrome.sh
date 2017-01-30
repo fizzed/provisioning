@@ -14,6 +14,3 @@ wget --no-verbose -nc -P $DOWNLOAD_DIR "https://dl.google.com/linux/direct/googl
 dpkg -i $DOWNLOAD_DIR/google-chrome-stable_current_amd64.deb
 apt-get install -y -f
 
-
-
-
