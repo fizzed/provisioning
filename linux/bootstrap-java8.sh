@@ -85,9 +85,11 @@ fi
 echo "Installing $JAVA_TYPE $JAVA_VERSION..."
 
 # download file if it doesn't exist yet
-JAVA_URL="http://download.oracle.com/otn-pub/java/jdk/$JAVA_URL_DIR$JAVA_HASH/$JAVA_TARBALL_FILE"
 JAVA_TARBALL_FILE="$JAVA_TYPE-$JAVA_FILE_VERSION-linux-x64.tar.gz"
+# http://download.oracle.com/otn-pub/java/jdk/8u121-b13/e9e7ea248e2c4826b92b3f075a80e441/server-jre-8u121-linux-x64.tar.gz
+JAVA_URL="http://download.oracle.com/otn-pub/java/jdk/$JAVA_URL_DIR$JAVA_HASH/$JAVA_TARBALL_FILE"
 if [ ! -f "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" ]; then
+  echo "Downloading $JAVA_URL"
   curl -o "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" -j -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" "$JAVA_URL"
 fi
 
