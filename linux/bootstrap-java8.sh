@@ -11,7 +11,7 @@ mkdir -p "$DOWNLOAD_DIR"
 
 # defaults
 JAVA_TYPE="server-jre"     		# jdk, jre, or server-jre
-JAVA_VERSION="1.8.0_102"
+JAVA_VERSION="1.8.0_121"
 JAVA_HASH=
 
 # arguments
@@ -88,7 +88,7 @@ echo "Installing $JAVA_TYPE $JAVA_VERSION..."
 JAVA_URL="http://download.oracle.com/otn-pub/java/jdk/$JAVA_URL_DIR$JAVA_HASH/$JAVA_TARBALL_FILE"
 JAVA_TARBALL_FILE="$JAVA_TYPE-$JAVA_FILE_VERSION-linux-x64.tar.gz"
 if [ ! -f "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" ]; then
-  curl -o "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" -j -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/$JAVA_URL_DIR/$JAVA_TARBALL_FILE
+  curl -o "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" -j -k -L -H "Cookie: oraclelicense=accept-securebackup-cookie" "$JAVA_URL"
 fi
 
 tar zxvf $DOWNLOAD_DIR/$JAVA_TYPE-$JAVA_FILE_VERSION-linux-x64.tar.gz
