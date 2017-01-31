@@ -95,6 +95,8 @@ fi
 
 tar zxvf $DOWNLOAD_DIR/$JAVA_TYPE-$JAVA_FILE_VERSION-linux-x64.tar.gz
 mkdir --parents /usr/lib/jvm
+rm -f /usr/lib/jvm/current
+rm -Rf /usr/lib/jvm/jdk$JAVA_VERSION
 mv jdk$JAVA_VERSION /usr/lib/jvm/
 ln -s /usr/lib/jvm/jdk$JAVA_VERSION /usr/lib/jvm/current
 
