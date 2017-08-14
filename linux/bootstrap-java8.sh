@@ -11,7 +11,7 @@ mkdir -p "$DOWNLOAD_DIR"
 
 # defaults
 JAVA_TYPE="server-jre"     		# jdk, jre, or server-jre
-JAVA_VERSION="1.8.0_121"
+JAVA_VERSION="1.8.0_144"
 JAVA_HASH=
 
 # arguments
@@ -62,6 +62,11 @@ case $JAVA_VERSION in
     JAVA_FILE_VERSION="8u121"
     JAVA_URL_DIR="8u121-b13"
     JAVA_HASH="/e9e7ea248e2c4826b92b3f075a80e441"
+    ;;
+  1.8.0_144)
+    JAVA_FILE_VERSION="8u144"
+    JAVA_URL_DIR="8u144-b01"
+    JAVA_HASH="/090f390dda5b47b9b721c7dfaa008135"
     ;;
   *)
     echo "Unsupported java version $JAVA_VERSION (you'll need to add code to this script to correctly install it)"
