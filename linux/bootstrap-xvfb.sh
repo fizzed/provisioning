@@ -6,7 +6,7 @@ export DEBIAN_FRONTEND=noninteractive
 echo "Install Xvfb..."
 #=========================================================
 apt-get update
-apt-get -y install xvfb
+apt-get -y install xvfb xdotool x11vnc
 
 cat << EOF > /etc/init.d/Xvfb
 #! /bin/sh
