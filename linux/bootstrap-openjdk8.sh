@@ -44,6 +44,7 @@ esac
 case $JAVA_VERSION in
   222)
     JAVA_FILE_VERSION="b10"
+    OJ9_FILE_VERSION="_openj9-0.15.1"
     ;;
   *)
     echo "Unsupported java version $JAVA_VERSION (you'll need to add code to this script to correctly install it)"
@@ -64,9 +65,13 @@ fi
 
 echo "Installing Java 8-$JAVA_VERSION ($JAVA_JVM)..."
 
+if [ "$JAVA_JVM" = "openj9" ]; then
+  JAVA_OJ9=$OJ9_FILE_VERSION
+fi
+
 # download file if it doesn't exist yet
-JAVA_TARBALL_FILE="OpenJDK8U-jdk_x64_linux_${JAVA_JVM}_8u${JAVA_VERSION}${JAVA_FILE_VERSION}.tar.gz"
-JAVA_URL="https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u$JAVA_VERSION-$JAVA_FILE_VERSION/$JAVA_TARBALL_FILE"
+JAVA_TARBALL_FILE="OpenJDK8U-jdk_x64_linux_${JAVA_JVM}_8u${JAVA_VERSION}${JAVA_FILE_VERSION}${JAVA_OJ9}.tar.gz"
+JAVA_URL="https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u$JAVA_VERSION-$JAVA_FILE_VERSION${JAVA_OJ9}/$JAVA_TARBALL_FILE"
 if [ ! -f "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" ]; then
   echo "Downloading $JAVA_URL"
   curl -o "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" -j -k -L "$JAVA_URL"
