@@ -65,8 +65,10 @@ fi
 
 echo "Installing Java 8-$JAVA_VERSION ($JAVA_JVM)..."
 
+TARGET_SUFFIX=""
 if [ "$JAVA_JVM" = "openj9" ]; then
   JAVA_OJ9=$OJ9_FILE_VERSION
+  TARGET_SUFFIX="-openj9"
 fi
 
 # download file if it doesn't exist yet
@@ -77,13 +79,16 @@ if [ ! -f "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" ]; then
   curl -o "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" -j -k -L "$JAVA_URL"
 fi
 
+rm -Rf ./jdk8u${JAVA_VERSION}-${JAVA_FILE_VERSION}
+
 tar zxvf $DOWNLOAD_DIR/$JAVA_TARBALL_FILE
 
 mkdir --parents /usr/lib/jvm
 rm -f /usr/lib/jvm/current
 # jdk8u222-b10
-TARGET_DIR=openjdk-1.8.0_${JAVA_VERSION}
-mv jdk8u${JAVA_VERSION}-${JAVA_FILE_VERSION} /usr/lib/jvm/${TARGET_DIR}
+TARGET_DIR=openjdk-1.8.0_${JAVA_VERSION}${TARGET_SUFFIX}
+rm -Rf /usr/lib/jvm/${TARGET_DIR}
+mv ./jdk8u${JAVA_VERSION}-${JAVA_FILE_VERSION} /usr/lib/jvm/${TARGET_DIR}
 ln -s /usr/lib/jvm/${TARGET_DIR} /usr/lib/jvm/current
 
 # does /etc/environment exist?
