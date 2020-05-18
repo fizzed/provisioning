@@ -6,7 +6,7 @@
 #
 # Usage:
 #  arg0: "maven_version_number"
-#  config.vm.provision "shell", path: "linux/bootstrap-maven.sh", args: "3.3.9"
+#  config.vm.provision "shell", path: "linux/bootstrap-maven.sh", args: "3.6.3"
 #
 ##############################################
 
@@ -18,7 +18,7 @@ fi
 mkdir -p "$DOWNLOAD_DIR"
 
 # defaults
-MAVEN_VERSION="3.3.9"
+MAVEN_VERSION="3.6.3"
 
 # arguments
 for i in "$@"; do
@@ -35,8 +35,8 @@ done
 
 echo "Installing Maven $MAVEN_VERSION..."
 
-echo "Downloading kibana..."
-wget --no-verbose -nc -P $DOWNLOAD_DIR "http://apache.spinellicreations.com/maven/maven-3/3.3.9/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz"
+echo "Downloading Maven..."
+wget --no-verbose -nc -P $DOWNLOAD_DIR "http://apache.spinellicreations.com/maven/maven-3/3.6.3/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz"
 
 tar zxvf $DOWNLOAD_DIR/apache-maven-$MAVEN_VERSION-bin.tar.gz
 mv apache-maven-$MAVEN_VERSION $MAVEN_VERSION
