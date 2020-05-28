@@ -11,6 +11,8 @@ mkdir -p "$DOWNLOAD_DIR"
 
 # defaults
 JAVA_URL="https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u252-b09/OpenJDK8U-jdk_x64_linux_hotspot_8u252b09.tar.gz"
+JAVA_SLIM="no"
+JAVA_DEFAULT="no"
 
 # arguments
 for i in "$@"; do
@@ -18,10 +20,16 @@ for i in "$@"; do
     --url=*)
       JAVA_URL="${i#*=}"
       ;;
+    --slim)
+      JAVA_SLIM="yes"
+      ;;
+    --default)
+      JAVA_DEFAULT="yes"
+      ;;
     *)
       echo "Unknown argument '$i'"
-      echo "--url=[url of jdk.tar.gz]"
-      exit 1  
+      echo "--url=[url of jdk.tar.gz] --slim --default"
+      exit 1
       ;;
   esac
 done
@@ -39,9 +47,16 @@ fi
 
 JAVA_TARBALL_FILE="${JAVA_URL##*/}"
 
+# force this to be the default?
+if ! [ -x "$(command -v java)" ]; then
+  JAVA_DEFAULT="yes"
+fi
+
 echo "Installing Java..."
-echo "  url: $JAVA_URL"
-echo " file: $JAVA_TARBALL_FILE"
+echo "     url: $JAVA_URL"
+echo "    file: $JAVA_TARBALL_FILE"
+echo "    slim: $JAVA_SLIM"
+echo " default: $JAVA_DEFAULT"
 
 # download url to file...
 if [ ! -f "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" ]; then
@@ -59,9 +74,15 @@ tar zxvf "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE"
 mkdir --parents /usr/lib/jvm
 rm -f /usr/lib/jvm/current
 rm -Rf "/usr/lib/jvm/$JAVA_DIR"
+
+if [ "$JAVA_SLIM" = "yes" ]; then
+  rm -Rf "$JAVA_DIR/sample"
+  rm -Rf "$JAVA_DIR/demo"
+  rm -Rf "$JAVA_DIR/src.zip"
+fi
+
 mv "$JAVA_DIR" /usr/lib/jvm/
 ln -s "/usr/lib/jvm/$JAVA_DIR" /usr/lib/jvm/current
-
 
 # does /etc/environment exist?
 if [ -f /etc/environment ]; then
