@@ -72,7 +72,6 @@ echo "  dir: $JAVA_DIR"
 rm -Rf "$JAVA_DIR"
 tar zxvf "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE"
 mkdir --parents /usr/lib/jvm
-rm -f /usr/lib/jvm/current
 rm -Rf "/usr/lib/jvm/$JAVA_DIR"
 
 if [ "$JAVA_SLIM" = "yes" ]; then
@@ -82,7 +81,12 @@ if [ "$JAVA_SLIM" = "yes" ]; then
 fi
 
 mv "$JAVA_DIR" /usr/lib/jvm/
-ln -s "/usr/lib/jvm/$JAVA_DIR" /usr/lib/jvm/current
+
+# make this the default?
+if [ "$JAVA_DEFAULT" = "yes" ]; then
+  rm -f /usr/lib/jvm/current
+  ln -s "/usr/lib/jvm/$JAVA_DIR" /usr/lib/jvm/current
+fi
 
 # does /etc/environment exist?
 if [ -f /etc/environment ]; then
