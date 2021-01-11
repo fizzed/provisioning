@@ -55,7 +55,7 @@ for i in "$@"; do
   esac
 done
 
-echo "Installing mysql ${MYSQL_VERSION} for Ubuntu ${DISTRIB_RELEASE}..."
+echo "Installing mysql ${MYSQL_VERSION} for Ubuntu ${DISTRIB_RELEASE} ..."
 
 apt-get update
 apt-get -y install libaio1 libnuma1 apparmor libmecab2 psmisc libsasl2-2 perl
@@ -66,17 +66,17 @@ wget --no-verbose -nc -P $DOWNLOAD_DIR https://dev.mysql.com/get/Downloads/MySQL
 dpkg -i $DOWNLOAD_DIR/mysql-common_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
 
 # mysql client core
-echo "Downloading mysql-community-client-plugins..."
+echo "Downloading mysql-community-client-plugins ..."
 wget --no-verbose -nc -P $DOWNLOAD_DIR https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-community-client-plugins_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
 dpkg -i $DOWNLOAD_DIR/mysql-community-client-plugins_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
 
 # mysql client core
-echo "Downloading mysql-community-client-core..."
+echo "Downloading mysql-community-client-core ..."
 wget --no-verbose -nc -P $DOWNLOAD_DIR https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-community-client-core_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
 dpkg -i $DOWNLOAD_DIR/mysql-community-client-core_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
 
 # mysql client
-echo "Downloading mysql-community-client..."
+echo "Downloading mysql-community-client ..."
 wget --no-verbose -nc -P $DOWNLOAD_DIR https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-community-client_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
 dpkg -i $DOWNLOAD_DIR/mysql-community-client_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
 
@@ -86,12 +86,12 @@ wget --no-verbose -nc -P $DOWNLOAD_DIR https://dev.mysql.com/get/Downloads/MySQL
 dpkg -i $DOWNLOAD_DIR/mysql-client_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
 
 # mysql server core
-echo "Downloading mysql-community-server-core..."
+echo "Downloading mysql-community-server-core ..."
 wget --no-verbose -nc -P $DOWNLOAD_DIR https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-community-server-core_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
 dpkg -i $DOWNLOAD_DIR/mysql-community-server-core_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
 
 # mysql server
-echo "Downloading mysql-community-server..."
+echo "Downloading mysql-community-server ..."
 wget --no-verbose -nc -P $DOWNLOAD_DIR https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-community-server_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
 echo "mysql-community-server  mysql-community-server/re-root-pass     password	$MYSQL_ROOT_PASSWORD" | debconf-set-selections
 echo "mysql-community-server  mysql-community-server/root-pass        password	$MYSQL_ROOT_PASSWORD" | debconf-set-selections
