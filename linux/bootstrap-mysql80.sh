@@ -65,6 +65,11 @@ apt-get -y install libaio1 libnuma1 apparmor libmecab2 psmisc
 wget --no-verbose -nc -P $DOWNLOAD_DIR https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-common_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
 dpkg -i $DOWNLOAD_DIR/mysql-common_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
 
+# mysql client core
+echo "Downloading mysql-community-client-core..."
+wget --no-verbose -nc -P $DOWNLOAD_DIR https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-community-client-core_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
+dpkg -i $DOWNLOAD_DIR/mysql-community-client-core_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
+
 # mysql client
 echo "Downloading mysql-community-client..."
 wget --no-verbose -nc -P $DOWNLOAD_DIR https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-community-client_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
