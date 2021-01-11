@@ -58,7 +58,7 @@ done
 echo "Installing mysql ${MYSQL_VERSION} for Ubuntu ${DISTRIB_RELEASE}..."
 
 apt-get update
-apt-get -y install libaio1 libnuma1 apparmor libmecab2 psmisc
+apt-get -y install libaio1 libnuma1 apparmor libmecab2 psmisc libsasl2-2
 
 # mysql common
 # https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-common_8.0.22-1ubuntu20.04_amd64.deb
@@ -88,9 +88,9 @@ dpkg -i $DOWNLOAD_DIR/mysql-client_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_am
 # mysql server
 echo "Downloading mysql-community-server..."
 wget --no-verbose -nc -P $DOWNLOAD_DIR https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-community-server_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
-echo "mysql-community-server  mysql-community-server/re-root-pass     password	$MYSQL_ROOT_PASSWORD" | sudo debconf-set-selections
-echo "mysql-community-server  mysql-community-server/root-pass        password	$MYSQL_ROOT_PASSWORD" | sudo debconf-set-selections
-echo "mysql-community-server  mysql-community-server/remove-data-dir  boolean true"  | sudo debconf-set-selections
+echo "mysql-community-server  mysql-community-server/re-root-pass     password	$MYSQL_ROOT_PASSWORD" | debconf-set-selections
+echo "mysql-community-server  mysql-community-server/root-pass        password	$MYSQL_ROOT_PASSWORD" | debconf-set-selections
+echo "mysql-community-server  mysql-community-server/remove-data-dir  boolean true"  | debconf-set-selections
 dpkg -i $DOWNLOAD_DIR/mysql-community-server_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
 
 # mysql server #2
