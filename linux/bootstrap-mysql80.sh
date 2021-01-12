@@ -104,10 +104,10 @@ wget --no-verbose -nc -P $DOWNLOAD_DIR https://dev.mysql.com/get/Downloads/MySQL
 dpkg -i $DOWNLOAD_DIR/mysql-server_${MYSQL_VERSION}-1ubuntu${DISTRIB_RELEASE}_amd64.deb
 
 # by default mysql only allows localhost (not via port forward)
-echo "DELETE FROM mysql.user WHERE NOT Host = 'localhost'" | mysql -u root -p$MYSQL_ROOT_PASSWORD
-echo "UPDATE mysql.user SET Host='%' where Host='localhost'" | mysql -u root -p$MYSQL_ROOT_PASSWORD
-echo "GRANT ALL PRIVILEGES ON *.* TO root@localhost" | mysql -u root -p$MYSQL_ROOT_PASSWORD
-echo "FLUSH PRIVILEGES" | mysql -u root -p$MYSQL_ROOT_PASSWORD
+#echo "DELETE FROM mysql.user WHERE NOT Host = 'localhost'" | mysql -u root -p$MYSQL_ROOT_PASSWORD
+#echo "UPDATE mysql.user SET Host='%' where Host='localhost'" | mysql -u root -p$MYSQL_ROOT_PASSWORD
+#echo "GRANT ALL PRIVILEGES ON *.* TO root@localhost" | mysql -u root -p$MYSQL_ROOT_PASSWORD
+#echo "FLUSH PRIVILEGES" | mysql -u root -p$MYSQL_ROOT_PASSWORD
 
 # old way (5.7.14+ no longer set values in my.cnf)
 #sed -i "s/= 127.0.0.1/= $MYSQL_HOST/" /etc/mysql/my.cnf
