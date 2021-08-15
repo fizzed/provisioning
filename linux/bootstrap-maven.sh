@@ -18,7 +18,7 @@ fi
 mkdir -p "$DOWNLOAD_DIR"
 
 # defaults
-MAVEN_VERSION="3.6.3"
+MAVEN_VERSION="3.8.1"
 
 # arguments
 for i in "$@"; do
