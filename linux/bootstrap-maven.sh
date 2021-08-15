@@ -18,7 +18,7 @@ fi
 mkdir -p "$DOWNLOAD_DIR"
 
 # defaults
-MAVEN_VERSION="3.8.1"
+MAVEN_VERSION="3.8.2"
 
 # arguments
 for i in "$@"; do
@@ -36,7 +36,7 @@ done
 echo "Installing Maven $MAVEN_VERSION..."
 
 echo "Downloading Maven..."
-wget --no-verbose -nc -P $DOWNLOAD_DIR "http://apache.spinellicreations.com/maven/maven-3/3.6.3/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz"
+wget --no-verbose -nc -P $DOWNLOAD_DIR "https://mirrors.advancedhosters.com/apache/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz"
 
 tar zxvf $DOWNLOAD_DIR/apache-maven-$MAVEN_VERSION-bin.tar.gz
 mv apache-maven-$MAVEN_VERSION $MAVEN_VERSION
