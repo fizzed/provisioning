@@ -78,6 +78,8 @@ if [ "$JAVA_SLIM" = "yes" ]; then
   rm -Rf "$JAVA_DIR/sample"
   rm -Rf "$JAVA_DIR/demo"
   rm -Rf "$JAVA_DIR/src.zip"
+  rm -Rf "$JAVA_DIR/legal"
+  rm -Rf "$JAVA_DIR/man"
 fi
 
 mv "$JAVA_DIR" /usr/lib/jvm/
