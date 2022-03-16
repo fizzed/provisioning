@@ -18,7 +18,7 @@ fi
 mkdir -p "$DOWNLOAD_DIR"
 
 # defaults
-MAVEN_VERSION="3.8.2"
+MAVEN_VERSION="3.8.4"
 
 # arguments
 for i in "$@"; do
@@ -28,7 +28,7 @@ for i in "$@"; do
       ;;
     *)
       echo "Unknown argument '$i'"
-      exit 1  
+      exit 1
       ;;
   esac
 done
@@ -36,7 +36,7 @@ done
 echo "Installing Maven $MAVEN_VERSION..."
 
 echo "Downloading Maven..."
-wget --no-verbose -nc -P $DOWNLOAD_DIR "https://mirrors.advancedhosters.com/apache/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz"
+wget --no-verbose -nc -P $DOWNLOAD_DIR "https://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz"
 
 tar zxvf $DOWNLOAD_DIR/apache-maven-$MAVEN_VERSION-bin.tar.gz
 mv apache-maven-$MAVEN_VERSION $MAVEN_VERSION
@@ -47,7 +47,7 @@ ln -s /opt/maven/$MAVEN_VERSION /opt/maven/current
 # add to profile.d
 if [ -d /etc/profile.d ]; then
   # always overwrite
-  echo "if [ -z \"\$MAVEN_HOME\" ]; then MAVEN_HOME=/opt/maven/current; export MAVEN_HOME; fi" > /etc/profile.d/maven.sh    
+  echo "if [ -z \"\$MAVEN_HOME\" ]; then MAVEN_HOME=/opt/maven/current; export MAVEN_HOME; fi" > /etc/profile.d/maven.sh
   echo "if ! [[ \$PATH == *\"\$MAVEN_HOME\"* ]]; then PATH=\"\$MAVEN_HOME/bin:\$PATH\"; export PATH; fi" >> /etc/profile.d/maven.sh
 fi
 
