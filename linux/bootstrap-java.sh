@@ -14,6 +14,13 @@ JAVA_URL="https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jd
 JAVA_SLIM="no"
 JAVA_DEFAULT="no"
 
+# if java is missing then force this to be the default?
+if ! [ -x "$(command -v java)" ]; then
+  if ! [ -d "/usr/lib/jvm" ]; then
+    JAVA_DEFAULT="yes"
+  fi
+fi
+
 # arguments
 for i in "$@"; do
   case $i in
@@ -28,7 +35,7 @@ for i in "$@"; do
       ;;
     *)
       echo "Unknown argument '$i'"
-      echo "--url=[url of jdk.tar.gz] --slim --default"
+      echo "--url=[url of jdk.tar.gz] --slim --default --no-default"
       exit 1
       ;;
   esac
@@ -46,11 +53,6 @@ if ! [ -x "$(command -v curl)" ]; then
 fi
 
 JAVA_TARBALL_FILE="${JAVA_URL##*/}"
-
-# force this to be the default?
-if ! [ -x "$(command -v java)" ]; then
-  JAVA_DEFAULT="yes"
-fi
 
 echo "Installing Java..."
 echo "     url: $JAVA_URL"
