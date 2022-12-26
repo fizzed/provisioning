@@ -10,9 +10,12 @@ fi
 mkdir -p "$DOWNLOAD_DIR"
 
 # defaults
-JAVA_URL="https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u252-b09/OpenJDK8U-jdk_x64_linux_hotspot_8u252b09.tar.gz"
+JAVA_URL=""
 JAVA_SLIM="no"
 JAVA_DEFAULT="no"
+JAVA_VERSION="11"
+JAVA_DISTRIBUTION="zulu"
+JAVA_ARCH=$(arch)
 
 # if java is missing then force this to be the default?
 if ! [ -x "$(command -v java)" ]; then
@@ -27,6 +30,12 @@ for i in "$@"; do
     --url=*)
       JAVA_URL="${i#*=}"
       ;;
+    --version=*)
+      JAVA_VERSION="${i#*=}"
+      ;;
+    --distribution=*)
+      JAVA_DISTRIBUTION="${i#*=}"
+      ;;
     --slim)
       JAVA_SLIM="yes"
       ;;
@@ -35,19 +44,56 @@ for i in "$@"; do
       ;;
     *)
       echo "Unknown argument '$i'"
-      echo "--url=[url of jdk.tar.gz] --slim --default --no-default"
+      echo "--url=[url of jdk.tar.gz] --version=[8, 11, etc] --distribution=[zulu, etc.] --slim --default --no-default"
       exit 1
       ;;
   esac
 done
 
+# if url not specified, build url
+if [ -z "$JAVA_URL" ]; then
+  if [ "$JAVA_DISTRIBUTION" = "zulu" ]; then
+    ZPATH="zulu"
+    ZVER=""
+    ZOS="linux"
+    ZARCH="$JAVA_ARCH"
+    if [ "$JAVA_VERSION" = "17" ]; then
+      ZVER="17.38.21-ca-jdk17.0.5"
+    elif [ "$JAVA_VERSION" = "11" ]; then
+      ZVER="11.60.19-ca-jdk11.0.17"
+    elif [ "$JAVA_VERSION" = "8" ]; then
+      ZVER="8.66.0.15-ca-jdk8.0.352"
+    else
+      echo "Unsupported version $JAVA_VERSION"
+      exit 1
+    fi
+
+    if [ "$ZARCH" = "x86_64" ]; then
+      ZARCH="x64"
+    fi
+
+    if [ "$ZARCH" = "aarch64" ] && [ "$ZOS" = "linux" ]; then
+      ZPATH="zulu-embedded"
+    fi
+
+    # https://cdn.azul.com/zulu/bin/zulu17.38.21-ca-jdk17.0.5-linux_aarch64.tar.gz
+    # https://cdn.azul.com/zulu-embedded/bin/zulu8.66.0.15-ca-jdk8.0.352-linux_aarch64.tar.gz
+    # https://cdn.azul.com/zulu/bin/zulu11.60.19-ca-jdk11.0.17-linux_x64.tar.gz
+    # https://cdn.azul.com/zulu-embedded/bin/zulu11.60.19-ca-jdk11.0.17-linux_aarch64.tar.gz
+    # https://cdn.azul.com/zulu/bin/zulu11.60.19-ca-jdk11.0.17-linux_musl_x64.tar.gz
+    # https://cdn.azul.com/zulu/bin/zulu11.60.19-ca-jdk11.0.17-linux_musl_aarch64.tar.gz
+    JAVA_URL="https://cdn.azul.com/${ZPATH}/bin/zulu${ZVER}-${ZOS}_${ZARCH}.tar.gz"
+  else
+    echo "Unsupported distribution $JAVA_DISTRIBUTION"
+    exit 1
+  fi
+fi
+
 # dependencies
 if ! [ -x "$(command -v curl)" ]; then
   if type apt-get &>/dev/null; then
-    sudo apt-get update
     sudo apt-get -y install curl
   elif type yum &>/dev/null; then
-    sudo yum update
     sudo yum -y install curl
   fi
 fi
@@ -64,17 +110,40 @@ echo " default: $JAVA_DEFAULT"
 if [ ! -f "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" ]; then
   echo "Downloading $JAVA_URL"
   curl -o "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" -j -k -L "$JAVA_URL"
+  if [ $? -ne 0 ]; then
+    echo "Unable to download $JAVA_URL"
+    exit 1
+  fi
 fi
 
 # top-level directory contents will be extracted to
 JAVA_DIR=`tar ztf "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" | head -1 | cut -f1 -d"/"`
 
+if [ $? -ne 0 ]; then
+  echo "Unable to list contents of tarball $JAVA_TARBALL_FILE"
+  exit 1
+fi
+
+
 echo "  dir: $JAVA_DIR"
 
 rm -Rf "$JAVA_DIR"
+
+if ! [ $? -eq 0 ]; then
+  echo "Unable to remove $JAVA_DIR"
+  exit 1
+fi
+
 tar zxvf "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE"
+
 mkdir --parents /usr/lib/jvm
+
 rm -Rf "/usr/lib/jvm/$JAVA_DIR"
+
+if ! [ $? -eq 0 ]; then
+  echo "Unable to remove /usr/lib/jvm/$JAVA_DIR"
+  exit 1
+fi
 
 if [ "$JAVA_SLIM" = "yes" ]; then
   rm -Rf "$JAVA_DIR/sample"
@@ -85,6 +154,11 @@ if [ "$JAVA_SLIM" = "yes" ]; then
 fi
 
 mv "$JAVA_DIR" /usr/lib/jvm/
+
+if [ $? -ne 0 ]; then
+  echo "Unable to mv $JAVA_DIR to /usr/lib/jvm/"
+  exit 1
+fi
 
 # make this the default?
 if [ "$JAVA_DEFAULT" = "yes" ]; then
