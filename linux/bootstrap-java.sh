@@ -22,6 +22,17 @@ JAVA_DISTRIBUTION="zulu"
 # uname is much more cross-linux compat than arch
 JAVA_ARCH=$(uname -m)
 
+# are we on musl, glibc, or uclibc?
+echo "Detcting glibc, musl, or uclibc..."
+CLIB="glibc"
+IS_MUSL=$(ldd /bin/ls | grep 'musl' | head -1 | cut -d ' ' -f1)
+IS_UCLIBC=$(ldd /bin/ls | grep 'uclibc' | head -1 | cut -d ' ' -f1)
+if [ ! -z $IS_MUSL ]; then
+  CLIB="musl"
+elif [ ! -z $IS_UCLIBC ]; then
+  CLIB="uclibc"
+fi
+
 # if java is missing then force this to be the default?
 if ! [ -x "$(command -v java)" ]; then
   if ! [ -d "/usr/lib/jvm" ]; then
@@ -73,6 +84,11 @@ if [ -z "$JAVA_URL" ]; then
       exit 1
     fi
 
+    # for musl builds, the ZOS needs to change
+    if [ "$CLIB" = "musl" ]; then
+      ZOS="linux_musl"
+    fi
+
     if [ "$ZARCH" = "x86_64" ]; then
       ZARCH="x64"
     fi
@@ -97,6 +113,8 @@ fi
 JAVA_TARBALL_FILE="${JAVA_URL##*/}"
 
 echo "Installing Java..."
+echo "    arch: $JAVA_ARCH"
+echo "   c-lib: $CLIB"
 echo "     url: $JAVA_URL"
 echo "    file: $JAVA_TARBALL_FILE"
 echo "    slim: $JAVA_SLIM"
