@@ -7,8 +7,6 @@ jobs:
     container: alpine:3.7
     steps:
       - uses: actions/checkout@v3
-      - name: Update Packages
-        run: apt-get update
       - name: Install Dependencies
         run: apk add curl
       - name: Bootstrap Java
