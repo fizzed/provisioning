@@ -10,7 +10,7 @@ jobs:
       - name: Update Packages
         run: apt-get update
       - name: Install Dependencies
-        run: apt-get -y install curl
+        run: apk add curl
       - name: Bootstrap Java
         run: linux/bootstrap-java.sh
       - name: Run Java
