@@ -14,8 +14,8 @@ jobs:
           distro: ubuntu18.04
           githubToken: ${{ github.token }}
           install: |
-	    apt-get update
-	    apt-get -y install curl
-	    linux/bootstrap-java.sh
+            apt-get update
+            apt-get -y install curl
+            linux/bootstrap-java.sh
           run: |
             /usr/lib/jvm/current/bin/java -version
