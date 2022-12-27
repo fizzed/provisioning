@@ -132,7 +132,7 @@ fi
 
 tar zxf "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE"
 
-mkdir --parents /usr/lib/jvm
+mkdir -p /usr/lib/jvm
 
 rm -Rf "/usr/lib/jvm/$JAVA_DIR"
 
