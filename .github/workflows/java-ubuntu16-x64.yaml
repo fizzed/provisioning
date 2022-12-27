@@ -7,9 +7,11 @@ jobs:
     container: ubuntu:16.04
     steps:
       - uses: actions/checkout@v3
-      - name: Update packages
+      - name: Update Packages
         run: apt-get update
-      - name: Install dependencies
+      - name: Install Dependencies
         run: apt-get -y install curl
       - name: Bootstrap Java
         run: linux/bootstrap-java.sh
+      - name: Run Java
+        run: /usr/lib/jvm/current/bin/java -version

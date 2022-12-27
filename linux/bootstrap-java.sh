@@ -129,7 +129,7 @@ if ! [ $? -eq 0 ]; then
   exit 1
 fi
 
-tar zxvf "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE"
+tar zxf "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE"
 
 mkdir --parents /usr/lib/jvm
 
