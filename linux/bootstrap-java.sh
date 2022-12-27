@@ -1,6 +1,10 @@
 #!/bin/sh
 
-export DEBIAN_FRONTEND=noninteractive
+# we need curl to function
+if ! [ -x "$(command -v curl)" ]; then
+  echo "Dependency 'curl' is missing. Please install it first then re-run this script"
+  exit 1
+fi
 
 # download cache
 DOWNLOAD_DIR=".download-cache"
@@ -86,15 +90,6 @@ if [ -z "$JAVA_URL" ]; then
   else
     echo "Unsupported distribution $JAVA_DISTRIBUTION"
     exit 1
-  fi
-fi
-
-# dependencies
-if ! [ -x "$(command -v curl)" ]; then
-  if type apt-get &>/dev/null; then
-    sudo apt-get -y install curl
-  elif type yum &>/dev/null; then
-    sudo yum -y install curl
   fi
 fi
 
