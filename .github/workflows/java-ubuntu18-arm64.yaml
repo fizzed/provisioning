@@ -13,7 +13,7 @@ jobs:
           arch: aarch64
           distro: ubuntu18.04
           githubToken: ${{ github.token }}
-	  install: |
+          install: |
 	    apt-get update
 	    apt-get -y install curl
 	    linux/bootstrap-java.sh
