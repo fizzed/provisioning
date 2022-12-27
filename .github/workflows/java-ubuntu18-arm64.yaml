@@ -1,0 +1,21 @@
+name: Java Ubuntu 18 arm64
+on:
+  push
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: uraimo/run-on-arch-action@v2
+        name: Arm64 QEMU
+        id: runcmd
+        with:
+          arch: aarch64
+          distro: ubuntu18.04
+          githubToken: ${{ github.token }}
+	  install: |
+	    apt-get update
+	    apt-get -y install curl
+	    linux/bootstrap-java.sh
+          run: |
+            /usr/lib/jvm/current/bin/java -version
