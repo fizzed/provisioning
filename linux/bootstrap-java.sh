@@ -19,7 +19,8 @@ JAVA_SLIM="no"
 JAVA_DEFAULT="no"
 JAVA_VERSION="11"
 JAVA_DISTRIBUTION="zulu"
-JAVA_ARCH=$(arch)
+# uname is much more cross-linux compat than arch
+JAVA_ARCH=$(uname -m)
 
 # if java is missing then force this to be the default?
 if ! [ -x "$(command -v java)" ]; then
