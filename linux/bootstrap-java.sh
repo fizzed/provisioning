@@ -105,7 +105,7 @@ echo " default: $JAVA_DEFAULT"
 # download url to file...
 if [ ! -f "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" ]; then
   echo "Downloading $JAVA_URL"
-  curl -o "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" -j -k -L "$JAVA_URL"
+  curl -s -o "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" -j -k -L "$JAVA_URL"
   if [ $? -ne 0 ]; then
     echo "Unable to download $JAVA_URL"
     exit 1
@@ -121,7 +121,7 @@ if [ $? -ne 0 ]; then
 fi
 
 
-echo "  dir: $JAVA_DIR"
+echo "Java dir: $JAVA_DIR"
 
 rm -Rf "$JAVA_DIR"
 
