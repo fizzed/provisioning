@@ -1,0 +1,17 @@
+name: Java Alpine 3.7 x64
+on:
+  push
+jobs:
+  bootstrap:
+    runs-on: ubuntu-latest
+    container: alpine:3.7
+    steps:
+      - uses: actions/checkout@v3
+      - name: Update Packages
+        run: apt-get update
+      - name: Install Dependencies
+        run: apt-get -y install curl
+      - name: Bootstrap Java
+        run: linux/bootstrap-java.sh
+      - name: Run Java
+        run: /usr/lib/jvm/current/bin/java -version
