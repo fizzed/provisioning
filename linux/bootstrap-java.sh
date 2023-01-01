@@ -58,6 +58,9 @@ for i in "$@"; do
     --default)
       JAVA_DEFAULT="yes"
       ;;
+    --no-default)
+      JAVA_DEFAULT="no"
+      ;;
     *)
       echo "Unknown argument '$i'"
       echo "--url=[url of jdk.tar.gz] --version=[8, 11, etc] --distribution=[zulu, etc.] --slim --default --no-default"
