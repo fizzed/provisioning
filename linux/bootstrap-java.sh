@@ -94,7 +94,10 @@ if [ -z "$JAVA_URL" ]; then
     fi
 
     if [ "$ZARCH" = "aarch64" ] && [ "$ZOS" = "linux" ]; then
-      ZPATH="zulu-embedded"
+      # but only on java version less <= 11
+      if [ "$JAVA_VERSION" -le 11 ]; then
+        ZPATH="zulu-embedded"
+      fi
     fi
 
     # https://cdn.azul.com/zulu/bin/zulu17.38.21-ca-jdk17.0.5-linux_aarch64.tar.gz
