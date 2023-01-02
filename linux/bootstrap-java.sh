@@ -1,4 +1,10 @@
 #!/bin/sh
+#
+# Return codes
+#  1 - generic fail
+#  10 - url download failed
+#  11 - os/arch is not supported
+#
 
 # we need curl to function
 if ! [ -x "$(command -v curl)" ]; then
@@ -103,6 +109,20 @@ if [ -z "$JAVA_URL" ]; then
       fi
     fi
 
+    # check os/arch is supported
+    if [ "$ZOS" = "linux" ] && [ "$ZARCH" = "x64" ]; then
+      : # noop
+    elif [ "$ZOS" = "linux" ] && [ "$ZARCH" = "aarch64" ]; then
+      : # noop
+    elif [ "$ZOS" = "linux_musl" ] && [ "$ZARCH" = "x64" ]; then
+      : # noop
+    elif [ "$ZOS" = "linux_musl" ] && [ "$ZARCH" = "aarch64" ]; then
+      : # noop
+    else
+      echo "Unsupported distribution/os/arch combo of $ZPATH / $ZOS / $ZARCH"
+      exit 11
+    fi
+
     # https://cdn.azul.com/zulu/bin/zulu17.38.21-ca-jdk17.0.5-linux_aarch64.tar.gz
     # https://cdn.azul.com/zulu-embedded/bin/zulu8.66.0.15-ca-jdk8.0.352-linux_aarch64.tar.gz
     # https://cdn.azul.com/zulu/bin/zulu11.60.19-ca-jdk11.0.17-linux_x64.tar.gz
@@ -129,10 +149,10 @@ echo " default: $JAVA_DEFAULT"
 # download url to file...
 if [ ! -f "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" ]; then
   echo "Downloading $JAVA_URL"
-  curl -s -o "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" -j -k -L "$JAVA_URL"
+  curl -f -s -o "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" -j -k -L "$JAVA_URL"
   if [ $? -ne 0 ]; then
     echo "Unable to download $JAVA_URL"
-    exit 1
+    exit 10
   fi
 fi
 
