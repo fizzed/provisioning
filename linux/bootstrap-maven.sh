@@ -18,7 +18,7 @@ fi
 mkdir -p "$DOWNLOAD_DIR"
 
 # defaults
-MAVEN_VERSION="3.8.4"
+MAVEN_VERSION="3.8.7"
 
 # arguments
 for i in "$@"; do
@@ -36,12 +36,15 @@ done
 echo "Installing Maven $MAVEN_VERSION..."
 
 echo "Downloading Maven..."
-wget --no-verbose -nc -P $DOWNLOAD_DIR "https://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz"
+# https://dlcdn.apache.org/maven/maven-3/3.8.7/binaries/apache-maven-3.8.7-bin.tar.gz
+wget -nc -P $DOWNLOAD_DIR "https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
 
 tar zxvf $DOWNLOAD_DIR/apache-maven-$MAVEN_VERSION-bin.tar.gz
 mv apache-maven-$MAVEN_VERSION $MAVEN_VERSION
 mkdir --parents /opt/maven
+rm -Rf /opt/maven/$MAVEN_VERSION
 mv $MAVEN_VERSION /opt/maven/
+rm -Rf /opt/maven/current
 ln -s /opt/maven/$MAVEN_VERSION /opt/maven/current
 
 # add to profile.d
