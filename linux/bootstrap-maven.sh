@@ -10,19 +10,16 @@
 #
 ##############################################
 
-# download cache
-DOWNLOAD_DIR=".download-cache"
-if [ -d "/vagrant" ]; then
-  DOWNLOAD_DIR="/vagrant/.download-cache"
-fi
-mkdir -p "$DOWNLOAD_DIR"
-
 # defaults
+CACHE="no"
 MAVEN_VERSION="3.8.7"
 
 # arguments
 for i in "$@"; do
   case $i in
+    --cache)
+      CACHE="yes"
+      ;;
     --version=*)
       MAVEN_VERSION="${i#*=}"
       ;;
@@ -33,6 +30,16 @@ for i in "$@"; do
   esac
 done
 
+DOWNLOAD_DIR=.
+if [ "$CACHE" = "yes" ]; then
+  # download cache
+  DOWNLOAD_DIR=".download-cache"
+  if [ -d "/vagrant" ]; then
+    DOWNLOAD_DIR="/vagrant/.download-cache"
+  fi
+  mkdir -p "$DOWNLOAD_DIR"
+fi
+
 echo "Installing Maven $MAVEN_VERSION..."
 
 echo "Downloading Maven..."
@@ -40,6 +47,11 @@ echo "Downloading Maven..."
 wget -nc -P $DOWNLOAD_DIR "https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
 
 tar zxvf $DOWNLOAD_DIR/apache-maven-$MAVEN_VERSION-bin.tar.gz
+
+if [ "$CACHE" = "no" ]; then
+  rm -f $DOWNLOAD_DIR/apache-maven-$MAVEN_VERSION-bin.tar.gz
+fi
+
 mv apache-maven-$MAVEN_VERSION $MAVEN_VERSION
 mkdir --parents /opt/maven
 rm -Rf /opt/maven/$MAVEN_VERSION

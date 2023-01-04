@@ -12,14 +12,8 @@ if ! [ -x "$(command -v curl)" ]; then
   exit 1
 fi
 
-# download cache
-DOWNLOAD_DIR=".download-cache"
-if [ -d "/vagrant" ]; then
-  DOWNLOAD_DIR="/vagrant/.download-cache"
-fi
-mkdir -p "$DOWNLOAD_DIR"
-
 # defaults
+CACHE="no"
 JAVA_URL=""
 JAVA_SLIM="no"
 JAVA_DEFAULT="no"
@@ -49,6 +43,9 @@ fi
 # arguments
 for i in "$@"; do
   case $i in
+    --use-cache)
+      CACHE="yes"
+      ;;
     --url=*)
       JAVA_URL="${i#*=}"
       ;;
@@ -74,6 +71,16 @@ for i in "$@"; do
       ;;
   esac
 done
+
+DOWNLOAD_DIR=.
+if [ "$CACHE" = "yes" ]; then
+  # download cache
+  DOWNLOAD_DIR=".download-cache"
+  if [ -d "/vagrant" ]; then
+    DOWNLOAD_DIR="/vagrant/.download-cache"
+  fi
+  mkdir -p "$DOWNLOAD_DIR"
+fi
 
 # if url not specified, build url
 if [ -z "$JAVA_URL" ]; then
@@ -175,6 +182,11 @@ if ! [ $? -eq 0 ]; then
 fi
 
 tar zxf "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE"
+
+# delete this download now?
+if [ "$CACHE" = "no" ]; then
+  rm -f "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE"
+fi
 
 mkdir -p /usr/lib/jvm
 
