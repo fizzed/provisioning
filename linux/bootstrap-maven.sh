@@ -62,8 +62,9 @@ ln -s /opt/maven/$MAVEN_VERSION /opt/maven/current
 # add to profile.d
 if [ -d /etc/profile.d ]; then
   # always overwrite
-  echo "if [ -z \"\$MAVEN_HOME\" ]; then MAVEN_HOME=/opt/maven/current; export MAVEN_HOME; fi" > /etc/profile.d/maven.sh
-  echo "if ! [[ \$PATH == *\"\$MAVEN_HOME\"* ]]; then PATH=\"\$MAVEN_HOME/bin:\$PATH\"; export PATH; fi" >> /etc/profile.d/maven.sh
+  echo "if [ -z \"\$M2_HOME\" ]; then M2_HOME=/opt/maven/current; export M2_HOME; fi" > /etc/profile.d/maven.sh
+  #echo "if ! [[ \$PATH == *\"\$MAVEN_HOME\"* ]]; then PATH=\"\$MAVEN_HOME/bin:\$PATH\"; export PATH; fi" >> /etc/profile.d/maven.sh
+  echo 'if [ ! -z "${PATH##*$M2_HOME*}" ]; then PATH="$M2_HOME/bin:$PATH"; export PATH; fi' >> /etc/profile.d/maven.sh
 fi
 
 echo "Installed Maven $MAVEN_VERSION!"
