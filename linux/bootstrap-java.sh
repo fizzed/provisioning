@@ -31,7 +31,10 @@ if [ ! -z $IS_MUSL ]; then
 fi
 
 # are we on armhf or armel?
-if [ $JAVA_ARCH = "arm" ] || [ $JAVA_ARCH = "armv7l" ]; then
+if [ $JAVA_ARCH = "armv6l" ]; then
+  JAVA_ARCH="armel"
+fi
+if [ $JAVA_ARCH = "arm" ] || [ $JAVA_ARCH = "armv7l" ] ; then
   echo "Detecting ARM hard-float vs. soft-float..."
   IS_ARMHF=$(ls /lib/ | grep 'gnueabihf' | head -1 | cut -d ' ' -f1)
   if [ ! -z $IS_ARMHF ]; then
