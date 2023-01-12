@@ -7,7 +7,7 @@ but can be used with cloud images or traditional machines as well.
 ## Shell - Install Java
 
 ```
-curl -s https://raw.githubusercontent.com/jjlauer/provisioning/master/linux/bootstrap-java.sh | sudo sh
+curl -s https://raw.githubusercontent.com/jjlauer/provisioning/master/linux/bootstrap-java.sh | sudo sh -s -- --version=17
 ```
 
 ## Shell - Install Maven
