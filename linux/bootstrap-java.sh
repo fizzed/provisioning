@@ -23,18 +23,20 @@ JAVA_DISTRIBUTION="zulu"
 JAVA_ARCH=$(uname -m)
 
 # are we on musl, glibc, or uclibc?
-echo "Detecting glibc or musl..."
+echo -n "Detecting glibc or musl... "
 CLIB="glibc"
 IS_MUSL=$(ldd /bin/ls | grep 'musl' | head -1 | cut -d ' ' -f1)
 if [ ! -z $IS_MUSL ]; then
   CLIB="musl"
 fi
+echo "$CLIB"
 
+
+echo -n "Detecting hardware architecture... "
 # are we on armhf or armel?
 if [ $JAVA_ARCH = "armv6l" ]; then
   JAVA_ARCH="armel"
-fi
-if [ $JAVA_ARCH = "arm" ] || [ $JAVA_ARCH = "armv7l" ] ; then
+elif [ $JAVA_ARCH = "arm" ] || [ $JAVA_ARCH = "armv7l" ]; then
   echo "Detecting ARM hard-float vs. soft-float..."
   IS_ARMHF=$(ls /lib/ | grep 'gnueabihf' | head -1 | cut -d ' ' -f1)
   if [ ! -z $IS_ARMHF ]; then
@@ -43,13 +45,18 @@ if [ $JAVA_ARCH = "arm" ] || [ $JAVA_ARCH = "armv7l" ] ; then
     JAVA_ARCH="armel"
   fi
 fi
+echo "$JAVA_ARCH"
+
 
 # if java is missing then force this to be the default?
-if ! [ -x "$(command -v java)" ]; then
-  if ! [ -d "/usr/lib/jvm" ]; then
+echo -n "Detecting if java is currently missing and should be the default... "
+if [ ! -x "$(command -v java)" ]; then
+  if [ ! -d "/usr/lib/jvm" ]; then
     JAVA_DEFAULT="yes"
   fi
 fi
+echo "$JAVA_DEFAULT"
+
 
 # arguments
 for i in "$@"; do
