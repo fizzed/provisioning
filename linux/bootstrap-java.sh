@@ -23,14 +23,22 @@ JAVA_DISTRIBUTION="zulu"
 JAVA_ARCH=$(uname -m)
 
 # are we on musl, glibc, or uclibc?
-echo "Detcting glibc, musl, or uclibc..."
+echo "Detecting glibc or musl..."
 CLIB="glibc"
 IS_MUSL=$(ldd /bin/ls | grep 'musl' | head -1 | cut -d ' ' -f1)
-IS_UCLIBC=$(ldd /bin/ls | grep 'uclibc' | head -1 | cut -d ' ' -f1)
 if [ ! -z $IS_MUSL ]; then
   CLIB="musl"
-elif [ ! -z $IS_UCLIBC ]; then
-  CLIB="uclibc"
+fi
+
+# are we on armhf or armel?
+if [ $JAVA_ARCH = "arm" ] || [ $JAVA_ARCH = "armv7l" ]; then
+  echo "Detecting ARM hard-float vs. soft-float..."
+  IS_ARMHF=$(ls /lib/ | grep 'gnueabihf' | head -1 | cut -d ' ' -f1)
+  if [ ! -z $IS_ARMHF ]; then
+    JAVA_ARCH="armhf"
+  else
+    JAVA_ARCH="armel"
+  fi
 fi
 
 # if java is missing then force this to be the default?
@@ -89,7 +97,9 @@ if [ -z "$JAVA_URL" ]; then
     ZVER=""
     ZOS="linux"
     ZARCH="$JAVA_ARCH"
-    if [ "$JAVA_VERSION" = "17" ]; then
+    if [ "$JAVA_VERSION" = "19" ]; then
+      ZVER="19.30.11-ca-jdk19.0.1"
+    elif [ "$JAVA_VERSION" = "17" ]; then
       ZVER="17.38.21-ca-jdk17.0.5"
     elif [ "$JAVA_VERSION" = "11" ]; then
       ZVER="11.60.19-ca-jdk11.0.17"
@@ -107,6 +117,10 @@ if [ -z "$JAVA_URL" ]; then
 
     if [ "$ZARCH" = "x86_64" ]; then
       ZARCH="x64"
+    elif [ "$ZARCH" = "armhf" ]; then
+      ZARCH="aarch32hf"
+    elif [ "$ZARCH" = "armel" ]; then
+      ZARCH="aarch32sf"
     fi
 
     if [ "$ZARCH" = "aarch64" ] && [ "$ZOS" = "linux" ]; then
@@ -114,6 +128,10 @@ if [ -z "$JAVA_URL" ]; then
       if [ "$JAVA_VERSION" -le 11 ]; then
         ZPATH="zulu-embedded"
       fi
+    elif [ "$ZARCH" = "aarch32hf" ] && [ "$ZOS" = "linux" ]; then
+      ZPATH="zulu-embedded"
+    elif [ "$ZARCH" = "aarch32sf" ] && [ "$ZOS" = "linux" ]; then
+      ZPATH="zulu-embedded"
     fi
 
     # check os/arch is supported
@@ -121,26 +139,43 @@ if [ -z "$JAVA_URL" ]; then
       : # noop
     elif [ "$ZOS" = "linux" ] && [ "$ZARCH" = "aarch64" ]; then
       : # noop
+    elif [ "$ZOS" = "linux" ] && [ "$ZARCH" = "aarch32hf" ]; then
+      : # noop
+    elif [ "$ZOS" = "linux" ] && [ "$ZARCH" = "aarch32sf" ]; then
+      : # noop
     elif [ "$ZOS" = "linux_musl" ] && [ "$ZARCH" = "x64" ]; then
       : # noop
     elif [ "$ZOS" = "linux_musl" ] && [ "$ZARCH" = "aarch64" ]; then
       : # noop
     else
-      echo "Unsupported distribution/os/arch combo of $ZPATH / $ZOS / $ZARCH"
-      exit 11
+      ZVER=""
     fi
 
-    # https://cdn.azul.com/zulu/bin/zulu17.38.21-ca-jdk17.0.5-linux_aarch64.tar.gz
-    # https://cdn.azul.com/zulu-embedded/bin/zulu8.66.0.15-ca-jdk8.0.352-linux_aarch64.tar.gz
-    # https://cdn.azul.com/zulu/bin/zulu11.60.19-ca-jdk11.0.17-linux_x64.tar.gz
-    # https://cdn.azul.com/zulu-embedded/bin/zulu11.60.19-ca-jdk11.0.17-linux_aarch64.tar.gz
-    # https://cdn.azul.com/zulu/bin/zulu11.60.19-ca-jdk11.0.17-linux_musl_x64.tar.gz
-    # https://cdn.azul.com/zulu/bin/zulu11.60.19-ca-jdk11.0.17-linux_musl_aarch64.tar.gz
-    JAVA_URL="https://cdn.azul.com/${ZPATH}/bin/zulu${ZVER}-${ZOS}_${ZARCH}.tar.gz"
-  else
-    echo "Unsupported distribution $JAVA_DISTRIBUTION"
-    exit 1
+    if [ ! -z "$ZVER" ]; then
+      # https://cdn.azul.com/zulu/bin/zulu17.38.21-ca-jdk17.0.5-linux_aarch64.tar.gz
+      # https://cdn.azul.com/zulu-embedded/bin/zulu8.66.0.15-ca-jdk8.0.352-linux_aarch64.tar.gz
+      # https://cdn.azul.com/zulu/bin/zulu11.60.19-ca-jdk11.0.17-linux_x64.tar.gz
+      # https://cdn.azul.com/zulu-embedded/bin/zulu11.60.19-ca-jdk11.0.17-linux_aarch64.tar.gz
+      # https://cdn.azul.com/zulu/bin/zulu11.60.19-ca-jdk11.0.17-linux_musl_x64.tar.gz
+      # https://cdn.azul.com/zulu/bin/zulu11.60.19-ca-jdk11.0.17-linux_musl_aarch64.tar.gz
+      # 
+      JAVA_URL="https://cdn.azul.com/${ZPATH}/bin/zulu${ZVER}-${ZOS}_${ZARCH}.tar.gz"
+    fi
   fi
+
+  # for riscv64, we can do special handling of a JDK
+  if [ -z "$JAVA_URL" ] && [ "$JAVA_ARCH" = "riscv64" ]; then
+    if [ ! "$JAVA_VERSION" = "19" ]; then
+      echo "Arch riscv64 present, will default to Java 19 (since it has a hotspot JIT engine)"
+    fi
+    JAVA_URL="https://github.com/fizzed/nitro/releases/download/builds/fizzed19.36-jdk19.0.1-linux_riscv64.tar.gz"
+  fi
+fi
+
+# did we find a valid JDK?
+if [ -z "$JAVA_URL" ]; then
+  echo "Unsupported distribution/os/arch combo of $JAVA_ARCH / $JAVA_OS"
+  exit 11
 fi
 
 JAVA_TARBALL_FILE="${JAVA_URL##*/}"
