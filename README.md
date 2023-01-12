@@ -1,10 +1,22 @@
-Provisioning Scripts
-====================
+# Provisioning Scripts
+======================
 
 Scripts for provisioning machines.  Primarly used to provision vagrant instances,
 but can be used with cloud images or traditional machines as well.
 
-### Vagrant
+## Shell - Install Java
+
+```
+curl -s https://raw.githubusercontent.com/jjlauer/provisioning/master/linux/bootstrap-java.sh | sudo sh
+```
+
+## Shell - Install Maven
+
+```
+curl -s https://raw.githubusercontent.com/jjlauer/provisioning/master/linux/bootstrap-maven.sh | sudo sh
+```
+
+## Vagrant - Install Java
 
 ```ruby
 Vagrant.configure(2) do |config|
@@ -29,10 +41,3 @@ Vagrant.configure(2) do |config|
 end
 ```
 
-### Non-vagrant (e.g. in a shell)
-
-```
-curl -O https://raw.githubusercontent.com/jjlauer/vagrant-provision/master/linux/bootstrap-java8.sh
-chmod +x ./bootstrap-java8.sh
-sudo ./bootstrap-java8.sh
-```
