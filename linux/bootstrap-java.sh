@@ -143,8 +143,8 @@ if [ -z "$JAVA_URL" ]; then
     fi
 
     if [ "$ZARCH" = "aarch64" ] && [ "$ZOS" = "linux" ]; then
-      # but only on java version less <= 11
-      if [ "$JAVA_VERSION" -le 11 ]; then
+      # but only on java version less < 11
+      if [ "$JAVA_VERSION" -lt 11 ]; then
         ZPATH="zulu-embedded"
       fi
     elif [ "$ZARCH" = "aarch32hf" ] && [ "$ZOS" = "linux" ]; then
