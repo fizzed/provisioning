@@ -114,14 +114,16 @@ if [ -z "$JAVA_URL" ]; then
     ZVER=""
     ZOS="linux"
     ZARCH="$JAVA_ARCH"
-    if [ "$JAVA_VERSION" = "19" ]; then
+    if [ "$JAVA_VERSION" = "21" ]; then
+      ZVER="21.30.15-ca-jdk21.0.1"
+    elif [ "$JAVA_VERSION" = "19" ]; then
       ZVER="19.30.11-ca-jdk19.0.1"
     elif [ "$JAVA_VERSION" = "17" ]; then
-      ZVER="17.38.21-ca-jdk17.0.5"
+      ZVER="17.46.19-ca-jdk17.0.9"
     elif [ "$JAVA_VERSION" = "11" ]; then
-      ZVER="11.60.19-ca-jdk11.0.17"
+      ZVER="11.68.17-ca-jdk11.0.21"
     elif [ "$JAVA_VERSION" = "8" ]; then
-      ZVER="8.66.0.15-ca-jdk8.0.352"
+      ZVER="8.74.0.17-ca-jdk8.0.392"
     else
       echo "Unsupported version $JAVA_VERSION"
       exit 1
