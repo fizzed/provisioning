@@ -220,7 +220,7 @@ if [ "$JAVA_URL" = "" ]; then
           JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.68.17-ca-jdk11.0.21-linux_aarch64.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "armhf" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu11.66.19-ca-jdk11.0.20.1-linux_aarch32hf.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu11.64.19-ca-jdk11.0.19-linux_aarch32hf.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu11.66.19-ca-jdk11.0.20.1-linux_aarch32sf.tar.gz"

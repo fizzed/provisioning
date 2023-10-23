@@ -43,16 +43,29 @@ public class blaze {
 
         // manually include "nitro" jdk for riscv64 architectures, for ALL versions requested
         for (int version : asList(21, 19, 17, 11, 8)) {
-            JavaInstaller nitroRiscv64Jdk19 = new JavaInstaller()
+            javaInstallers.add(new JavaInstaller()
                 .setDistro("nitro")
                 .setOs("linux")
                 .setArch("riscv64")
                 .setMajorVersion(version)
+                .setMinorVersion(999999)    // something large so its the first
+                .setPatchVersion(999999)    // something large so its the first
                 .setType("jdk")
                 .setInstallerType("tar.gz")
-                .setDownloadUrl("https://github.com/fizzed/nitro/releases/download/builds/fizzed19.36-jdk19.0.1-linux_riscv64.tar.gz");
-            javaInstallers.add(nitroRiscv64Jdk19);
+                .setDownloadUrl("https://github.com/fizzed/nitro/releases/download/builds/fizzed19.36-jdk19.0.1-linux_riscv64.tar.gz"));
         }
+
+        // there is an issue w/ azul hard-float arm32 builds, we will pin ourselves to the latest version 11 that works
+        javaInstallers.add(new JavaInstaller()
+            .setDistro("zulu")
+            .setOs("linux")
+            .setArch("armhf")
+            .setMajorVersion(11)
+            .setMinorVersion(999999)    // something large so its the first
+            .setPatchVersion(999999)    // something large so its the first
+            .setType("jdk")
+            .setInstallerType("tar.gz")
+            .setDownloadUrl("https://cdn.azul.com/zulu-embedded/bin/zulu11.64.19-ca-jdk11.0.19-linux_aarch32hf.tar.gz"));
 
         final StringBuilder shellSnippet = new StringBuilder();
         shellSnippet.append("\n");
