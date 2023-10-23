@@ -18,7 +18,7 @@ JAVA_URL=""
 JAVA_SLIM="no"
 JAVA_DEFAULT="no"
 JAVA_VERSION="11"
-JAVA_DISTRIBUTION="zulu"
+JAVA_DISTRIBUTION=""
 # uname is much more cross-linux compat than arch
 JAVA_ARCH=$(uname -m)
 
@@ -38,7 +38,13 @@ echo "$CLIB"
 echo -n "Detecting hardware architecture... "
 
 # are we on armhf or armel?
-if [ $JAVA_ARCH = "armv6l" ]; then
+if [ $JAVA_ARCH = "x86_64" ]; then
+  JAVA_ARCH="x64"
+elif [ $JAVA_ARCH = "i686" ]; then
+  JAVA_ARCH="x32"
+elif [ $JAVA_ARCH = "aarch64" ]; then
+  JAVA_ARCH="arm64"  
+elif [ $JAVA_ARCH = "armv6l" ]; then
   JAVA_ARCH="armel"
 elif [ $JAVA_ARCH = "arm" ] || [ $JAVA_ARCH = "armv7l" ]; then
   echo "Detecting ARM hard-float vs. soft-float..."
@@ -107,105 +113,451 @@ if [ "$CACHE" = "yes" ]; then
   mkdir -p "$DOWNLOAD_DIR"
 fi
 
-# if url not specified, build url
-if [ -z "$JAVA_URL" ]; then
-  if [ "$JAVA_DISTRIBUTION" = "zulu" ]; then
-    ZPATH="zulu"
-    ZVER=""
-    ZOS="linux"
-    ZARCH="$JAVA_ARCH"
+JAVA_OS="linux"
+if [ "$CLIB" = "musl" ]; then
+  JAVA_OS="linux_musl"
+fi
+
+
+#
+# Automatically generated list of urls (do not edit by hand)
+#
+if [ "$JAVA_URL" = "" ]; then
+  if [ "$JAVA_DISTRIBUTION" = "" ] || [ "$JAVA_DISTRIBUTION" = "zulu" ]; then
     if [ "$JAVA_VERSION" = "21" ]; then
-      ZVER="21.30.15-ca-jdk21.0.1"
-    elif [ "$JAVA_VERSION" = "19" ]; then
-      ZVER="19.30.11-ca-jdk19.0.1"
-    elif [ "$JAVA_VERSION" = "17" ]; then
-      ZVER="17.46.19-ca-jdk17.0.9"
-    elif [ "$JAVA_VERSION" = "11" ]; then
-      ZVER="11.68.17-ca-jdk11.0.21"
-    elif [ "$JAVA_VERSION" = "8" ]; then
-      ZVER="8.74.0.17-ca-jdk8.0.392"
-    else
-      echo "Unsupported version $JAVA_VERSION"
-      exit 1
-    fi
-
-    # for musl builds, the ZOS needs to change
-    if [ "$CLIB" = "musl" ]; then
-      ZOS="linux_musl"
-    fi
-
-    if [ "$ZARCH" = "x86_64" ]; then
-      ZARCH="x64"
-    elif [ "$ZARCH" = "armhf" ]; then
-      ZARCH="aarch32hf"
-    elif [ "$ZARCH" = "armel" ]; then
-      ZARCH="aarch32sf"
-    fi
-
-    if [ "$ZARCH" = "aarch64" ] && [ "$ZOS" = "linux" ]; then
-      # but only on java version less < 11
-      if [ "$JAVA_VERSION" -lt 11 ]; then
-        ZPATH="zulu-embedded"
+      if [ "$JAVA_OS" = "linux" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.30.15-ca-jdk21.0.1-linux_x64.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.30.15-ca-jdk21.0.1-linux_aarch64.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          : # does not exist
+        fi
       fi
-    elif [ "$ZARCH" = "aarch32hf" ] && [ "$ZOS" = "linux" ]; then
-      ZPATH="zulu-embedded"
-      # https://cdn.azul.com/zulu-embedded/bin/zulu8.72.0.17-ca-jdk8.0.382-linux_aarch32hf.tar.gz
-      if [ "$JAVA_VERSION" = "11" ]; then
-        ZVER="11.66.19-ca-jdk11.0.20.1"
-      elif [ "$JAVA_VERSION" = "8" ]; then
-        ZVER="8.72.0.17-ca-jdk8.0.382"
-      fi
-    elif [ "$ZARCH" = "aarch32sf" ] && [ "$ZOS" = "linux" ]; then
-      ZPATH="zulu-embedded"
-      if [ "$JAVA_VERSION" = "11" ]; then
-        ZVER="11.66.19-ca-jdk11.0.20.1"
-      elif [ "$JAVA_VERSION" = "8" ]; then
-        ZVER="8.72.0.17-ca-jdk8.0.382"
+      if [ "$JAVA_OS" = "linux_musl" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.30.15-ca-jdk21.0.1-linux_musl_x64.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.30.15-ca-jdk21.0.1-linux_musl_aarch64.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          : # does not exist
+        fi
       fi
     fi
-
-    # check os/arch is supported
-    if [ "$ZOS" = "linux" ] && [ "$ZARCH" = "x64" ]; then
-      : # noop
-    elif [ "$ZOS" = "linux" ] && [ "$ZARCH" = "aarch64" ]; then
-      : # noop
-    elif [ "$ZOS" = "linux" ] && [ "$ZARCH" = "aarch32hf" ]; then
-      : # noop
-    elif [ "$ZOS" = "linux" ] && [ "$ZARCH" = "aarch32sf" ]; then
-      : # noop
-    elif [ "$ZOS" = "linux_musl" ] && [ "$ZARCH" = "x64" ]; then
-      : # noop
-    elif [ "$ZOS" = "linux_musl" ] && [ "$ZARCH" = "aarch64" ]; then
-      : # noop
-    else
-      ZVER=""
+    if [ "$JAVA_VERSION" = "17" ]; then
+      if [ "$JAVA_OS" = "linux" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.46.19-ca-jdk17.0.9-linux_x64.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.46.19-ca-jdk17.0.9-linux_i686.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.46.19-ca-jdk17.0.9-linux_aarch64.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu17.44.53-ca-jdk17.0.8.1-linux_aarch32hf.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          : # does not exist
+        fi
+      fi
+      if [ "$JAVA_OS" = "linux_musl" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.46.19-ca-jdk17.0.9-linux_musl_x64.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.46.19-ca-jdk17.0.9-linux_musl_aarch64.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          : # does not exist
+        fi
+      fi
     fi
-
-    if [ ! -z "$ZVER" ]; then
-      # https://cdn.azul.com/zulu/bin/zulu17.38.21-ca-jdk17.0.5-linux_aarch64.tar.gz
-      # https://cdn.azul.com/zulu-embedded/bin/zulu8.66.0.15-ca-jdk8.0.352-linux_aarch64.tar.gz
-      # https://cdn.azul.com/zulu/bin/zulu11.60.19-ca-jdk11.0.17-linux_x64.tar.gz
-      # https://cdn.azul.com/zulu-embedded/bin/zulu11.60.19-ca-jdk11.0.17-linux_aarch64.tar.gz
-      # https://cdn.azul.com/zulu/bin/zulu11.60.19-ca-jdk11.0.17-linux_musl_x64.tar.gz
-      # https://cdn.azul.com/zulu/bin/zulu11.60.19-ca-jdk11.0.17-linux_musl_aarch64.tar.gz
-      # https://cdn.azul.com/zulu-embedded/bin/zulu11.66.19-ca-jdk11.0.20.1-linux_aarch32hf.tar.gz
-      # 
-      JAVA_URL="https://cdn.azul.com/${ZPATH}/bin/zulu${ZVER}-${ZOS}_${ZARCH}.tar.gz"
+    if [ "$JAVA_VERSION" = "11" ]; then
+      if [ "$JAVA_OS" = "linux" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.68.17-ca-jdk11.0.21-linux_x64.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.68.17-ca-jdk11.0.21-linux_i686.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.68.17-ca-jdk11.0.21-linux_aarch64.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu11.66.19-ca-jdk11.0.20.1-linux_aarch32hf.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu11.66.19-ca-jdk11.0.20.1-linux_aarch32sf.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          : # does not exist
+        fi
+      fi
+      if [ "$JAVA_OS" = "linux_musl" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.68.17-ca-jdk11.0.21-linux_musl_x64.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.66.19-ca-jdk11.0.20.1-linux_musl_aarch64.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          : # does not exist
+        fi
+      fi
+    fi
+    if [ "$JAVA_VERSION" = "8" ]; then
+      if [ "$JAVA_OS" = "linux" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.74.0.17-ca-jdk8.0.392-linux_x64.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.74.0.17-ca-jdk8.0.392-linux_i686.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu8.74.0.17-ca-jdk8.0.392-linux_aarch64.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu8.72.0.17-ca-jdk8.0.382-linux_aarch32hf.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu8.72.0.17-ca-jdk8.0.382-linux_aarch32sf.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          : # does not exist
+        fi
+      fi
+      if [ "$JAVA_OS" = "linux_musl" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.74.0.17-ca-jdk8.0.392-linux_musl_x64.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.72.0.17-ca-jdk8.0.382-linux_musl_aarch64.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          : # does not exist
+        fi
+      fi
+    fi
+    if [ "$JAVA_VERSION" = "7" ]; then
+      if [ "$JAVA_OS" = "linux" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu7.56.0.11-ca-jdk7.0.352-linux_x64.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu7.56.0.11-ca-jdk7.0.352-linux_i686.tar.gz"
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          : # does not exist
+        fi
+      fi
+      if [ "$JAVA_OS" = "linux_musl" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          : # does not exist
+        fi
+      fi
     fi
   fi
-
-  # for riscv64, we can do special handling of a JDK
-  if [ -z "$JAVA_URL" ] && [ "$JAVA_ARCH" = "riscv64" ]; then
-    if [ ! "$JAVA_VERSION" = "19" ]; then
-      echo "Arch riscv64 present, will default to Java 19 (since it has a hotspot JIT engine)"
+fi
+if [ "$JAVA_URL" = "" ]; then
+  if [ "$JAVA_DISTRIBUTION" = "" ] || [ "$JAVA_DISTRIBUTION" = "nitro" ]; then
+    if [ "$JAVA_VERSION" = "21" ]; then
+      if [ "$JAVA_OS" = "linux" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          JAVA_URL="https://github.com/fizzed/nitro/releases/download/builds/fizzed19.36-jdk19.0.1-linux_riscv64.tar.gz"
+        fi
+      fi
+      if [ "$JAVA_OS" = "linux_musl" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          : # does not exist
+        fi
+      fi
     fi
-    JAVA_URL="https://github.com/fizzed/nitro/releases/download/builds/fizzed19.36-jdk19.0.1-linux_riscv64.tar.gz"
+    if [ "$JAVA_VERSION" = "17" ]; then
+      if [ "$JAVA_OS" = "linux" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          JAVA_URL="https://github.com/fizzed/nitro/releases/download/builds/fizzed19.36-jdk19.0.1-linux_riscv64.tar.gz"
+        fi
+      fi
+      if [ "$JAVA_OS" = "linux_musl" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          : # does not exist
+        fi
+      fi
+    fi
+    if [ "$JAVA_VERSION" = "11" ]; then
+      if [ "$JAVA_OS" = "linux" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          JAVA_URL="https://github.com/fizzed/nitro/releases/download/builds/fizzed19.36-jdk19.0.1-linux_riscv64.tar.gz"
+        fi
+      fi
+      if [ "$JAVA_OS" = "linux_musl" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          : # does not exist
+        fi
+      fi
+    fi
+    if [ "$JAVA_VERSION" = "8" ]; then
+      if [ "$JAVA_OS" = "linux" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          JAVA_URL="https://github.com/fizzed/nitro/releases/download/builds/fizzed19.36-jdk19.0.1-linux_riscv64.tar.gz"
+        fi
+      fi
+      if [ "$JAVA_OS" = "linux_musl" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          : # does not exist
+        fi
+      fi
+    fi
+    if [ "$JAVA_VERSION" = "7" ]; then
+      if [ "$JAVA_OS" = "linux" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          : # does not exist
+        fi
+      fi
+      if [ "$JAVA_OS" = "linux_musl" ]; then
+        if [ "$JAVA_ARCH" = "x64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "x32" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "arm64" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armhf" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "armel" ]; then
+          : # does not exist
+        fi
+        if [ "$JAVA_ARCH" = "riscv64" ]; then
+          : # does not exist
+        fi
+      fi
+    fi
   fi
 fi
 
+#
+# End of automatically generated list of urls
+#
+
 # did we find a valid JDK?
 if [ -z "$JAVA_URL" ]; then
-  echo "Unsupported distribution/os/arch combo of $JAVA_ARCH / $JAVA_OS"
+  echo "Unsupported java installer distribution/version distro=$JAVA_DISTRIBUTION, version=$JAVA_VERSION, arch=$JAVA_ARCH"
   exit 11
 fi
 
