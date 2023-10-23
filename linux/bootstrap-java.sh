@@ -149,8 +149,19 @@ if [ -z "$JAVA_URL" ]; then
       fi
     elif [ "$ZARCH" = "aarch32hf" ] && [ "$ZOS" = "linux" ]; then
       ZPATH="zulu-embedded"
+      # https://cdn.azul.com/zulu-embedded/bin/zulu8.72.0.17-ca-jdk8.0.382-linux_aarch32hf.tar.gz
+      if [ "$JAVA_VERSION" = "11" ]; then
+        ZVER="11.66.19-ca-jdk11.0.20.1"
+      elif [ "$JAVA_VERSION" = "8" ]; then
+        ZVER="8.72.0.17-ca-jdk8.0.382"
+      fi
     elif [ "$ZARCH" = "aarch32sf" ] && [ "$ZOS" = "linux" ]; then
       ZPATH="zulu-embedded"
+      if [ "$JAVA_VERSION" = "11" ]; then
+        ZVER="11.66.19-ca-jdk11.0.20.1"
+      elif [ "$JAVA_VERSION" = "8" ]; then
+        ZVER="8.72.0.17-ca-jdk8.0.382"
+      fi
     fi
 
     # check os/arch is supported
@@ -177,6 +188,7 @@ if [ -z "$JAVA_URL" ]; then
       # https://cdn.azul.com/zulu-embedded/bin/zulu11.60.19-ca-jdk11.0.17-linux_aarch64.tar.gz
       # https://cdn.azul.com/zulu/bin/zulu11.60.19-ca-jdk11.0.17-linux_musl_x64.tar.gz
       # https://cdn.azul.com/zulu/bin/zulu11.60.19-ca-jdk11.0.17-linux_musl_aarch64.tar.gz
+      # https://cdn.azul.com/zulu-embedded/bin/zulu11.66.19-ca-jdk11.0.20.1-linux_aarch32hf.tar.gz
       # 
       JAVA_URL="https://cdn.azul.com/${ZPATH}/bin/zulu${ZVER}-${ZOS}_${ZARCH}.tar.gz"
     fi
