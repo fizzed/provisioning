@@ -12,7 +12,7 @@ jobs:
         with:
           arch: none
           distro: none
-          base_image: fizzed/buildx:amd64-alpine3.11-jdk11
+          base_image: amd64/alpine:3.11
           shell: /bin/sh
           run: |
             apk add curl
