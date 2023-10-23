@@ -1,0 +1,20 @@
+name: Linux MUSL arm64
+on:
+  - push
+  - workflow_dispatch
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v3
+      - uses: uraimo/run-on-arch-action@v2
+        with:
+          arch: none
+          distro: none
+          base_image: arm64v8/alpine:3.11
+          shell: /bin/sh
+          run: |
+            apk add curl
+            linux/bootstrap-java.sh
+            /usr/lib/jvm/current/bin/java -version
