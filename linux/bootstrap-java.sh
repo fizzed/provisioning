@@ -222,7 +222,7 @@ echo " default: $JAVA_DEFAULT"
 # download url to file...
 if [ ! -f "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" ]; then
   echo "Downloading $JAVA_URL"
-  curl -f -s -o "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" -j -k -L "$JAVA_URL"
+  curl --insecure -f -s -o "$DOWNLOAD_DIR/$JAVA_TARBALL_FILE" -j -k -L "$JAVA_URL"
   if [ $? -ne 0 ]; then
     echo "Unable to download $JAVA_URL"
     exit 10

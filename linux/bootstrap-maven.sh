@@ -44,7 +44,7 @@ echo "Installing Maven $MAVEN_VERSION..."
 
 echo "Downloading Maven..."
 # https://dlcdn.apache.org/maven/maven-3/3.8.7/binaries/apache-maven-3.8.7-bin.tar.gz
-wget -nc -P $DOWNLOAD_DIR "https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
+wget --no-check-certificate -nc -P $DOWNLOAD_DIR "https://dlcdn.apache.org/maven/maven-3/${MAVEN_VERSION}/binaries/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
 
 tar zxvf $DOWNLOAD_DIR/apache-maven-$MAVEN_VERSION-bin.tar.gz
 
