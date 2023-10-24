@@ -100,12 +100,6 @@ public class blaze {
 
                         if (javaInstaller != null) {
 //                            log.info("Found jdk for {}, {}, {} at url {}", javaVersion, system, arch, javaInstaller.getDownloadUrl());
-
-//                            String libc = "glibc";
-//                            if (system.equalsIgnoreCase("linux_musl")) {
-//                                libc = "musl";
-//                            }
-//                            shellSnippet.append("    elif [ \"$JAVA_VERSION\" = \"" + javaVersion + "\" ] && [ \"$JAVA_ARCH\" = \"" + arch + "\" ] && [ \"$CLIB\" = \"" + libc + "\" ]; then\n");
                             shellSnippet.append("          JAVA_URL=\"" + javaInstaller.getDownloadUrl() + "\"\n");
 
                         } else {
