@@ -52,7 +52,8 @@ public class blaze {
                 .setPatchVersion(999999)    // something large so its the first
                 .setType("jdk")
                 .setInstallerType("tar.gz")
-                .setDownloadUrl("https://github.com/fizzed/nitro/releases/download/builds/fizzed19.36-jdk19.0.1-linux_riscv64.tar.gz"));
+//                .setDownloadUrl("https://github.com/fizzed/nitro/releases/download/builds/fizzed19.36-jdk19.0.1-linux_riscv64.tar.gz"));
+                .setDownloadUrl("https://github.com/fizzed/nitro/releases/download/builds/fizzed21.35-jdk21.0.1-linux_riscv64.tar.gz"));
         }
 
         // there is an issue w/ azul hard-float arm32 builds, we will pin ourselves to the latest version 11 that works

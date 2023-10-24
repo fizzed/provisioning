@@ -356,7 +356,7 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
-          JAVA_URL="https://github.com/fizzed/nitro/releases/download/builds/fizzed19.36-jdk19.0.1-linux_riscv64.tar.gz"
+          JAVA_URL="https://github.com/fizzed/nitro/releases/download/builds/fizzed21.35-jdk21.0.1-linux_riscv64.tar.gz"
         fi
       fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
@@ -398,7 +398,7 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
-          JAVA_URL="https://github.com/fizzed/nitro/releases/download/builds/fizzed19.36-jdk19.0.1-linux_riscv64.tar.gz"
+          JAVA_URL="https://github.com/fizzed/nitro/releases/download/builds/fizzed21.35-jdk21.0.1-linux_riscv64.tar.gz"
         fi
       fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
@@ -440,7 +440,7 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
-          JAVA_URL="https://github.com/fizzed/nitro/releases/download/builds/fizzed19.36-jdk19.0.1-linux_riscv64.tar.gz"
+          JAVA_URL="https://github.com/fizzed/nitro/releases/download/builds/fizzed21.35-jdk21.0.1-linux_riscv64.tar.gz"
         fi
       fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
@@ -482,7 +482,7 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
-          JAVA_URL="https://github.com/fizzed/nitro/releases/download/builds/fizzed19.36-jdk19.0.1-linux_riscv64.tar.gz"
+          JAVA_URL="https://github.com/fizzed/nitro/releases/download/builds/fizzed21.35-jdk21.0.1-linux_riscv64.tar.gz"
         fi
       fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
@@ -554,6 +554,7 @@ fi
 #
 # End of automatically generated list of urls
 #
+
 
 # did we find a valid JDK?
 if [ -z "$JAVA_URL" ]; then
