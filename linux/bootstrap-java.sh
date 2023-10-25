@@ -83,6 +83,9 @@ for i in "$@"; do
     --version=*)
       JAVA_VERSION="${i#*=}"
       ;;
+    --arch=*)
+      JAVA_ARCH="${i#*=}"
+      ;;  
     --distribution=*)
       JAVA_DISTRIBUTION="${i#*=}"
       ;;
@@ -97,7 +100,7 @@ for i in "$@"; do
       ;;
     *)
       echo "Unknown argument '$i'"
-      echo "--url=[url of jdk.tar.gz] --version=[8, 11, etc] --distribution=[zulu, etc.] --slim --default --no-default"
+      echo "--url=[url of jdk.tar.gz] --version=[8, 11, etc] --arch=[x64, x32, arm64, etc] --distribution=[zulu, etc.] --slim --default --no-default"
       exit 1
       ;;
   esac
