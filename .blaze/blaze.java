@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fizzed.blaze.Contexts;
 import org.slf4j.Logger;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -16,6 +17,29 @@ import java.util.List;
 import static com.fizzed.blaze.Contexts.withBaseDir;
 import static java.util.Arrays.asList;
 
+
+/**
+ * https://whichjdk.com/
+ *
+ * Java Distributions:
+ *
+ * Azul: https://docs.azul.com/core/zulu-openjdk/install/metadata-api
+ * BellSoft Liberica: https://bell-sw.com/pages/api/
+ * Adoptium (Temerin): https://api.adoptium.net/q/swagger-ui/
+ *
+ * List of jdks:
+ * https://github.com/ScoopInstaller/Java/blob/master/bucket/semeru-jdk.json
+ *
+ * Amazon Corretto
+ * Microsoft
+ * SapMachine
+ * IBM Semeru
+ * Alibaba Dragonwell
+ * GraalVM
+ * IntelliJ JBR (JetBrains Runtime)
+ *
+ *
+ */
 public class blaze {
 
     private final Path projectDir = withBaseDir("../").toAbsolutePath();
@@ -128,6 +152,47 @@ public class blaze {
 
         System.out.println(shellSnippet);
     }
+
+    //
+    // Liberica
+    //
+
+    public void fetch_liberica() throws Exception {
+        final HttpClient client = HttpClient.newHttpClient();
+        final HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create("https://api.bell-sw.com/v1/liberica/releases?version-feature=17"))
+            .build();
+        final String responseJson = client.send(request, HttpResponse.BodyHandlers.ofString())
+            .body();
+
+        log.info("{}", this.prettyPrintJson(responseJson));
+
+        /*final List<JavaInstaller> javaInstallers = new ArrayList<>();
+        final JsonNode doc = objectMapper.readTree(responseJson);
+        doc.forEach(n -> {
+            try {
+                JavaInstaller javaInstaller = this.parseAzulMeta(n);
+                if (javaInstaller != null) {
+                    javaInstallers.add(javaInstaller);
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        });
+
+        for (JavaInstaller javaInstaller : javaInstallers) {
+            // dump out valid jdk installers
+//            if (javaInstaller.getType().equals("jdk") && javaInstaller.getLatest()) {
+            log.info("{}: version={}, installer={}, os={}, arch={}, url={}", javaInstaller.getType(),
+                javaInstaller.getVersion(), javaInstaller.getInstallerType(),
+                javaInstaller.getOs(), javaInstaller.getArch(), javaInstaller.getDownloadUrl());
+//            }
+        }*/
+    }
+
+    //
+    // Azul
+    //
 
     private List<JavaInstaller> fetch_azul_java_installers(int javaMajorVersion) throws Exception {
         // download metadata from azul
@@ -256,6 +321,10 @@ public class blaze {
         }
 
         return javaInstaller;
+    }
+
+    private String prettyPrintJson(String json) throws IOException  {
+        return this.objectMapper.writeValueAsString(this.objectMapper.readTree(json));
     }
 
     static public class JavaInstaller {
