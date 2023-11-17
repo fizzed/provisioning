@@ -4,26 +4,26 @@
 wget https://github.com/traefik/traefik/releases/download/v3.0.0-beta4/traefik_v3.0.0-beta4_linux_amd64.tar.gz
 tar zxvf ./traefik_v3.0.0-beta4_linux_amd64.tar.gz
 
-sudo cp ./traefik /usr/local/bin
-sudo chown root:root /usr/local/bin/traefik
-sudo chmod 755 /usr/local/bin/traefik
+cp ./traefik /usr/local/bin
+chown root:root /usr/local/bin/traefik
+chmod 755 /usr/local/bin/traefik
 
 # give the traefik binary the ability to bind to privileged ports (80, 443) as non-root
-sudo setcap 'cap_net_bind_service=+ep' /usr/local/bin/traefik
+setcap 'cap_net_bind_service=+ep' /usr/local/bin/traefik
 
-sudo useradd --shell /usr/sbin/nologin -r traefik
+useradd --shell /usr/sbin/nologin -r traefik
 
-sudo mkdir -p /etc/traefik
-sudo touch /etc/traefik/traefik.yaml
-sudo mkdir -p /etc/traefik/acme
-sudo mkdir -p /etc/traefik/dynamic
-sudo chown -R root:root /etc/traefik
-sudo chown -R traefik:traefik /etc/traefik/*
+mkdir -p /etc/traefik
+touch /etc/traefik/traefik.yaml
+mkdir -p /etc/traefik/acme
+mkdir -p /etc/traefik/dynamic
+chown -R root:root /etc/traefik
+chown -R traefik:traefik /etc/traefik/*
 
-sudo touch /var/log/traefik.log
-sudo chown traefik:traefik /var/log/traefik.log
+touch /var/log/traefik.log
+chown traefik:traefik /var/log/traefik.log
 
-sudo cat <<EOF > /etc/systemd/system/traefik.service
+cat <<EOF > /etc/systemd/system/traefik.service
 [Unit]
 Description=traefik proxy
 After=network-online.target
@@ -60,7 +60,7 @@ NoNewPrivileges=true
 WantedBy=multi-user.target
 EOF
 
-sudo chown root:root /etc/systemd/system/traefik.service
-sudo chmod 644 /etc/systemd/system/traefik.service
-sudo systemctl daemon-reload
-sudo systemctl start traefik.service
+chown root:root /etc/systemd/system/traefik.service
+chmod 644 /etc/systemd/system/traefik.service
+systemctl daemon-reload
+systemctl start traefik.service
