@@ -14,14 +14,41 @@ setcap 'cap_net_bind_service=+ep' /usr/local/bin/traefik
 useradd --shell /usr/sbin/nologin -r traefik
 
 mkdir -p /etc/traefik
-touch /etc/traefik/traefik.yaml
 mkdir -p /etc/traefik/acme
 mkdir -p /etc/traefik/dynamic
 chown -R root:root /etc/traefik
-chown -R traefik:traefik /etc/traefik/*
 
 touch /var/log/traefik.log
 chown traefik:traefik /var/log/traefik.log
+
+if [ ! -f /etc/traefik/traefik.yaml ]; then
+cat <<EOF > /etc/traefik/traefik.yaml
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: false
+
+api:
+  dashboard: true
+
+entryPoints:
+  http:
+    address: ":80"
+
+providers:
+  file:
+    directory: "/etc/traefik/dynamic/"
+    watch: true
+
+log:
+  level: INFO
+  filePath: "/var/log/traefik.log"
+EOF
+fi
+
+
+chown -R traefik:traefik /etc/traefik/*
+
+
 
 cat <<EOF > /etc/systemd/system/traefik.service
 [Unit]
