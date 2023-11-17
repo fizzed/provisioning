@@ -34,6 +34,13 @@ entryPoints:
   http:
     address: ":80"
 
+  https:
+    address: ":443"
+    http2:
+      maxConcurrentStreams: 250
+    http:
+      tls: {}
+
 providers:
   file:
     directory: "/etc/traefik/dynamic/"
