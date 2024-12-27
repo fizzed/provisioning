@@ -53,7 +53,7 @@ public class blaze {
     }
 
     public void generate_bootstrap_java_sh() throws Exception {
-        final List<String> distros = asList("zulu", "nitro");
+        final List<String> distros = asList("zulu", "liberica", "nitro");
         final List<Integer> javaVersions = asList(21, 17, 11, 8, 7);
         final List<String> systems = asList("linux", "linux_musl");
         final List<String> architectures = asList("x64", "x32", "arm64", "armhf", "armel", "riscv64");
@@ -63,6 +63,10 @@ public class blaze {
         final List<Integer> azulJavaVersions = javaVersions;
         for (Integer v : azulJavaVersions) {
             javaInstallers.addAll(this.fetch_azul_java_installers(v));
+        }
+
+        for (Integer v : javaVersions) {
+            javaInstallers.addAll(this.fetch_liberica_java_installers(v));
         }
 
         // manually include "nitro" jdk for riscv64 architectures, for ALL versions requested
@@ -157,21 +161,21 @@ public class blaze {
     // Liberica
     //
 
-    public void fetch_liberica() throws Exception {
+    public List<JavaInstaller> fetch_liberica_java_installers(int javaVersion) throws Exception {
         final HttpClient client = HttpClient.newHttpClient();
         final HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create("https://api.bell-sw.com/v1/liberica/releases?version-feature=17"))
+            .uri(URI.create("https://api.bell-sw.com/v1/liberica/releases?version-feature=" + javaVersion))
             .build();
         final String responseJson = client.send(request, HttpResponse.BodyHandlers.ofString())
             .body();
 
         log.info("{}", this.prettyPrintJson(responseJson));
 
-        /*final List<JavaInstaller> javaInstallers = new ArrayList<>();
+        final List<JavaInstaller> javaInstallers = new ArrayList<>();
         final JsonNode doc = objectMapper.readTree(responseJson);
         doc.forEach(n -> {
             try {
-                JavaInstaller javaInstaller = this.parseAzulMeta(n);
+                JavaInstaller javaInstaller = this.parseLibericaMeta(n);
                 if (javaInstaller != null) {
                     javaInstallers.add(javaInstaller);
                 }
@@ -187,7 +191,142 @@ public class blaze {
                 javaInstaller.getVersion(), javaInstaller.getInstallerType(),
                 javaInstaller.getOs(), javaInstaller.getArch(), javaInstaller.getDownloadUrl());
 //            }
-        }*/
+        }
+
+        return javaInstallers;
+    }
+
+    /**
+     * {
+     *   "bitness" : 32,
+     *   "latestLTS" : false,
+     *   "updateVersion" : 1,
+     *   "downloadUrl" : "https://github.com/bell-sw/Liberica/releases/download/17.0.1+12/bellsoft-jre17.0.1+12-windows-i586-full.zip",
+     *   "latestInFeatureVersion" : false,
+     *   "LTS" : true,
+     *   "bundleType" : "jre-full",
+     *   "featureVersion" : 17,
+     *   "packageType" : "zip",
+     *   "FX" : true,
+     *   "GA" : true,
+     *   "architecture" : "x86",
+     *   "latest" : false,
+     *   "extraVersion" : 0,
+     *   "buildVersion" : 12,
+     *   "EOL" : true,
+     *   "os" : "windows",
+     *   "interimVersion" : 0,
+     *   "version" : "17.0.1+12",
+     *   "sha1" : "6d5f71d2d52a84dadba8259237cb8f051b5dca06",
+     *   "filename" : "bellsoft-jre17.0.1+12-windows-i586-full.zip",
+     *   "installationType" : "archive",
+     *   "size" : 67269504,
+     *   "patchVersion" : 0,
+     *   "TCK" : true,
+     *   "updateType" : "psu"
+     * }
+     */
+    private JavaInstaller parseLibericaMeta(JsonNode node) throws Exception {
+        log.info("{}", objectMapper.writeValueAsString(node));
+
+        final JavaInstaller javaInstaller = new JavaInstaller();
+
+        javaInstaller.setDistro("liberica");
+        javaInstaller.setDownloadUrl(node.get("downloadUrl").asText());
+        // bellsoft-jre17.0.1+12-windows-i586-full.zip
+        javaInstaller.setName(node.get("filename").asText());
+
+        javaInstaller.setMajorVersion(node.get("featureVersion").asInt());
+        javaInstaller.setMinorVersion(node.get("interimVersion").asInt());
+        javaInstaller.setPatchVersion(node.get("updateVersion").asInt());
+        javaInstaller.setVersion(javaInstaller.getMajorVersion()+"."+javaInstaller.getMinorVersion()+"."+javaInstaller.getPatchVersion());
+
+        final String name = javaInstaller.getName();
+
+        final String bundleType = node.get("bundleType").asText();
+        if (bundleType.equalsIgnoreCase("jdk")) {
+            javaInstaller.setType("jdk");
+        } else if (bundleType.equalsIgnoreCase("jre")) {
+            javaInstaller.setType("jre");
+        } else if (bundleType.equalsIgnoreCase("jdk-crac")) {
+            javaInstaller.setType("crac-jdk");
+        } else if (bundleType.equalsIgnoreCase("jdk-lite") || bundleType.equalsIgnoreCase("jdk-full") || bundleType.equalsIgnoreCase("jre-full")) {
+            // skip these distributions
+            return null;
+        /*} else if (name.contains("-ca-fx-jdk")) {
+            javaInstaller.setType("fx-jdk");
+        } else if (name.contains("-ca-fx-jre")) {
+            javaInstaller.setType("fx-jre");
+
+        } else if (name.contains("-ca-crac-jre")) {
+            javaInstaller.setType("crac-jre");
+        } else if (!name.contains("jdk") || !name.contains("jre")) {
+            // skip this, very odd distribution
+            return null;*/
+        } else {
+            throw new IllegalArgumentException("Unable to detect java type (e.g. jdk or jre) from " + bundleType);
+        }
+
+        // installer type: .tar.gz etc?
+        if (name.endsWith(".tar.gz")) {
+            javaInstaller.setInstallerType("tar.gz");
+        } else if (name.endsWith(".msi")) {
+            javaInstaller.setInstallerType("msi");
+        } else if (name.endsWith(".zip")) {
+            javaInstaller.setInstallerType("zip");
+        } else if (name.endsWith(".dmg")) {
+            javaInstaller.setInstallerType("dmg");
+        } else if (name.endsWith(".deb")) {
+            javaInstaller.setInstallerType("deb");
+        } else if (name.endsWith(".rpm")) {
+            javaInstaller.setInstallerType("rpm");
+        } else if (name.endsWith(".apk")) {
+            javaInstaller.setInstallerType("apk");
+        } else if (name.endsWith(".pkg")) {
+            javaInstaller.setInstallerType("pkg");
+        } else {
+            throw new IllegalArgumentException("Unable to detect installer type (e.g. .tar.gz or .msi) from " + name);
+        }
+
+        // os: linux, windows, linux_musl, etc?
+        if (name.contains("linux") && name.contains("-musl")) {
+            javaInstaller.setOs("linux_musl");
+        } else if (name.contains("-linux")) {
+            javaInstaller.setOs("linux");
+        } else if (name.contains("-macos")) {
+            javaInstaller.setOs("macos");
+        } else if (name.contains("-win")) {
+            javaInstaller.setOs("windows");
+        } else if (name.contains("-solaris")) {
+            javaInstaller.setOs("solaris");
+        } else if (name.contains("-src-full") || name.contains("-src")) {
+            return null;
+        } else {
+            throw new IllegalArgumentException("Unable to detect os (e.g. linux) from " + name);
+        }
+
+        // arch: aarch64, etc.?
+        if (name.contains("aarch64-") || name.contains("aarch64.")) {
+            javaInstaller.setArch("arm64");
+        } else if (name.contains("amd64-") || name.contains("amd64.") || name.contains("x64")) {
+            javaInstaller.setArch("x64");
+        } else if (name.contains("i586")) {
+            javaInstaller.setArch("x32");
+        } else if (name.contains("arm32-vfp-hflt")) {
+            javaInstaller.setArch("armhf");
+        } else if (name.contains("aarch32sf.")) {
+            javaInstaller.setArch("armel");
+        } else if (name.contains("sparcv9.")) {
+            javaInstaller.setArch("sparc");
+        } else if (name.contains("ppc64le")) {
+            javaInstaller.setArch("ppc64");
+        } else if (name.contains("riscv64")) {
+            javaInstaller.setArch("riscv64");
+        } else {
+            throw new IllegalArgumentException("Unable to detect arch (e.g. x86_64) from " + name);
+        }
+
+        return javaInstaller;
     }
 
     //
