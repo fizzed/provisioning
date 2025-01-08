@@ -1,6 +1,7 @@
 package com.fizzed.provisioning;
 
 import com.fizzed.jne.NativeTarget;
+import com.fizzed.provisioning.java.JavaInstaller;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import com.fizzed.provisioning.liberica.LibericaClient;
 import com.fizzed.provisioning.liberica.LibericaJavaRelease;
@@ -16,12 +17,16 @@ class LibericaDemo {
     static public void main(String[] args) throws Exception {
         LibericaClient client = new LibericaClient();
 
-        List<LibericaJavaRelease> javaReleases = client.getReleases(23);
+        List<LibericaJavaRelease> javaReleases = client.getReleases(21);
 
         for (LibericaJavaRelease javaRelease : javaReleases) {
             log.info("{}", ToStringBuilder.reflectionToString(javaRelease, ToStringStyle.MULTI_LINE_STYLE));
 
-            NativeTarget nativeTarget = ProvisioningHelper.detectFromText(javaRelease.getFilename());
+            JavaInstaller javaInstaller = client.toInstaller(javaRelease);
+
+            log.info("{}", ToStringBuilder.reflectionToString(javaInstaller, ToStringStyle.MULTI_LINE_STYLE));
+
+            /*NativeTarget nativeTarget = ProvisioningHelper.detectFromText(javaRelease.getFilename());
             if (nativeTarget.getOperatingSystem() == null || nativeTarget.getHardwareArchitecture() == null) {
                 if (javaRelease.getFilename().contains("-src")) {
                     break;
@@ -30,7 +35,7 @@ class LibericaDemo {
                     break;
                 }
                 throw new RuntimeException("Failed to detect os / arch from " + javaRelease.getFilename());
-            }
+            }*/
         }
     }
 

@@ -4,6 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fizzed.jne.NativeTarget;
+import com.fizzed.provisioning.ProvisioningHelper;
+import com.fizzed.provisioning.java.InstallerType;
+import com.fizzed.provisioning.java.JavaInstaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,6 +43,36 @@ public class ZuluClient {
         log.info("{}", prettyPrintJson(this.objectMapper, responseJson));
 
         return this.objectMapper.readValue(responseJson, new TypeReference<List<ZuluJavaRelease>>() {});
+    }
+
+    public JavaInstaller toInstaller(ZuluJavaRelease javaRelease) {
+        NativeTarget nativeTarget = ProvisioningHelper.detectFromText(javaRelease.getName());
+        if (nativeTarget.getOperatingSystem() == null || nativeTarget.getHardwareArchitecture() == null) {
+            if (javaRelease.getName().contains("x86lx64")) {
+                return null;
+            }
+            if (javaRelease.getName().contains("solaris")) {
+                return null;
+            }
+            if (javaRelease.getName().contains("ppc64")) {
+                return null;
+            }
+            throw new RuntimeException("Failed to detect os / arch from " + javaRelease.getName());
+        }
+
+        JavaInstaller installer = new JavaInstaller();
+        installer.setDistro("zulu");
+        installer.setName(javaRelease.getName());
+        installer.setInstallerType(InstallerType.fromFileName(javaRelease.getName()));
+        installer.setOs(nativeTarget.getOperatingSystem());
+        installer.setArch(nativeTarget.getHardwareArchitecture());
+        installer.setAbi(nativeTarget.getAbi());
+        installer.setDownloadUrl(javaRelease.getDownloadUrl());
+        installer.setMajorVersion(javaRelease.getJavaVersion()[0]);
+        installer.setMinorVersion(javaRelease.getJavaVersion()[1]);
+        installer.setPatchVersion(javaRelease.getJavaVersion()[2]);
+
+        return installer;
     }
 
 }

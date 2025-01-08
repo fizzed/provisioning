@@ -3,6 +3,11 @@ package com.fizzed.provisioning.liberica;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fizzed.jne.NativeTarget;
+import com.fizzed.provisioning.ProvisioningHelper;
+import com.fizzed.provisioning.java.InstallerType;
+import com.fizzed.provisioning.java.JavaInstaller;
+import com.fizzed.provisioning.zulu.ZuluJavaRelease;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +41,40 @@ public class LibericaClient {
 
         //log.info("{}", prettyPrintJson(this.objectMapper, responseJson));
 
-        return this.objectMapper.readValue(responseJson, new TypeReference<List<LibericaJavaRelease>>() {});
+        return this.objectMapper.readValue(responseJson, new TypeReference<>() {});
+    }
+
+    public JavaInstaller toInstaller(LibericaJavaRelease javaRelease) {
+        NativeTarget nativeTarget = ProvisioningHelper.detectFromText(javaRelease.getFilename());
+        if (nativeTarget.getOperatingSystem() == null || nativeTarget.getHardwareArchitecture() == null) {
+            if (javaRelease.getFilename().contains("-src")) {
+                return null;
+            }
+            /*if (javaRelease.getName().contains("x86lx64")) {
+                return null;
+            }
+            if (javaRelease.getName().contains("solaris")) {
+                return null;
+            }
+            if (javaRelease.getName().contains("ppc64")) {
+                return null;
+            }*/
+            throw new RuntimeException("Failed to detect os / arch from " + javaRelease.getFilename());
+        }
+
+        JavaInstaller installer = new JavaInstaller();
+        installer.setDistro("liberica");
+        installer.setName(javaRelease.getFilename());
+        installer.setInstallerType(InstallerType.fromFileName(javaRelease.getFilename()));
+        installer.setOs(nativeTarget.getOperatingSystem());
+        installer.setArch(nativeTarget.getHardwareArchitecture());
+        installer.setAbi(nativeTarget.getAbi());
+        installer.setDownloadUrl(javaRelease.getDownloadUrl());
+        installer.setMajorVersion(javaRelease.getFeatureVersion());
+        installer.setMinorVersion(javaRelease.getInterimVersion());
+        installer.setPatchVersion(javaRelease.getPatchVersion());
+
+        return installer;
     }
 
 }

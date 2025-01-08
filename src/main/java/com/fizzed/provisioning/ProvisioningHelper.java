@@ -17,7 +17,7 @@ public class ProvisioningHelper {
         return objectMapper.writeValueAsString(node);
     }
 
-    static NativeTarget detectFromText(String text) {
+    public static NativeTarget detectFromText(String text) {
         OperatingSystem detectedOs = null;
         for (OperatingSystem os : OperatingSystem.values()) {
             if (StringUtils.containsIgnoreCase(text, os.name())) {
@@ -61,6 +61,8 @@ public class ProvisioningHelper {
         if (detectedOs == null) {
             if (StringUtils.containsIgnoreCase(text, "win")) {
                 detectedOs = OperatingSystem.WINDOWS;
+            } else if (StringUtils.containsIgnoreCase(text, "mac")) {
+                detectedOs = OperatingSystem.MACOS;
             }
         }
 
