@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # https://devpress.csdn.net/cloudnative/62f2dd72c6770329307f7265.html
-wget https://github.com/traefik/traefik/releases/download/v3.0.0-beta4/traefik_v3.0.0-beta4_linux_amd64.tar.gz
-tar zxvf ./traefik_v3.0.0-beta4_linux_amd64.tar.gz
+wget https://github.com/traefik/traefik/releases/download/v3.5.2/traefik_v3.5.2_linux_amd64.tar.gz
+tar zxvf ./traefik_v3.5.2_linux_amd64.tar.gz
 
 cp ./traefik /usr/local/bin
 chown root:root /usr/local/bin/traefik
@@ -35,7 +35,7 @@ entryPoints:
     address: ":80"
 
   https:
-    address: ":443"
+    address: ":443/udp"
     http2:
       maxConcurrentStreams: 250
     http:
