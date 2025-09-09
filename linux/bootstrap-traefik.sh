@@ -35,11 +35,12 @@ entryPoints:
     address: ":80"
 
   https:
-    address: ":443/udp"
+    address: ":443"
     http2:
       maxConcurrentStreams: 250
     http:
       tls: {}
+    http3: {}
 
 providers:
   file:
