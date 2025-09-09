@@ -17,7 +17,7 @@ class LibericaDemo {
     static public void main(String[] args) throws Exception {
         LibericaClient client = new LibericaClient();
 
-        List<LibericaJavaRelease> javaReleases = client.getReleases(21);
+        List<LibericaJavaRelease> javaReleases = client.getReleases(7);
 
         for (LibericaJavaRelease javaRelease : javaReleases) {
             log.info("{}", ToStringBuilder.reflectionToString(javaRelease, ToStringStyle.MULTI_LINE_STYLE));
@@ -25,17 +25,6 @@ class LibericaDemo {
             JavaInstaller javaInstaller = client.toInstaller(javaRelease);
 
             log.info("{}", ToStringBuilder.reflectionToString(javaInstaller, ToStringStyle.MULTI_LINE_STYLE));
-
-            /*NativeTarget nativeTarget = ProvisioningHelper.detectFromText(javaRelease.getFilename());
-            if (nativeTarget.getOperatingSystem() == null || nativeTarget.getHardwareArchitecture() == null) {
-                if (javaRelease.getFilename().contains("-src")) {
-                    break;
-                }
-                if (javaRelease.getFilename().contains("sparcv9")) {
-                    break;
-                }
-                throw new RuntimeException("Failed to detect os / arch from " + javaRelease.getFilename());
-            }*/
         }
     }
 

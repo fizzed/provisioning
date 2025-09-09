@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fizzed.jne.NativeTarget;
 import com.fizzed.provisioning.ProvisioningHelper;
 import com.fizzed.provisioning.java.InstallerType;
+import com.fizzed.provisioning.java.JavaDistro;
 import com.fizzed.provisioning.java.JavaInstaller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,16 +62,17 @@ public class ZuluClient {
         }
 
         JavaInstaller installer = new JavaInstaller();
-        installer.setDistro("zulu");
+        installer.setDistro(JavaDistro.ZULU);
         installer.setName(javaRelease.getName());
         installer.setInstallerType(InstallerType.fromFileName(javaRelease.getName()));
         installer.setOs(nativeTarget.getOperatingSystem());
         installer.setArch(nativeTarget.getHardwareArchitecture());
         installer.setAbi(nativeTarget.getAbi());
         installer.setDownloadUrl(javaRelease.getDownloadUrl());
-        installer.setMajorVersion(javaRelease.getJavaVersion()[0]);
+
+        /*installer.setMajorVersion(javaRelease.getJavaVersion()[0]);
         installer.setMinorVersion(javaRelease.getJavaVersion()[1]);
-        installer.setPatchVersion(javaRelease.getJavaVersion()[2]);
+        installer.setPatchVersion(javaRelease.getJavaVersion()[2]);*/
 
         return installer;
     }
