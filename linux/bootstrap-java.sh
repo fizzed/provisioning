@@ -130,13 +130,13 @@ if [ "$JAVA_URL" = "" ]; then
     if [ "$JAVA_VERSION" = "21" ]; then
       if [ "$JAVA_OS" = "linux" ]; then
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.30.15-ca-jdk21.0.1-linux_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-linux_x64.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.30.15-ca-jdk21.0.1-linux_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-linux_aarch64.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "armhf" ]; then
           : # does not exist
@@ -150,13 +150,13 @@ if [ "$JAVA_URL" = "" ]; then
       fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.30.15-ca-jdk21.0.1-linux_musl_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-linux_musl_x64.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.30.15-ca-jdk21.0.1-linux_musl_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-linux_musl_aarch64.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "armhf" ]; then
           : # does not exist
@@ -172,16 +172,16 @@ if [ "$JAVA_URL" = "" ]; then
     if [ "$JAVA_VERSION" = "17" ]; then
       if [ "$JAVA_OS" = "linux" ]; then
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.46.19-ca-jdk17.0.9-linux_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_x64.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "x32" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.46.19-ca-jdk17.0.9-linux_i686.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_i686.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.46.19-ca-jdk17.0.9-linux_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_aarch64.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "armhf" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu17.44.53-ca-jdk17.0.8.1-linux_aarch32hf.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu17.60.17-ca-jdk17.0.16-c2-linux_aarch32hf.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -192,13 +192,13 @@ if [ "$JAVA_URL" = "" ]; then
       fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.46.19-ca-jdk17.0.9-linux_musl_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_musl_x64.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.46.19-ca-jdk17.0.9-linux_musl_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_musl_aarch64.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "armhf" ]; then
           : # does not exist
@@ -214,19 +214,19 @@ if [ "$JAVA_URL" = "" ]; then
     if [ "$JAVA_VERSION" = "11" ]; then
       if [ "$JAVA_OS" = "linux" ]; then
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.68.17-ca-jdk11.0.21-linux_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_x64.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "x32" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.68.17-ca-jdk11.0.21-linux_i686.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_i686.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.68.17-ca-jdk11.0.21-linux_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_aarch64.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "armhf" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu11.64.19-ca-jdk11.0.19-linux_aarch32hf.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu11.82.19-ca-jdk11.0.28-linux_aarch32hf.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu11.66.19-ca-jdk11.0.20.1-linux_aarch32sf.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu11.82.19-ca-jdk11.0.28-linux_aarch32sf.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -234,13 +234,13 @@ if [ "$JAVA_URL" = "" ]; then
       fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.68.17-ca-jdk11.0.21-linux_musl_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_musl_x64.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.66.19-ca-jdk11.0.20.1-linux_musl_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_musl_aarch64.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "armhf" ]; then
           : # does not exist
@@ -256,19 +256,19 @@ if [ "$JAVA_URL" = "" ]; then
     if [ "$JAVA_VERSION" = "8" ]; then
       if [ "$JAVA_OS" = "linux" ]; then
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.74.0.17-ca-jdk8.0.392-linux_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_x64.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "x32" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.74.0.17-ca-jdk8.0.392-linux_i686.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_i686.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu8.74.0.17-ca-jdk8.0.392-linux_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_aarch64.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "armhf" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu8.72.0.17-ca-jdk8.0.382-linux_aarch32hf.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu8.88.0.19-ca-jdk8.0.462.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu8.72.0.17-ca-jdk8.0.382-linux_aarch32sf.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu8.88.0.19-ca-jdk8.0.462.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -276,13 +276,13 @@ if [ "$JAVA_URL" = "" ]; then
       fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.74.0.17-ca-jdk8.0.392-linux_musl_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_musl_x64.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.72.0.17-ca-jdk8.0.382-linux_musl_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_musl_aarch64.tar.gz"
         fi
         if [ "$JAVA_ARCH" = "armhf" ]; then
           : # does not exist
