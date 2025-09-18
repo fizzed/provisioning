@@ -35,7 +35,7 @@ public class AdoptiumJavaRelease {
     private String project;
     private String scmRef;
     @JsonProperty("package")
-    private AdoptiumJavaPackage _package;
+    private AdoptiumJavaPackage pkg;
 
     public String getArchitecture() {
         return architecture;
@@ -100,12 +100,12 @@ public class AdoptiumJavaRelease {
         return this;
     }
 
-    public AdoptiumJavaPackage get_package() {
-        return _package;
+    public AdoptiumJavaPackage getPkg() {
+        return pkg;
     }
 
-    public AdoptiumJavaRelease set_package(AdoptiumJavaPackage _package) {
-        this._package = _package;
+    public AdoptiumJavaRelease setPkg(AdoptiumJavaPackage pkg) {
+        this.pkg = pkg;
         return this;
     }
 

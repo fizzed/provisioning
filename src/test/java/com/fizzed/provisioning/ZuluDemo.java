@@ -19,18 +19,23 @@ class ZuluDemo {
     static public void main(String[] args) throws Exception {
         ZuluClient client = new ZuluClient();
 
-        List<ZuluJavaRelease> javaReleases = client.getReleases(21);
+        List<ZuluJavaRelease> javaReleases = client.getReleases(8);
 
         for (ZuluJavaRelease javaRelease : javaReleases) {
             log.info("{}", ToStringBuilder.reflectionToString(javaRelease, ToStringStyle.MULTI_LINE_STYLE));
 
             JavaInstaller javaInstaller = client.toInstaller(javaRelease);
 
-            log.info("{}", ToStringBuilder.reflectionToString(javaInstaller, ToStringStyle.MULTI_LINE_STYLE));
+//            log.info("{}", ToStringBuilder.reflectionToString(javaInstaller, ToStringStyle.MULTI_LINE_STYLE));
+            log.info("{}", ProvisioningHelper.getObjectMapper().writeValueAsString(javaInstaller));
+
+            /*if (javaInstaller == null) {
+                continue;
+            }
 
             if (javaInstaller.getInstallerType() == null) {
                 throw new RuntimeException("Installer type is null");
-            }
+            }*/
 
             /*NativeTarget nativeTarget = ProvisioningHelper.detectFromText(javaRelease.getName());
             if (nativeTarget.getOperatingSystem() == null || nativeTarget.getHardwareArchitecture() == null) {

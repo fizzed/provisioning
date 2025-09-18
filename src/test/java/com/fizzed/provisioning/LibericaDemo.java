@@ -17,14 +17,15 @@ class LibericaDemo {
     static public void main(String[] args) throws Exception {
         LibericaClient client = new LibericaClient();
 
-        List<LibericaJavaRelease> javaReleases = client.getReleases(7);
+        List<LibericaJavaRelease> javaReleases = client.getReleases(21);
 
         for (LibericaJavaRelease javaRelease : javaReleases) {
             log.info("{}", ToStringBuilder.reflectionToString(javaRelease, ToStringStyle.MULTI_LINE_STYLE));
 
             JavaInstaller javaInstaller = client.toInstaller(javaRelease);
 
-            log.info("{}", ToStringBuilder.reflectionToString(javaInstaller, ToStringStyle.MULTI_LINE_STYLE));
+//            log.info("{}", ToStringBuilder.reflectionToString(javaInstaller, ToStringStyle.MULTI_LINE_STYLE));
+            log.info("{}", ProvisioningHelper.getObjectMapper().writeValueAsString(javaInstaller));
         }
     }
 

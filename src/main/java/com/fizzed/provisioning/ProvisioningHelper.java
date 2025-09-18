@@ -2,6 +2,11 @@ package com.fizzed.provisioning;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fizzed.crux.jackson.EnumDeserializeStrategy;
+import com.fizzed.crux.jackson.EnumSerializeStrategy;
+import com.fizzed.crux.jackson.EnumStrategyModule;
 import com.fizzed.jne.ABI;
 import com.fizzed.jne.HardwareArchitecture;
 import com.fizzed.jne.NativeTarget;
@@ -11,6 +16,18 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.IOException;
 
 public class ProvisioningHelper {
+
+    static private final ObjectMapper OBJECT_MAPPER;
+    static {
+        OBJECT_MAPPER = new ObjectMapper();
+        OBJECT_MAPPER.registerModule(new EnumStrategyModule(EnumSerializeStrategy.LOWER_CASE, EnumDeserializeStrategy.IGNORE_CASE));
+        OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
+        OBJECT_MAPPER.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+    }
+
+    static public ObjectMapper getObjectMapper() {
+        return OBJECT_MAPPER;
+    }
 
     static public String prettyPrintJson(ObjectMapper objectMapper, String json) throws IOException {
         JsonNode node = objectMapper.readTree(json);
