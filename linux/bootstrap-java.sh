@@ -17,7 +17,7 @@ CACHE="no"
 JAVA_URL=""
 JAVA_SLIM="no"
 JAVA_DEFAULT="no"
-JAVA_VERSION="11"
+JAVA_VERSION="17"
 JAVA_DISTRIBUTION=""
 # uname is much more cross-linux compat than arch
 JAVA_ARCH=$(uname -m)
@@ -122,6 +122,13 @@ if [ "$CLIB" = "musl" ]; then
 fi
 
 
+if [ -w "/usr/lib/jvm" ]; then
+  echo "Directory /usr/lib/jvm is writable :-)"
+else
+  echo "Directory /usr/lib/jvm is NOT writable (perhaps you did not run with sudo?)"
+  exit 1
+fi
+
 #
 # Automatically generated list of urls (do not edit by hand)
 #
@@ -159,6 +166,7 @@ if [ "$JAVA_URL" = "" ]; then
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
         fi
+      fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
@@ -224,6 +232,7 @@ if [ "$JAVA_URL" = "" ]; then
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
         fi
+      fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
@@ -289,6 +298,7 @@ if [ "$JAVA_URL" = "" ]; then
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
         fi
+      fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
@@ -354,6 +364,7 @@ if [ "$JAVA_URL" = "" ]; then
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
         fi
+      fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
@@ -419,6 +430,7 @@ if [ "$JAVA_URL" = "" ]; then
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
         fi
+      fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
@@ -488,6 +500,7 @@ if [ "$JAVA_URL" = "" ]; then
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
         fi
+      fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
@@ -553,6 +566,7 @@ if [ "$JAVA_URL" = "" ]; then
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
         fi
+      fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
@@ -618,6 +632,7 @@ if [ "$JAVA_URL" = "" ]; then
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
         fi
+      fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
@@ -683,6 +698,7 @@ if [ "$JAVA_URL" = "" ]; then
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
         fi
+      fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
@@ -748,6 +764,7 @@ if [ "$JAVA_URL" = "" ]; then
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
         fi
+      fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
@@ -817,6 +834,7 @@ if [ "$JAVA_URL" = "" ]; then
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
         fi
+      fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
@@ -882,6 +900,7 @@ if [ "$JAVA_URL" = "" ]; then
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
         fi
+      fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
@@ -947,6 +966,7 @@ if [ "$JAVA_URL" = "" ]; then
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
         fi
+      fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
@@ -1012,6 +1032,7 @@ if [ "$JAVA_URL" = "" ]; then
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
         fi
+      fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
@@ -1077,6 +1098,7 @@ if [ "$JAVA_URL" = "" ]; then
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
         fi
+      fi
       if [ "$JAVA_OS" = "linux_musl" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
           : # does not exist
@@ -1116,6 +1138,9 @@ fi
 #
 # End of automatically generated list of urls
 #
+
+
+
 # did we find a valid JDK?
 if [ -z "$JAVA_URL" ]; then
   echo "Unsupported java installer distribution/version distro=$JAVA_DISTRIBUTION, version=$JAVA_VERSION, arch=$JAVA_ARCH"
@@ -1217,6 +1242,20 @@ if [ -d /etc/profile.d ]; then
   # this is not portable across shells
   #echo "if ! [[ \$PATH == *\"\$JAVA_HOME\"* ]]; then PATH=\"\$JAVA_HOME/bin:\$PATH\"; export PATH; fi" >> /etc/profile.d/java.sh
   echo 'if [ ! -z "${PATH##*$JAVA_HOME*}" ]; then PATH="$JAVA_HOME/bin:$PATH"; export PATH; fi' >> /etc/profile.d/java.sh
+fi
+
+# Check if the path already exists in secure_path
+if ! grep -q "secure_path.*/usr/lib/jvm/current/bin" /etc/sudoers; then
+    # If the path doesn't exist, add it to the secure_path line
+    # This assumes secure_path is defined with "Defaults secure_path="
+    sudo sed "s#^Defaults\s*secure_path=\"\([^\"]*\)\"\(.*\)#Defaults secure_path=\"\1:/usr/lib/jvm/current/bin\"\2#" "/etc/sudoers" > /tmp/sudoers
+    sudo mv /tmp/sudoers /etc/sudoers
+    #sudo sed -i -r -e '/^\s*Defaults\s+secure_path/ s[=(.*)[=\1:/usr/lib/jvm/current/bin[' /etc/sudoers
+    #sudo sed -i -r -e '/^\s*Defaults\s+secure_path/ s[=(.*)[=\1:/usr/lib/jvm/current/bin[' /etc/sudoers
+    #sudo sed -i -r "/^Defaults\\s+secure_path/ s[=(.*)[=\\1:$SUDO_PATH[" /etc/sudoers
+    echo "Added '/usr/lib/jvm/current/bin' to secure_path in /etc/sudoers"
+else
+    echo "'/usr/lib/jvm/current/bin' already exists in secure_path in /etc/sudoers"
 fi
 
 echo "###########################################################"

@@ -243,9 +243,9 @@ public class blaze {
 
                             shellSnippet.append("        fi\n");
                         }
-                    }
 
-                    shellSnippet.append("      fi\n");
+                        shellSnippet.append("      fi\n");
+                    }
                 }
 
                 shellSnippet.append("    fi\n");
@@ -260,8 +260,8 @@ public class blaze {
 
         final Path bootstrapJavaShFile = this.linuxDir.resolve("bootstrap-java.sh");
         final String bootstrapJavaShFileContent = Files.readString(bootstrapJavaShFile);
-        final int startPos = bootstrapJavaShFileContent.indexOf("#\n# Automatically generated list of urls (do not edit by hand)");
-        final int endPos = bootstrapJavaShFileContent.indexOf("# End of automatically generated list of urls\n#", startPos);
+        final int startPos = bootstrapJavaShFileContent.indexOf(startComment);
+        final int endPos = bootstrapJavaShFileContent.indexOf(endComment, startPos);
         if (startPos < 0 || endPos < 0) {
             throw new RuntimeException("Unable to find start/end of automatically generated list of urls in file " + bootstrapJavaShFile);
         }
