@@ -10,6 +10,7 @@ public enum InstallerType {
     PKG(".pkg"),
     DMG(".dmg"),
     RPM(".rpm"),
+    APK(".apk"),
     DEB(".deb");
 
     private final String fileExtension;
