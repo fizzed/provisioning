@@ -16,7 +16,10 @@ import com.fizzed.provisioning.liberica.LibericaClient;
 import com.fizzed.provisioning.liberica.LibericaJavaRelease;
 import com.fizzed.jne.JavaVersion;
 import org.slf4j.Logger;
+
+import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 import static com.fizzed.blaze.Contexts.withBaseDir;
@@ -49,8 +52,10 @@ import static java.util.Arrays.asList;
 public class blaze {
 
     private final Path projectDir = withBaseDir("../").toAbsolutePath();
+    private final Path dataDir = projectDir.resolve("data");
     private final Path linuxDir = projectDir.resolve("linux");
     private final Logger log = Contexts.logger();
+    private final Path javaInstallersFile = dataDir.resolve("java-installers.json");
     private final ObjectMapper objectMapper;
 
     public blaze() {
@@ -58,13 +63,14 @@ public class blaze {
         this.objectMapper .enable(SerializationFeature.INDENT_OUTPUT);
     }
 
-    public void fetch_java_installers() throws Exception {
+
+
+    public void update_java_installers() throws Exception {
         // we will collect all java installers into this array
         final List<JavaInstaller> allJavaInstallers = new ArrayList<>();
 
-       /* final LibericaClient libericaClient = new LibericaClient();
-//        for (int javaMajorVersion : asList(25, 21, 17, 11, 8)) {
-        for (int javaMajorVersion : asList(21)) {
+        final LibericaClient libericaClient = new LibericaClient();
+        for (int javaMajorVersion : asList(25, 21, 17, 11, 8)) {
             final List<JavaInstaller> javaInstallers = new ArrayList<>();
             final List<LibericaJavaRelease> javaReleases = libericaClient.getReleases(javaMajorVersion);
             for (LibericaJavaRelease javaRelease : javaReleases) {
@@ -77,12 +83,10 @@ public class blaze {
 
             final List<JavaInstaller> filteredJavaInstallers = filterJavaInstallersToLatestVersion(javaInstallers);
             allJavaInstallers.addAll(filteredJavaInstallers);
-        }*/
-
+        }
 
         final AdoptiumClient adoptiumClient = new AdoptiumClient();
-//        for (int javaMajorVersion : asList(25, 21, 17, 11, 8)) {
-        for (int javaMajorVersion : asList(21)) {
+        for (int javaMajorVersion : asList(21, 17, 11)) {
             final List<JavaInstaller> javaInstallers = new ArrayList<>();
             final List<AdoptiumJavaReleases> javaReleases1 = adoptiumClient.getReleases(javaMajorVersion);
             for (AdoptiumJavaReleases javaReleases : javaReleases1) {
@@ -99,11 +103,11 @@ public class blaze {
             allJavaInstallers.addAll(filteredJavaInstallers);
         }
 
-
-
-
         // dump out the installers
         log.info("{}", ProvisioningHelper.getObjectMapper().writeValueAsString(allJavaInstallers));
+
+        Files.write(javaInstallersFile, ProvisioningHelper.getObjectMapper().writeValueAsBytes(allJavaInstallers), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        log.info("Wrote java-installers to file {}", javaInstallersFile);
     }
 
     private List<JavaInstaller> filterJavaInstallersToLatestVersion(List<JavaInstaller> javaInstallers) {

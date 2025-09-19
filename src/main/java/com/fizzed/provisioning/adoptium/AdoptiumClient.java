@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fizzed.jne.ABI;
+import com.fizzed.jne.HardwareArchitecture;
 import com.fizzed.jne.JavaVersion;
 import com.fizzed.jne.NativeTarget;
 import com.fizzed.provisioning.ProvisioningHelper;
@@ -53,7 +54,11 @@ public class AdoptiumClient {
     public JavaInstaller toInstaller(AdoptiumJavaRelease javaRelease) {
         NativeTarget nativeTarget = ProvisioningHelper.detectFromText(javaRelease.getOs() + " " + javaRelease.getArchitecture());
         if (nativeTarget.getOperatingSystem() == null || nativeTarget.getHardwareArchitecture() == null) {
-            throw new RuntimeException("Failed to detect os / arch from " + javaRelease.getPkg().getName());
+            if ("arm".equals(javaRelease.getArchitecture())) {
+                nativeTarget = NativeTarget.of(nativeTarget.getOperatingSystem(), HardwareArchitecture.ARMHF, nativeTarget.getAbi());
+            } else {
+                throw new RuntimeException("Failed to detect os / arch from " + javaRelease.getPkg().getName());
+            }
         }
 
         if (javaRelease.getOs().equals("alpine-linux")) {

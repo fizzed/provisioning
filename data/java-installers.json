@@ -1,0 +1,561 @@
+[ {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_ppc64_aix_hotspot_21.0.8_9.tar.gz",
+  "name" : "OpenJDK21U-jdk_ppc64_aix_hotspot_21.0.8_9.tar.gz",
+  "version" : {
+    "source" : "21.0.8+9",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "aix",
+  "arch" : "ppc64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.8_9.tar.gz",
+  "name" : "OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.8_9.tar.gz",
+  "version" : {
+    "source" : "21.0.8+9",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_aarch64_alpine-linux_hotspot_21.0.8_9.tar.gz",
+  "name" : "OpenJDK21U-jdk_aarch64_alpine-linux_hotspot_21.0.8_9.tar.gz",
+  "version" : {
+    "source" : "21.0.8+9",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : "musl"
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_ppc64le_linux_hotspot_21.0.8_9.tar.gz",
+  "name" : "OpenJDK21U-jdk_ppc64le_linux_hotspot_21.0.8_9.tar.gz",
+  "version" : {
+    "source" : "21.0.8+9",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_riscv64_linux_hotspot_21.0.8_9.tar.gz",
+  "name" : "OpenJDK21U-jdk_riscv64_linux_hotspot_21.0.8_9.tar.gz",
+  "version" : {
+    "source" : "21.0.8+9",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "riscv64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_s390x_linux_hotspot_21.0.8_9.tar.gz",
+  "name" : "OpenJDK21U-jdk_s390x_linux_hotspot_21.0.8_9.tar.gz",
+  "version" : {
+    "source" : "21.0.8+9",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "s390x",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_x64_linux_hotspot_21.0.8_9.tar.gz",
+  "name" : "OpenJDK21U-jdk_x64_linux_hotspot_21.0.8_9.tar.gz",
+  "version" : {
+    "source" : "21.0.8+9",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_x64_alpine-linux_hotspot_21.0.8_9.tar.gz",
+  "name" : "OpenJDK21U-jdk_x64_alpine-linux_hotspot_21.0.8_9.tar.gz",
+  "version" : {
+    "source" : "21.0.8+9",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_aarch64_mac_hotspot_21.0.8_9.tar.gz",
+  "name" : "OpenJDK21U-jdk_aarch64_mac_hotspot_21.0.8_9.tar.gz",
+  "version" : {
+    "source" : "21.0.8+9",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_x64_mac_hotspot_21.0.8_9.tar.gz",
+  "name" : "OpenJDK21U-jdk_x64_mac_hotspot_21.0.8_9.tar.gz",
+  "version" : {
+    "source" : "21.0.8+9",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_aarch64_windows_hotspot_21.0.8_9.zip",
+  "name" : "OpenJDK21U-jdk_aarch64_windows_hotspot_21.0.8_9.zip",
+  "version" : {
+    "source" : "21.0.8+9",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_x64_windows_hotspot_21.0.8_9.zip",
+  "name" : "OpenJDK21U-jdk_x64_windows_hotspot_21.0.8_9.zip",
+  "version" : {
+    "source" : "21.0.8+9",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_ppc64_aix_hotspot_17.0.16_8.tar.gz",
+  "name" : "OpenJDK17U-jdk_ppc64_aix_hotspot_17.0.16_8.tar.gz",
+  "version" : {
+    "source" : "17.0.16+8",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "aix",
+  "arch" : "ppc64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.16_8.tar.gz",
+  "name" : "OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.16_8.tar.gz",
+  "version" : {
+    "source" : "17.0.16+8",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_arm_linux_hotspot_17.0.16_8.tar.gz",
+  "name" : "OpenJDK17U-jdk_arm_linux_hotspot_17.0.16_8.tar.gz",
+  "version" : {
+    "source" : "17.0.16+8",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_ppc64le_linux_hotspot_17.0.16_8.tar.gz",
+  "name" : "OpenJDK17U-jdk_ppc64le_linux_hotspot_17.0.16_8.tar.gz",
+  "version" : {
+    "source" : "17.0.16+8",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_riscv64_linux_hotspot_17.0.16_8.tar.gz",
+  "name" : "OpenJDK17U-jdk_riscv64_linux_hotspot_17.0.16_8.tar.gz",
+  "version" : {
+    "source" : "17.0.16+8",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "riscv64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_s390x_linux_hotspot_17.0.16_8.tar.gz",
+  "name" : "OpenJDK17U-jdk_s390x_linux_hotspot_17.0.16_8.tar.gz",
+  "version" : {
+    "source" : "17.0.16+8",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "s390x",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.16_8.tar.gz",
+  "name" : "OpenJDK17U-jdk_x64_linux_hotspot_17.0.16_8.tar.gz",
+  "version" : {
+    "source" : "17.0.16+8",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_x64_alpine-linux_hotspot_17.0.16_8.tar.gz",
+  "name" : "OpenJDK17U-jdk_x64_alpine-linux_hotspot_17.0.16_8.tar.gz",
+  "version" : {
+    "source" : "17.0.16+8",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_aarch64_mac_hotspot_17.0.16_8.tar.gz",
+  "name" : "OpenJDK17U-jdk_aarch64_mac_hotspot_17.0.16_8.tar.gz",
+  "version" : {
+    "source" : "17.0.16+8",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_x64_mac_hotspot_17.0.16_8.tar.gz",
+  "name" : "OpenJDK17U-jdk_x64_mac_hotspot_17.0.16_8.tar.gz",
+  "version" : {
+    "source" : "17.0.16+8",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_x86-32_windows_hotspot_17.0.16_8.zip",
+  "name" : "OpenJDK17U-jdk_x86-32_windows_hotspot_17.0.16_8.zip",
+  "version" : {
+    "source" : "17.0.16+8",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_x64_windows_hotspot_17.0.16_8.zip",
+  "name" : "OpenJDK17U-jdk_x64_windows_hotspot_17.0.16_8.zip",
+  "version" : {
+    "source" : "17.0.16+8",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_ppc64_aix_hotspot_11.0.28_6.tar.gz",
+  "name" : "OpenJDK11U-jdk_ppc64_aix_hotspot_11.0.28_6.tar.gz",
+  "version" : {
+    "source" : "11.0.28+6",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "aix",
+  "arch" : "ppc64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_aarch64_linux_hotspot_11.0.28_6.tar.gz",
+  "name" : "OpenJDK11U-jdk_aarch64_linux_hotspot_11.0.28_6.tar.gz",
+  "version" : {
+    "source" : "11.0.28+6",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_arm_linux_hotspot_11.0.28_6.tar.gz",
+  "name" : "OpenJDK11U-jdk_arm_linux_hotspot_11.0.28_6.tar.gz",
+  "version" : {
+    "source" : "11.0.28+6",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_ppc64le_linux_hotspot_11.0.28_6.tar.gz",
+  "name" : "OpenJDK11U-jdk_ppc64le_linux_hotspot_11.0.28_6.tar.gz",
+  "version" : {
+    "source" : "11.0.28+6",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_s390x_linux_hotspot_11.0.28_6.tar.gz",
+  "name" : "OpenJDK11U-jdk_s390x_linux_hotspot_11.0.28_6.tar.gz",
+  "version" : {
+    "source" : "11.0.28+6",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "s390x",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_x64_linux_hotspot_11.0.28_6.tar.gz",
+  "name" : "OpenJDK11U-jdk_x64_linux_hotspot_11.0.28_6.tar.gz",
+  "version" : {
+    "source" : "11.0.28+6",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_x64_alpine-linux_hotspot_11.0.28_6.tar.gz",
+  "name" : "OpenJDK11U-jdk_x64_alpine-linux_hotspot_11.0.28_6.tar.gz",
+  "version" : {
+    "source" : "11.0.28+6",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_aarch64_mac_hotspot_11.0.28_6.tar.gz",
+  "name" : "OpenJDK11U-jdk_aarch64_mac_hotspot_11.0.28_6.tar.gz",
+  "version" : {
+    "source" : "11.0.28+6",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_x64_mac_hotspot_11.0.28_6.tar.gz",
+  "name" : "OpenJDK11U-jdk_x64_mac_hotspot_11.0.28_6.tar.gz",
+  "version" : {
+    "source" : "11.0.28+6",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_x86-32_windows_hotspot_11.0.28_6.zip",
+  "name" : "OpenJDK11U-jdk_x86-32_windows_hotspot_11.0.28_6.zip",
+  "version" : {
+    "source" : "11.0.28+6",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_x64_windows_hotspot_11.0.28_6.zip",
+  "name" : "OpenJDK11U-jdk_x64_windows_hotspot_11.0.28_6.zip",
+  "version" : {
+    "source" : "11.0.28+6",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+} ]
