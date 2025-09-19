@@ -46,7 +46,7 @@ public class AdoptiumClient {
         final String responseJson = httpClient.send(request, HttpResponse.BodyHandlers.ofString())
             .body();
 
-        log.info("{}", prettyPrintJson(this.objectMapper, responseJson));
+        log.trace("{}", prettyPrintJson(this.objectMapper, responseJson));
 
         return this.objectMapper.readValue(responseJson, new TypeReference<>() {});
     }

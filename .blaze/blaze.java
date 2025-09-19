@@ -74,6 +74,7 @@ public class blaze {
         final ZuluClient zuluClient = new ZuluClient();
         for (int javaMajorVersion : asList(25, 21, 17, 11, 8)) {
             final List<JavaInstaller> javaInstallers = new ArrayList<>();
+            log.info("Fetching zulu releases for jdk version {}...", javaMajorVersion);
             final List<ZuluJavaRelease> javaReleases = zuluClient.getReleases(javaMajorVersion);
             for (ZuluJavaRelease javaRelease : javaReleases) {
                 JavaInstaller javaInstaller = zuluClient.toInstaller(javaRelease);
@@ -90,6 +91,7 @@ public class blaze {
         final LibericaClient libericaClient = new LibericaClient();
         for (int javaMajorVersion : asList(25, 21, 17, 11, 8)) {
             final List<JavaInstaller> javaInstallers = new ArrayList<>();
+            log.info("Fetching liberica releases for jdk version {}...", javaMajorVersion);
             final List<LibericaJavaRelease> javaReleases = libericaClient.getReleases(javaMajorVersion);
             for (LibericaJavaRelease javaRelease : javaReleases) {
                 JavaInstaller javaInstaller = libericaClient.toInstaller(javaRelease);
@@ -106,6 +108,7 @@ public class blaze {
         final AdoptiumClient adoptiumClient = new AdoptiumClient();
         for (int javaMajorVersion : asList(21, 17, 11)) {
             final List<JavaInstaller> javaInstallers = new ArrayList<>();
+            log.info("Fetching temurin releases for jdk version {}...", javaMajorVersion);
             final List<AdoptiumJavaReleases> javaReleases1 = adoptiumClient.getReleases(javaMajorVersion);
             for (AdoptiumJavaReleases javaReleases : javaReleases1) {
                 for (AdoptiumJavaRelease javaRelease : javaReleases.getBinaries()) {
@@ -122,7 +125,7 @@ public class blaze {
         }
 
         // dump out the installers
-        log.info("{}", ProvisioningHelper.getObjectMapper().writeValueAsString(allJavaInstallers));
+        log.trace("{}", ProvisioningHelper.getObjectMapper().writeValueAsString(allJavaInstallers));
 
         Files.write(javaInstallersFile, ProvisioningHelper.getObjectMapper().writeValueAsBytes(allJavaInstallers), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
         log.info("Wrote java-installers to file {}", javaInstallersFile);
