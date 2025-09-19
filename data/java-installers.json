@@ -1,4 +1,4388 @@
 [ {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-linux_arm64.deb",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-linux_arm64.deb",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-linux.aarch64.rpm",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-linux.aarch64.rpm",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-linux_aarch64.tar.gz",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-linux_aarch64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-linux_musl_aarch64.tar.gz",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-linux_musl_aarch64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : "musl"
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-linux_amd64.deb",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-linux_amd64.deb",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-linux.x86_64.rpm",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-linux.x86_64.rpm",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-linux_x64.tar.gz",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-linux_x64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-linux_x64.zip",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-linux_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-linux_musl_x64.tar.gz",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-linux_musl_x64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-macosx_aarch64.dmg",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-macosx_aarch64.dmg",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-macosx_aarch64.tar.gz",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-macosx_aarch64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-macosx_aarch64.zip",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-macosx_aarch64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-macosx_x64.dmg",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-macosx_x64.dmg",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-macosx_x64.tar.gz",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-macosx_x64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-macosx_x64.zip",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-macosx_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-win_aarch64.zip",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-win_aarch64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-win_x64.msi",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-win_x64.msi",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-win_x64.zip",
+  "name" : "zulu25.28.85-ca-jdk25.0.0-win_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-linux_arm64.deb",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-linux_arm64.deb",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-linux.aarch64.rpm",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-linux.aarch64.rpm",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-linux_aarch64.tar.gz",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-linux_aarch64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-linux_musl_aarch64.tar.gz",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-linux_musl_aarch64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : "musl"
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-linux_amd64.deb",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-linux_amd64.deb",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-linux.x86_64.rpm",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-linux.x86_64.rpm",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-linux_x64.tar.gz",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-linux_x64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-linux_x64.zip",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-linux_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-linux_musl_x64.tar.gz",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-linux_musl_x64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-macosx_aarch64.dmg",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-macosx_aarch64.dmg",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-macosx_aarch64.tar.gz",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-macosx_aarch64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-macosx_aarch64.zip",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-macosx_aarch64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-macosx_x64.dmg",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-macosx_x64.dmg",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-macosx_x64.tar.gz",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-macosx_x64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-macosx_x64.zip",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-macosx_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-win_aarch64.zip",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-win_aarch64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-win_x64.msi",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-win_x64.msi",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-win_x64.zip",
+  "name" : "zulu21.44.17-ca-jdk21.0.8-win_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 9
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_arm64.deb",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-linux_arm64.deb",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux.aarch64.rpm",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-linux.aarch64.rpm",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_aarch64.tar.gz",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-linux_aarch64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_musl_aarch64.tar.gz",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-linux_musl_aarch64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : "musl"
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu-embedded/bin/zulu17.60.17-ca-jdk17.0.16-c2-linux_aarch32hf.tar.gz",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-c2-linux_aarch32hf.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_i386.deb",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-linux_i386.deb",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux.i686.rpm",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-linux.i686.rpm",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_i686.tar.gz",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-linux_i686.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_i686.zip",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-linux_i686.zip",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_amd64.deb",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-linux_amd64.deb",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux.x86_64.rpm",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-linux.x86_64.rpm",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_x64.tar.gz",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-linux_x64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_x64.zip",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-linux_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_musl_x64.tar.gz",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-linux_musl_x64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-macosx_aarch64.dmg",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-macosx_aarch64.dmg",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-macosx_aarch64.tar.gz",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-macosx_aarch64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-macosx_aarch64.zip",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-macosx_aarch64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-macosx_x64.dmg",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-macosx_x64.dmg",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-macosx_x64.tar.gz",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-macosx_x64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-macosx_x64.zip",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-macosx_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-win_aarch64.zip",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-win_aarch64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-win_i686.msi",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-win_i686.msi",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-win_i686.zip",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-win_i686.zip",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-win_x64.msi",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-win_x64.msi",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-win_x64.zip",
+  "name" : "zulu17.60.17-ca-jdk17.0.16-win_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_arm64.deb",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-linux_arm64.deb",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux.aarch64.rpm",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-linux.aarch64.rpm",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_aarch64.tar.gz",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-linux_aarch64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_musl_aarch64.tar.gz",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-linux_musl_aarch64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : "musl"
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu-embedded/bin/zulu11.82.19-ca-jdk11.0.28-linux_aarch32sf.tar.gz",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-linux_aarch32sf.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "armel",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu-embedded/bin/zulu11.82.19-ca-jdk11.0.28-linux_aarch32hf.tar.gz",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-linux_aarch32hf.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_i386.deb",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-linux_i386.deb",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux.i686.rpm",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-linux.i686.rpm",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_i686.tar.gz",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-linux_i686.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_i686.zip",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-linux_i686.zip",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_amd64.deb",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-linux_amd64.deb",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux.x86_64.rpm",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-linux.x86_64.rpm",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_x64.tar.gz",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-linux_x64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_x64.zip",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-linux_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_musl_x64.tar.gz",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-linux_musl_x64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-macosx_aarch64.dmg",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-macosx_aarch64.dmg",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-macosx_aarch64.tar.gz",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-macosx_aarch64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-macosx_aarch64.zip",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-macosx_aarch64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-macosx_x64.dmg",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-macosx_x64.dmg",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-macosx_x64.tar.gz",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-macosx_x64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-macosx_x64.zip",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-macosx_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-solaris_x64.zip",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-solaris_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "solaris",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-win_i686.msi",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-win_i686.msi",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-win_i686.zip",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-win_i686.zip",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-win_x64.msi",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-win_x64.msi",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-win_x64.zip",
+  "name" : "zulu11.82.19-ca-jdk11.0.28-win_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 6
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_arm64.deb",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-linux_arm64.deb",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux.aarch64.rpm",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-linux.aarch64.rpm",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_aarch64.tar.gz",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-linux_aarch64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_musl_aarch64.tar.gz",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-linux_musl_aarch64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : "musl"
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu-embedded/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_aarch32sf.tar.gz",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-linux_aarch32sf.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "armel",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu-embedded/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_aarch32hf.tar.gz",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-linux_aarch32hf.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_i686.tar.gz",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-linux_i686.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_i686.zip",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-linux_i686.zip",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_amd64.deb",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-linux_amd64.deb",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux.x86_64.rpm",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-linux.x86_64.rpm",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_x64.tar.gz",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-linux_x64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_x64.zip",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-linux_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_musl_x64.tar.gz",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-linux_musl_x64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-macosx_aarch64.dmg",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-macosx_aarch64.dmg",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-macosx_aarch64.tar.gz",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-macosx_aarch64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-macosx_aarch64.zip",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-macosx_aarch64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-macosx_x64.dmg",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-macosx_x64.dmg",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-macosx_x64.tar.gz",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-macosx_x64.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-macosx_x64.zip",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-macosx_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-solaris_x64.zip",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-solaris_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "solaris",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-win_i686.msi",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-win_i686.msi",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-win_i686.zip",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-win_i686.zip",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-win_x64.msi",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-win_x64.msi",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-win_x64.zip",
+  "name" : "zulu8.88.0.19-ca-jdk8.0.462-win_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-aarch64.deb",
+  "name" : "bellsoft-jdk25+37-linux-aarch64.deb",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-aarch64.rpm",
+  "name" : "bellsoft-jdk25+37-linux-aarch64.rpm",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-aarch64.tar.gz",
+  "name" : "bellsoft-jdk25+37-linux-aarch64.tar.gz",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-aarch64-musl.apk",
+  "name" : "bellsoft-jdk25+37-linux-aarch64-musl.apk",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "apk",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-aarch64-musl.tar.gz",
+  "name" : "bellsoft-jdk25+37-linux-aarch64-musl.tar.gz",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-ppc64le.deb",
+  "name" : "bellsoft-jdk25+37-linux-ppc64le.deb",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-ppc64le.rpm",
+  "name" : "bellsoft-jdk25+37-linux-ppc64le.rpm",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-ppc64le.tar.gz",
+  "name" : "bellsoft-jdk25+37-linux-ppc64le.tar.gz",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-riscv64.deb",
+  "name" : "bellsoft-jdk25+37-linux-riscv64.deb",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "riscv64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-riscv64.rpm",
+  "name" : "bellsoft-jdk25+37-linux-riscv64.rpm",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "riscv64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-riscv64.tar.gz",
+  "name" : "bellsoft-jdk25+37-linux-riscv64.tar.gz",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "riscv64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-amd64.deb",
+  "name" : "bellsoft-jdk25+37-linux-amd64.deb",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-amd64.rpm",
+  "name" : "bellsoft-jdk25+37-linux-amd64.rpm",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-amd64.tar.gz",
+  "name" : "bellsoft-jdk25+37-linux-amd64.tar.gz",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-x64-musl.apk",
+  "name" : "bellsoft-jdk25+37-linux-x64-musl.apk",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "apk",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-x64-musl.tar.gz",
+  "name" : "bellsoft-jdk25+37-linux-x64-musl.tar.gz",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-macos-aarch64.dmg",
+  "name" : "bellsoft-jdk25+37-macos-aarch64.dmg",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-macos-aarch64.pkg",
+  "name" : "bellsoft-jdk25+37-macos-aarch64.pkg",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "pkg",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-macos-aarch64.tar.gz",
+  "name" : "bellsoft-jdk25+37-macos-aarch64.tar.gz",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-macos-aarch64.zip",
+  "name" : "bellsoft-jdk25+37-macos-aarch64.zip",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-macos-amd64.dmg",
+  "name" : "bellsoft-jdk25+37-macos-amd64.dmg",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-macos-amd64.pkg",
+  "name" : "bellsoft-jdk25+37-macos-amd64.pkg",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "pkg",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-macos-amd64.tar.gz",
+  "name" : "bellsoft-jdk25+37-macos-amd64.tar.gz",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-macos-amd64.zip",
+  "name" : "bellsoft-jdk25+37-macos-amd64.zip",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-windows-aarch64.msi",
+  "name" : "bellsoft-jdk25+37-windows-aarch64.msi",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-windows-aarch64.zip",
+  "name" : "bellsoft-jdk25+37-windows-aarch64.zip",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-windows-amd64.msi",
+  "name" : "bellsoft-jdk25+37-windows-amd64.msi",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-windows-amd64.zip",
+  "name" : "bellsoft-jdk25+37-windows-amd64.zip",
+  "version" : {
+    "source" : "25+37",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 37
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-aarch64.deb",
+  "name" : "bellsoft-jdk21.0.8+12-linux-aarch64.deb",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-aarch64.rpm",
+  "name" : "bellsoft-jdk21.0.8+12-linux-aarch64.rpm",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-aarch64.tar.gz",
+  "name" : "bellsoft-jdk21.0.8+12-linux-aarch64.tar.gz",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-aarch64-musl.apk",
+  "name" : "bellsoft-jdk21.0.8+12-linux-aarch64-musl.apk",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "apk",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-aarch64-musl.tar.gz",
+  "name" : "bellsoft-jdk21.0.8+12-linux-aarch64-musl.tar.gz",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-arm32-vfp-hflt.deb",
+  "name" : "bellsoft-jdk21.0.8+12-linux-arm32-vfp-hflt.deb",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-arm32-vfp-hflt.rpm",
+  "name" : "bellsoft-jdk21.0.8+12-linux-arm32-vfp-hflt.rpm",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-arm32-vfp-hflt.tar.gz",
+  "name" : "bellsoft-jdk21.0.8+12-linux-arm32-vfp-hflt.tar.gz",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-ppc64le.deb",
+  "name" : "bellsoft-jdk21.0.8+12-linux-ppc64le.deb",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-ppc64le.rpm",
+  "name" : "bellsoft-jdk21.0.8+12-linux-ppc64le.rpm",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-ppc64le.tar.gz",
+  "name" : "bellsoft-jdk21.0.8+12-linux-ppc64le.tar.gz",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-riscv64.deb",
+  "name" : "bellsoft-jdk21.0.8+12-linux-riscv64.deb",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "riscv64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-riscv64.rpm",
+  "name" : "bellsoft-jdk21.0.8+12-linux-riscv64.rpm",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "riscv64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-riscv64.tar.gz",
+  "name" : "bellsoft-jdk21.0.8+12-linux-riscv64.tar.gz",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "riscv64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-i586.deb",
+  "name" : "bellsoft-jdk21.0.8+12-linux-i586.deb",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-i586.rpm",
+  "name" : "bellsoft-jdk21.0.8+12-linux-i586.rpm",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-i586.tar.gz",
+  "name" : "bellsoft-jdk21.0.8+12-linux-i586.tar.gz",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-amd64.deb",
+  "name" : "bellsoft-jdk21.0.8+12-linux-amd64.deb",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-amd64.rpm",
+  "name" : "bellsoft-jdk21.0.8+12-linux-amd64.rpm",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-amd64.tar.gz",
+  "name" : "bellsoft-jdk21.0.8+12-linux-amd64.tar.gz",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-x64-musl.apk",
+  "name" : "bellsoft-jdk21.0.8+12-linux-x64-musl.apk",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "apk",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-x64-musl.tar.gz",
+  "name" : "bellsoft-jdk21.0.8+12-linux-x64-musl.tar.gz",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-macos-aarch64.dmg",
+  "name" : "bellsoft-jdk21.0.8+12-macos-aarch64.dmg",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-macos-aarch64.pkg",
+  "name" : "bellsoft-jdk21.0.8+12-macos-aarch64.pkg",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "pkg",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-macos-aarch64.tar.gz",
+  "name" : "bellsoft-jdk21.0.8+12-macos-aarch64.tar.gz",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-macos-aarch64.zip",
+  "name" : "bellsoft-jdk21.0.8+12-macos-aarch64.zip",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-macos-amd64.dmg",
+  "name" : "bellsoft-jdk21.0.8+12-macos-amd64.dmg",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-macos-amd64.pkg",
+  "name" : "bellsoft-jdk21.0.8+12-macos-amd64.pkg",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "pkg",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-macos-amd64.tar.gz",
+  "name" : "bellsoft-jdk21.0.8+12-macos-amd64.tar.gz",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-macos-amd64.zip",
+  "name" : "bellsoft-jdk21.0.8+12-macos-amd64.zip",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-windows-aarch64.msi",
+  "name" : "bellsoft-jdk21.0.8+12-windows-aarch64.msi",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-windows-aarch64.zip",
+  "name" : "bellsoft-jdk21.0.8+12-windows-aarch64.zip",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-windows-i586.msi",
+  "name" : "bellsoft-jdk21.0.8+12-windows-i586.msi",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-windows-i586.zip",
+  "name" : "bellsoft-jdk21.0.8+12-windows-i586.zip",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-windows-amd64.msi",
+  "name" : "bellsoft-jdk21.0.8+12-windows-amd64.msi",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-windows-amd64.zip",
+  "name" : "bellsoft-jdk21.0.8+12-windows-amd64.zip",
+  "version" : {
+    "source" : "21.0.8+12",
+    "major" : 21,
+    "minor" : 0,
+    "security" : 8,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-aarch64.deb",
+  "name" : "bellsoft-jdk17.0.16+12-linux-aarch64.deb",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-aarch64.rpm",
+  "name" : "bellsoft-jdk17.0.16+12-linux-aarch64.rpm",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-aarch64.tar.gz",
+  "name" : "bellsoft-jdk17.0.16+12-linux-aarch64.tar.gz",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-aarch64-musl.apk",
+  "name" : "bellsoft-jdk17.0.16+12-linux-aarch64-musl.apk",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "apk",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-aarch64-musl.tar.gz",
+  "name" : "bellsoft-jdk17.0.16+12-linux-aarch64-musl.tar.gz",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-arm32-vfp-hflt.deb",
+  "name" : "bellsoft-jdk17.0.16+12-linux-arm32-vfp-hflt.deb",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-arm32-vfp-hflt.rpm",
+  "name" : "bellsoft-jdk17.0.16+12-linux-arm32-vfp-hflt.rpm",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-arm32-vfp-hflt.tar.gz",
+  "name" : "bellsoft-jdk17.0.16+12-linux-arm32-vfp-hflt.tar.gz",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-ppc64le.deb",
+  "name" : "bellsoft-jdk17.0.16+12-linux-ppc64le.deb",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-ppc64le.rpm",
+  "name" : "bellsoft-jdk17.0.16+12-linux-ppc64le.rpm",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-ppc64le.tar.gz",
+  "name" : "bellsoft-jdk17.0.16+12-linux-ppc64le.tar.gz",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-riscv64.deb",
+  "name" : "bellsoft-jdk17.0.16+12-linux-riscv64.deb",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "riscv64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-riscv64.rpm",
+  "name" : "bellsoft-jdk17.0.16+12-linux-riscv64.rpm",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "riscv64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-riscv64.tar.gz",
+  "name" : "bellsoft-jdk17.0.16+12-linux-riscv64.tar.gz",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "riscv64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-i586.deb",
+  "name" : "bellsoft-jdk17.0.16+12-linux-i586.deb",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-i586.rpm",
+  "name" : "bellsoft-jdk17.0.16+12-linux-i586.rpm",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-i586.tar.gz",
+  "name" : "bellsoft-jdk17.0.16+12-linux-i586.tar.gz",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-amd64.deb",
+  "name" : "bellsoft-jdk17.0.16+12-linux-amd64.deb",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-amd64.rpm",
+  "name" : "bellsoft-jdk17.0.16+12-linux-amd64.rpm",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-amd64.tar.gz",
+  "name" : "bellsoft-jdk17.0.16+12-linux-amd64.tar.gz",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-x64-musl.apk",
+  "name" : "bellsoft-jdk17.0.16+12-linux-x64-musl.apk",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "apk",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-x64-musl.tar.gz",
+  "name" : "bellsoft-jdk17.0.16+12-linux-x64-musl.tar.gz",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-macos-aarch64.dmg",
+  "name" : "bellsoft-jdk17.0.16+12-macos-aarch64.dmg",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-macos-aarch64.pkg",
+  "name" : "bellsoft-jdk17.0.16+12-macos-aarch64.pkg",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "pkg",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-macos-aarch64.tar.gz",
+  "name" : "bellsoft-jdk17.0.16+12-macos-aarch64.tar.gz",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-macos-aarch64.zip",
+  "name" : "bellsoft-jdk17.0.16+12-macos-aarch64.zip",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-macos-amd64.dmg",
+  "name" : "bellsoft-jdk17.0.16+12-macos-amd64.dmg",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-macos-amd64.pkg",
+  "name" : "bellsoft-jdk17.0.16+12-macos-amd64.pkg",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "pkg",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-macos-amd64.tar.gz",
+  "name" : "bellsoft-jdk17.0.16+12-macos-amd64.tar.gz",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-macos-amd64.zip",
+  "name" : "bellsoft-jdk17.0.16+12-macos-amd64.zip",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-windows-aarch64.msi",
+  "name" : "bellsoft-jdk17.0.16+12-windows-aarch64.msi",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-windows-aarch64.zip",
+  "name" : "bellsoft-jdk17.0.16+12-windows-aarch64.zip",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-windows-i586.msi",
+  "name" : "bellsoft-jdk17.0.16+12-windows-i586.msi",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-windows-i586.zip",
+  "name" : "bellsoft-jdk17.0.16+12-windows-i586.zip",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-windows-amd64.msi",
+  "name" : "bellsoft-jdk17.0.16+12-windows-amd64.msi",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-windows-amd64.zip",
+  "name" : "bellsoft-jdk17.0.16+12-windows-amd64.zip",
+  "version" : {
+    "source" : "17.0.16+12",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 16,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-aarch64.deb",
+  "name" : "bellsoft-jdk11.0.28+12-linux-aarch64.deb",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-aarch64.rpm",
+  "name" : "bellsoft-jdk11.0.28+12-linux-aarch64.rpm",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-aarch64.tar.gz",
+  "name" : "bellsoft-jdk11.0.28+12-linux-aarch64.tar.gz",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-aarch64-musl.apk",
+  "name" : "bellsoft-jdk11.0.28+12-linux-aarch64-musl.apk",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "apk",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-aarch64-musl.tar.gz",
+  "name" : "bellsoft-jdk11.0.28+12-linux-aarch64-musl.tar.gz",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-arm32-vfp-hflt.deb",
+  "name" : "bellsoft-jdk11.0.28+12-linux-arm32-vfp-hflt.deb",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-arm32-vfp-hflt.rpm",
+  "name" : "bellsoft-jdk11.0.28+12-linux-arm32-vfp-hflt.rpm",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-arm32-vfp-hflt.tar.gz",
+  "name" : "bellsoft-jdk11.0.28+12-linux-arm32-vfp-hflt.tar.gz",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-ppc64le.deb",
+  "name" : "bellsoft-jdk11.0.28+12-linux-ppc64le.deb",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-ppc64le.rpm",
+  "name" : "bellsoft-jdk11.0.28+12-linux-ppc64le.rpm",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-ppc64le.tar.gz",
+  "name" : "bellsoft-jdk11.0.28+12-linux-ppc64le.tar.gz",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-i586.deb",
+  "name" : "bellsoft-jdk11.0.28+12-linux-i586.deb",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-i586.rpm",
+  "name" : "bellsoft-jdk11.0.28+12-linux-i586.rpm",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-i586.tar.gz",
+  "name" : "bellsoft-jdk11.0.28+12-linux-i586.tar.gz",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-amd64.deb",
+  "name" : "bellsoft-jdk11.0.28+12-linux-amd64.deb",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-amd64.rpm",
+  "name" : "bellsoft-jdk11.0.28+12-linux-amd64.rpm",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-amd64.tar.gz",
+  "name" : "bellsoft-jdk11.0.28+12-linux-amd64.tar.gz",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-x64-musl.apk",
+  "name" : "bellsoft-jdk11.0.28+12-linux-x64-musl.apk",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "apk",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-x64-musl.tar.gz",
+  "name" : "bellsoft-jdk11.0.28+12-linux-x64-musl.tar.gz",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-macos-aarch64.dmg",
+  "name" : "bellsoft-jdk11.0.28+12-macos-aarch64.dmg",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-macos-aarch64.pkg",
+  "name" : "bellsoft-jdk11.0.28+12-macos-aarch64.pkg",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "pkg",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-macos-aarch64.tar.gz",
+  "name" : "bellsoft-jdk11.0.28+12-macos-aarch64.tar.gz",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-macos-aarch64.zip",
+  "name" : "bellsoft-jdk11.0.28+12-macos-aarch64.zip",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-macos-amd64.dmg",
+  "name" : "bellsoft-jdk11.0.28+12-macos-amd64.dmg",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-macos-amd64.pkg",
+  "name" : "bellsoft-jdk11.0.28+12-macos-amd64.pkg",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "pkg",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-macos-amd64.tar.gz",
+  "name" : "bellsoft-jdk11.0.28+12-macos-amd64.tar.gz",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-macos-amd64.zip",
+  "name" : "bellsoft-jdk11.0.28+12-macos-amd64.zip",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-solaris-x64.tar.gz",
+  "name" : "bellsoft-jdk11.0.28+12-solaris-x64.tar.gz",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "solaris",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-windows-aarch64.msi",
+  "name" : "bellsoft-jdk11.0.28+12-windows-aarch64.msi",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-windows-aarch64.zip",
+  "name" : "bellsoft-jdk11.0.28+12-windows-aarch64.zip",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-windows-i586.msi",
+  "name" : "bellsoft-jdk11.0.28+12-windows-i586.msi",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-windows-i586.zip",
+  "name" : "bellsoft-jdk11.0.28+12-windows-i586.zip",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-windows-amd64.msi",
+  "name" : "bellsoft-jdk11.0.28+12-windows-amd64.msi",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-windows-amd64.zip",
+  "name" : "bellsoft-jdk11.0.28+12-windows-amd64.zip",
+  "version" : {
+    "source" : "11.0.28+12",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 28,
+    "build" : 12
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-aarch64.deb",
+  "name" : "bellsoft-jdk8u462+11-linux-aarch64.deb",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-aarch64.rpm",
+  "name" : "bellsoft-jdk8u462+11-linux-aarch64.rpm",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-aarch64.tar.gz",
+  "name" : "bellsoft-jdk8u462+11-linux-aarch64.tar.gz",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-aarch64-musl.apk",
+  "name" : "bellsoft-jdk8u462+11-linux-aarch64-musl.apk",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "apk",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-aarch64-musl.tar.gz",
+  "name" : "bellsoft-jdk8u462+11-linux-aarch64-musl.tar.gz",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-ppc64le.deb",
+  "name" : "bellsoft-jdk8u462+11-linux-ppc64le.deb",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-ppc64le.rpm",
+  "name" : "bellsoft-jdk8u462+11-linux-ppc64le.rpm",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-ppc64le.tar.gz",
+  "name" : "bellsoft-jdk8u462+11-linux-ppc64le.tar.gz",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-i586.deb",
+  "name" : "bellsoft-jdk8u462+11-linux-i586.deb",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-i586.rpm",
+  "name" : "bellsoft-jdk8u462+11-linux-i586.rpm",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-i586.tar.gz",
+  "name" : "bellsoft-jdk8u462+11-linux-i586.tar.gz",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-amd64.deb",
+  "name" : "bellsoft-jdk8u462+11-linux-amd64.deb",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "deb",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-amd64.rpm",
+  "name" : "bellsoft-jdk8u462+11-linux-amd64.rpm",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "rpm",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-amd64.tar.gz",
+  "name" : "bellsoft-jdk8u462+11-linux-amd64.tar.gz",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-x64-musl.apk",
+  "name" : "bellsoft-jdk8u462+11-linux-x64-musl.apk",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "apk",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-x64-musl.tar.gz",
+  "name" : "bellsoft-jdk8u462+11-linux-x64-musl.tar.gz",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : "musl"
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-macos-aarch64.dmg",
+  "name" : "bellsoft-jdk8u462+11-macos-aarch64.dmg",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-macos-aarch64.pkg",
+  "name" : "bellsoft-jdk8u462+11-macos-aarch64.pkg",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "pkg",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-macos-aarch64.tar.gz",
+  "name" : "bellsoft-jdk8u462+11-macos-aarch64.tar.gz",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-macos-aarch64.zip",
+  "name" : "bellsoft-jdk8u462+11-macos-aarch64.zip",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-macos-amd64.dmg",
+  "name" : "bellsoft-jdk8u462+11-macos-amd64.dmg",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "dmg",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-macos-amd64.pkg",
+  "name" : "bellsoft-jdk8u462+11-macos-amd64.pkg",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "pkg",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-macos-amd64.tar.gz",
+  "name" : "bellsoft-jdk8u462+11-macos-amd64.tar.gz",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-macos-amd64.zip",
+  "name" : "bellsoft-jdk8u462+11-macos-amd64.zip",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-solaris-x64.tar.gz",
+  "name" : "bellsoft-jdk8u462+11-solaris-x64.tar.gz",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "solaris",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-windows-i586.msi",
+  "name" : "bellsoft-jdk8u462+11-windows-i586.msi",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-windows-i586.zip",
+  "name" : "bellsoft-jdk8u462+11-windows-i586.zip",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-windows-amd64.msi",
+  "name" : "bellsoft-jdk8u462+11-windows-amd64.msi",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "msi",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "liberica",
+  "download_url" : "https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-windows-amd64.zip",
+  "name" : "bellsoft-jdk8u462+11-windows-amd64.zip",
+  "version" : {
+    "source" : "8u462+11",
+    "major" : 8,
+    "minor" : 0,
+    "security" : 462,
+    "build" : 11
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x64",
+  "abi" : null
+}, {
   "distro" : "temurin",
   "download_url" : "https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_ppc64_aix_hotspot_21.0.8_9.tar.gz",
   "name" : "OpenJDK21U-jdk_ppc64_aix_hotspot_21.0.8_9.tar.gz",

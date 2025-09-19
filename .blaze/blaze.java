@@ -15,6 +15,8 @@ import com.fizzed.provisioning.java.JavaInstaller;
 import com.fizzed.provisioning.liberica.LibericaClient;
 import com.fizzed.provisioning.liberica.LibericaJavaRelease;
 import com.fizzed.jne.JavaVersion;
+import com.fizzed.provisioning.zulu.ZuluClient;
+import com.fizzed.provisioning.zulu.ZuluJavaRelease;
 import org.slf4j.Logger;
 
 import java.nio.file.Files;
@@ -68,6 +70,22 @@ public class blaze {
     public void update_java_installers() throws Exception {
         // we will collect all java installers into this array
         final List<JavaInstaller> allJavaInstallers = new ArrayList<>();
+
+        final ZuluClient zuluClient = new ZuluClient();
+        for (int javaMajorVersion : asList(25, 21, 17, 11, 8)) {
+            final List<JavaInstaller> javaInstallers = new ArrayList<>();
+            final List<ZuluJavaRelease> javaReleases = zuluClient.getReleases(javaMajorVersion);
+            for (ZuluJavaRelease javaRelease : javaReleases) {
+                JavaInstaller javaInstaller = zuluClient.toInstaller(javaRelease);
+                // only jdks
+                if (javaInstaller != null && javaInstaller.getImageType() == ImageType.JDK) {
+                    javaInstallers.add(javaInstaller);
+                }
+            }
+
+            final List<JavaInstaller> filteredJavaInstallers = filterJavaInstallersToLatestVersion(javaInstallers);
+            allJavaInstallers.addAll(filteredJavaInstallers);
+        }
 
         final LibericaClient libericaClient = new LibericaClient();
         for (int javaMajorVersion : asList(25, 21, 17, 11, 8)) {
