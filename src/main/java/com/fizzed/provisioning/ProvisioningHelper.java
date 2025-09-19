@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import com.fizzed.crux.jackson.EnumDeserializeStrategy;
 import com.fizzed.crux.jackson.EnumSerializeStrategy;
 import com.fizzed.crux.jackson.EnumStrategyModule;
@@ -21,6 +22,7 @@ public class ProvisioningHelper {
     static {
         OBJECT_MAPPER = new ObjectMapper();
         OBJECT_MAPPER.registerModule(new EnumStrategyModule(EnumSerializeStrategy.LOWER_CASE, EnumDeserializeStrategy.IGNORE_CASE));
+        OBJECT_MAPPER.registerModule(new ParameterNamesModule());
         OBJECT_MAPPER.enable(SerializationFeature.INDENT_OUTPUT);
         OBJECT_MAPPER.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
     }

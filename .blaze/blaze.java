@@ -1,6 +1,3 @@
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fizzed.blaze.Contexts;
 import com.fizzed.jne.ABI;
 import com.fizzed.jne.HardwareArchitecture;
@@ -11,10 +8,10 @@ import com.fizzed.provisioning.adoptium.AdoptiumJavaRelease;
 import com.fizzed.provisioning.adoptium.AdoptiumJavaReleases;
 import com.fizzed.provisioning.java.ImageType;
 import com.fizzed.provisioning.java.InstallerType;
+import com.fizzed.provisioning.java.JavaDistro;
 import com.fizzed.provisioning.java.JavaInstaller;
 import com.fizzed.provisioning.liberica.LibericaClient;
 import com.fizzed.provisioning.liberica.LibericaJavaRelease;
-import com.fizzed.jne.JavaVersion;
 import com.fizzed.provisioning.zulu.ZuluClient;
 import com.fizzed.provisioning.zulu.ZuluJavaRelease;
 import org.slf4j.Logger;
@@ -58,14 +55,6 @@ public class blaze {
     private final Path linuxDir = projectDir.resolve("linux");
     private final Logger log = Contexts.logger();
     private final Path javaInstallersFile = dataDir.resolve("java-installers.json");
-    private final ObjectMapper objectMapper;
-
-    public blaze() {
-        this.objectMapper = new ObjectMapper();
-        this.objectMapper .enable(SerializationFeature.INDENT_OUTPUT);
-    }
-
-
 
     public void update_java_installers() throws Exception {
         // we will collect all java installers into this array
@@ -127,8 +116,8 @@ public class blaze {
         // dump out the installers
         log.trace("{}", ProvisioningHelper.getObjectMapper().writeValueAsString(allJavaInstallers));
 
-        Files.write(javaInstallersFile, ProvisioningHelper.getObjectMapper().writeValueAsBytes(allJavaInstallers), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-        log.info("Wrote java-installers to file {}", javaInstallersFile);
+        Files.write(this.javaInstallersFile, ProvisioningHelper.getObjectMapper().writeValueAsBytes(allJavaInstallers), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        log.info("Wrote java-installers to file {}", this.javaInstallersFile);
     }
 
     private List<JavaInstaller> filterJavaInstallersToLatestVersion(List<JavaInstaller> javaInstallers) {
@@ -137,6 +126,8 @@ public class blaze {
         // sort the list by the all the fields, with versions descending
         javaInstallers.sort(JavaInstaller.COMPARATOR);
 
+        // find the first matching installer for the os-arch-abi-image-type combo we are looking for (this will ensure
+        // we have the latest version of each
         for (OperatingSystem os : OperatingSystem.values()) {
             for (HardwareArchitecture arch : HardwareArchitecture.values()) {
                 for (ABI abi : ABI.values()) {
@@ -160,31 +151,24 @@ public class blaze {
         return filteredJavaInstallers;
     }
 
+    public void update_bootstrap_java_sh() throws Exception {
+        // load the latest java installer data
+        log.info("Loading java-installers from file {}", this.javaInstallersFile);
+        final byte[] javaInstallersData = Files.readAllBytes(this.javaInstallersFile);
+        final List<JavaInstaller> allJavaInstallers = ProvisioningHelper.getObjectMapper().readValue(javaInstallersData, new com.fasterxml.jackson.core.type.TypeReference<>() {});
 
+        // what we are interested in loading into our linux shell script
+        final List<JavaDistro> distros = asList(JavaDistro.ZULU, JavaDistro.LIBERICA, JavaDistro.TEMURIN);
+        final List<Integer> javaMajorVersions = asList(25, 21, 17, 11, 8);
+        final List<OperatingSystem> operatingSystems = asList(OperatingSystem.LINUX);
+        // all architectures
+        final List<ABI> abis = asList(ABI.DEFAULT, ABI.MUSL);
 
-
-
-
-
-
-    public void generate_bootstrap_java_sh() throws Exception {
-        final List<String> distros = asList("zulu", "liberica", "nitro");
-        final List<Integer> javaVersions = asList(21, 17, 11, 8, 7);
-        final List<String> systems = asList("linux", "linux_musl");
-        final List<String> architectures = asList("x64", "x32", "arm64", "armhf", "armel", "riscv64");
-        final List<JavaInstaller> javaInstallers = new ArrayList<>();
-
-        // fetch all azul meta data, for many version
-/*
-        final List<Integer> azulJavaVersions = javaVersions;
-        for (Integer v : azulJavaVersions) {
-            javaInstallers.addAll(this.fetch_azul_java_installers(v));
-        }
-
-        for (Integer v : javaVersions) {
-            javaInstallers.addAll(this.fetch_liberica_java_installers(v));
-        }
-*/
+        //final List<String> distros = asList("zulu", "liberica", "nitro");
+        //final List<Integer> javaVersions = asList(21, 17, 11, 8, 7);
+        //final List<String> systems = asList("linux", "linux_musl");
+        //final List<String> architectures = asList("x64", "x32", "arm64", "armhf", "armel", "riscv64");
+        //final List<JavaInstaller> javaInstallers = new ArrayList<>();
 
         /*// manually include "nitro" jdk for riscv64 architectures, for ALL versions requested
         for (int version : asList(21, 19, 17, 11, 8)) {
@@ -214,46 +198,51 @@ public class blaze {
             .setDownloadUrl("https://cdn.azul.com/zulu-embedded/bin/zulu11.64.19-ca-jdk11.0.19-linux_aarch32hf.tar.gz"));
 */
 
-/*        final StringBuilder shellSnippet = new StringBuilder();
-        shellSnippet.append("\n");
-        shellSnippet.append("#\n");
-        shellSnippet.append("# Automatically generated list of urls (do not edit by hand)\n");
-        shellSnippet.append("#\n");
+        final String startComment = "#\n# Automatically generated list of urls (do not edit by hand)\n#\n";
+        final String endComment = "#\n# End of automatically generated list of urls\n#\n";
+        final StringBuilder shellSnippet = new StringBuilder();
+        shellSnippet.append(startComment);
 
-        for (String distro : distros) {
+        for (JavaDistro distro : distros) {
             shellSnippet.append("if [ \"$JAVA_URL\" = \"\" ]; then\n");
-            shellSnippet.append("  if [ \"$JAVA_DISTRIBUTION\" = \"\" ] || [ \"$JAVA_DISTRIBUTION\" = \""+distro+"\" ]; then\n");
+            shellSnippet.append("  if [ \"$JAVA_DISTRIBUTION\" = \"\" ] || [ \"$JAVA_DISTRIBUTION\" = \""+distro.toString().toLowerCase()+"\" ]; then\n");
 
-            for (int javaVersion : javaVersions) {
-                shellSnippet.append("    if [ \"$JAVA_VERSION\" = \""+javaVersion+"\" ]; then\n");
+            for (int javaMajorVersion : javaMajorVersions) {
+                shellSnippet.append("    if [ \"$JAVA_VERSION\" = \""+javaMajorVersion+"\" ]; then\n");
 
-                for (String system : systems) {
-                    shellSnippet.append("      if [ \"$JAVA_OS\" = \""+system+"\" ]; then\n");
+                for (OperatingSystem os : operatingSystems) {
+                    // both DEFAULT or MUSL too
+                    for (ABI abi : abis) {
+                        String osAbi = os.toString().toLowerCase() + (abi == ABI.DEFAULT ? "" : "_" + abi.toString().toLowerCase());
 
-                    for (String arch : architectures) {
-                        shellSnippet.append("        if [ \"$JAVA_ARCH\" = \""+arch+"\" ]; then\n");
+                        shellSnippet.append("      if [ \"$JAVA_OS\" = \""+osAbi+"\" ]; then\n");
 
-                        // find most recent jdk, .tar.gz installer
-                        JavaInstaller javaInstaller = javaInstallers.stream()
-                            .filter(v -> distro.equalsIgnoreCase(v.getDistro()))
-                            .filter(v -> javaVersion == v.getMajorVersion())
-                            .filter(v -> system.equalsIgnoreCase(v.getOs()))
-                            .filter(v -> arch.equalsIgnoreCase(v.getArch()))
-                            .filter(v -> "jdk".equalsIgnoreCase(v.getType()))
-                            .filter(v -> "tar.gz".equalsIgnoreCase(v.getInstallerType()))
-                            .max(JavaInstaller.VERSION_COMPARATOR)
-                            .orElse(null);
+                        for (HardwareArchitecture arch : HardwareArchitecture.values()) {
+                            shellSnippet.append("        if [ \"$JAVA_ARCH\" = \""+arch.toString().toLowerCase()+"\" ]; then\n");
 
-                        if (javaInstaller != null) {
+                            // find most recent jdk, .tar.gz installer
+                            JavaInstaller javaInstaller = allJavaInstallers.stream()
+                                .filter(v -> distro == v.getDistro())
+                                .filter(v -> javaMajorVersion == v.getVersion().getMajor())
+                                .filter(v -> os == v.getOs())
+                                .filter(v -> arch == v.getArch())
+                                .filter(v -> abi == maybe(v.getAbi()).orElse(ABI.DEFAULT))
+                                .filter(v -> ImageType.JDK == v.getImageType())
+                                .filter(v -> InstallerType.TAR_GZ == v.getInstallerType())
+                                .findFirst()
+                                .orElse(null);
+
+                            if (javaInstaller != null) {
 //                            log.info("Found jdk for {}, {}, {} at url {}", javaVersion, system, arch, javaInstaller.getDownloadUrl());
-                            shellSnippet.append("          JAVA_URL=\"" + javaInstaller.getDownloadUrl() + "\"\n");
+                                shellSnippet.append("          JAVA_URL=\"" + javaInstaller.getDownloadUrl() + "\"\n");
 
-                        } else {
+                            } else {
 //                            log.warn("Unable to find jdk for {}, {}, {}", javaVersion, system, arch);
-                            shellSnippet.append("          : # does not exist\n");
-                        }
+                                shellSnippet.append("          : # does not exist\n");
+                            }
 
-                        shellSnippet.append("        fi\n");
+                            shellSnippet.append("        fi\n");
+                        }
                     }
 
                     shellSnippet.append("      fi\n");
@@ -267,12 +256,23 @@ public class blaze {
         }
 
         shellSnippet.append("\n");
-        shellSnippet.append("#\n");
-        shellSnippet.append("# End of automatically generated list of urls\n");
-        shellSnippet.append("#\n");
-        shellSnippet.append("\n");
+        shellSnippet.append(endComment);
 
-        System.out.println(shellSnippet);*/
+        final Path bootstrapJavaShFile = this.linuxDir.resolve("bootstrap-java.sh");
+        final String bootstrapJavaShFileContent = Files.readString(bootstrapJavaShFile);
+        final int startPos = bootstrapJavaShFileContent.indexOf("#\n# Automatically generated list of urls (do not edit by hand)");
+        final int endPos = bootstrapJavaShFileContent.indexOf("# End of automatically generated list of urls\n#", startPos);
+        if (startPos < 0 || endPos < 0) {
+            throw new RuntimeException("Unable to find start/end of automatically generated list of urls in file " + bootstrapJavaShFile);
+        }
+
+        // swap in content now
+        final String newBootstrapJavaShFileContent = bootstrapJavaShFileContent.substring(0, startPos) + shellSnippet + bootstrapJavaShFileContent.substring(endPos+endComment.length());
+
+        Files.writeString(bootstrapJavaShFile, newBootstrapJavaShFileContent, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        log.info("Wrote bootstrap-java.sh to file {}", bootstrapJavaShFile);
+
+        //System.out.println(shellSnippet);
     }
 
 }

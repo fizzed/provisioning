@@ -4,6 +4,7 @@ import com.fizzed.jne.ABI;
 import com.fizzed.jne.HardwareArchitecture;
 import com.fizzed.jne.NativeTarget;
 import com.fizzed.jne.OperatingSystem;
+import com.fizzed.provisioning.java.JavaInstaller;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -82,6 +83,29 @@ class ProvisioningHelperTest {
         assertThat(nativeTarget.getHardwareArchitecture(), is(HardwareArchitecture.X64));
         assertThat(nativeTarget.getAbi(), is(nullValue()));
 
+    }
+
+    @Test
+    public void deserializeJavaInstallers() throws Exception {
+        final String json = "{\n" +
+            "  \"distro\" : \"zulu\",\n" +
+            "  \"download_url\" : \"https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-linux_arm64.deb\",\n" +
+            "  \"name\" : \"zulu25.28.85-ca-jdk25.0.0-linux_arm64.deb\",\n" +
+            "  \"version\" : {\n" +
+            "    \"source\" : null,\n" +
+            "    \"major\" : 25,\n" +
+            "    \"minor\" : 0,\n" +
+            "    \"security\" : 0,\n" +
+            "    \"build\" : 36\n" +
+            "  },\n" +
+            "  \"image_type\" : \"jdk\",\n" +
+            "  \"installer_type\" : \"deb\",\n" +
+            "  \"os\" : \"linux\",\n" +
+            "  \"arch\" : \"arm64\",\n" +
+            "  \"abi\" : null\n" +
+            "}";
+
+        final JavaInstaller javaInstaller = ProvisioningHelper.getObjectMapper().readValue(json, JavaInstaller.class);
     }
 
 }
