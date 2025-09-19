@@ -122,12 +122,12 @@ if [ "$CLIB" = "musl" ]; then
 fi
 
 
-if [ -w "/usr/lib/jvm" ]; then
-  echo "Directory /usr/lib/jvm is writable :-)"
-else
-  echo "Directory /usr/lib/jvm is NOT writable (perhaps you did not run with sudo?)"
-  exit 1
-fi
+#if [ -w "/usr/lib/jvm" ]; then
+#  echo "Directory /usr/lib/jvm is writable :-)"
+#else
+#  echo "Directory /usr/lib/jvm is NOT writable (perhaps you did not run with sudo?)"
+#  exit 1
+#fi
 
 #
 # Automatically generated list of urls (do not edit by hand)
