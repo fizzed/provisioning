@@ -19,7 +19,7 @@ class HttpDemo {
         final HttpClient httpClient = HttpClient.newHttpClient();
 
         final HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create("https://api.github.com/repos/corretto/corretto-21/releases"))
+            .uri(URI.create("https://api.github.com/repos/corretto/corretto-25/releases"))
             .header("Accept", "application/vnd.github+json")
             .build();
 

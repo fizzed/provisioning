@@ -46,7 +46,7 @@ public class AdoptiumClient {
         final String responseJson = httpClient.send(request, HttpResponse.BodyHandlers.ofString())
             .body();
 
-        log.trace("{}", prettyPrintJson(this.objectMapper, responseJson));
+        log.debug("{}", prettyPrintJson(this.objectMapper, responseJson));
 
         return this.objectMapper.readValue(responseJson, new TypeReference<>() {});
     }
@@ -105,6 +105,7 @@ public class AdoptiumClient {
             case "sources":
             case "staticlibs":              // ??
             case "sbom":                    // ??
+            case "jmods":                   // ??
                 // these are images we really don't want to bother with
                 installer.setImageType(ImageType.OTHER);
                 break;

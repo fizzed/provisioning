@@ -95,7 +95,7 @@ public class blaze {
         }
 
         final AdoptiumClient adoptiumClient = new AdoptiumClient();
-        for (int javaMajorVersion : asList(21, 17, 11)) {
+        for (int javaMajorVersion : asList(25, 21, 17, 11)) {
             final List<JavaInstaller> javaInstallers = new ArrayList<>();
             log.info("Fetching temurin releases for jdk version {}...", javaMajorVersion);
             final List<AdoptiumJavaReleases> javaReleases1 = adoptiumClient.getReleases(javaMajorVersion);
@@ -235,6 +235,8 @@ public class blaze {
                             if (javaInstaller != null) {
 //                            log.info("Found jdk for {}, {}, {} at url {}", javaVersion, system, arch, javaInstaller.getDownloadUrl());
                                 shellSnippet.append("          JAVA_URL=\"" + javaInstaller.getDownloadUrl() + "\"\n");
+                                shellSnippet.append("          JAVA_TARGET_DISTRO=\"" + javaInstaller.getDistro().toString().toLowerCase() + "\"\n");
+                                shellSnippet.append("          JAVA_TARGET_VERSION=\"" + javaInstaller.getVersion() + "\"\n");
 
                             } else {
 //                            log.warn("Unable to find jdk for {}, {}, {}", javaVersion, system, arch);

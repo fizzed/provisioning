@@ -44,7 +44,7 @@ public class ZuluClient {
         final String responseJson = httpClient.send(request, HttpResponse.BodyHandlers.ofString())
             .body();
 
-        log.trace("{}", prettyPrintJson(this.objectMapper, responseJson));
+        log.debug("{}", prettyPrintJson(this.objectMapper, responseJson));
 
         return this.objectMapper.readValue(responseJson, new TypeReference<List<ZuluJavaRelease>>() {});
     }

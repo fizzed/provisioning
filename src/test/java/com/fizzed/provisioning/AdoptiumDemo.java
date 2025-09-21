@@ -20,7 +20,7 @@ class AdoptiumDemo {
     static public void main(String[] args) throws Exception {
         AdoptiumClient client = new AdoptiumClient();
 
-        List<AdoptiumJavaReleases> javaReleases1 = client.getReleases(8);
+        List<AdoptiumJavaReleases> javaReleases1 = client.getReleases(25);
 
         for (AdoptiumJavaReleases javaReleases : javaReleases1) {
             for (AdoptiumJavaRelease javaRelease : javaReleases.getBinaries()) {
