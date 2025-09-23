@@ -4384,6 +4384,86 @@
   "abi" : null
 }, {
   "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_aarch64_alpine-linux_hotspot_25_36.tar.gz",
+  "name" : "OpenJDK25U-jdk_aarch64_alpine-linux_hotspot_25_36.tar.gz",
+  "version" : {
+    "source" : "25+36",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "arm64",
+  "abi" : "musl"
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_ppc64le_linux_hotspot_25_36.tar.gz",
+  "name" : "OpenJDK25U-jdk_ppc64le_linux_hotspot_25_36.tar.gz",
+  "version" : {
+    "source" : "25+36",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_riscv64_linux_hotspot_25_36.tar.gz",
+  "name" : "OpenJDK25U-jdk_riscv64_linux_hotspot_25_36.tar.gz",
+  "version" : {
+    "source" : "25+36",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "riscv64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_s390x_linux_hotspot_25_36.tar.gz",
+  "name" : "OpenJDK25U-jdk_s390x_linux_hotspot_25_36.tar.gz",
+  "version" : {
+    "source" : "25+36",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "s390x",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_x64_linux_hotspot_25_36.tar.gz",
+  "name" : "OpenJDK25U-jdk_x64_linux_hotspot_25_36.tar.gz",
+  "version" : {
+    "source" : "25+36",
+    "major" : 25,
+    "minor" : 0,
+    "security" : 0,
+    "build" : 36
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
   "download_url" : "https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_x64_alpine-linux_hotspot_25_36.tar.gz",
   "name" : "OpenJDK25U-jdk_x64_alpine-linux_hotspot_25_36.tar.gz",
   "version" : {
