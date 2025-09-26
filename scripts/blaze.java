@@ -33,12 +33,23 @@ public class blaze {
 
     private Path resolveBinDir() {
         final NativeTarget nativeTarget = NativeTarget.detect();
-
         switch (nativeTarget.getOperatingSystem()) {
            case LINUX:
            case FREEBSD:
            case OPENBSD:
                 return Paths.get("/usr/local/bin");
+            default:
+                throw  new UnsupportedOperationException(nativeTarget.getOperatingSystem().toString() + " is not implemented yet (add to this CASE statement!)");
+        }
+    }
+
+    private Path resolveShareDir() {
+        final NativeTarget nativeTarget = NativeTarget.detect();
+        switch (nativeTarget.getOperatingSystem()) {
+            case LINUX:
+            case FREEBSD:
+            case OPENBSD:
+                return Paths.get("/usr/local/share");
             default:
                 throw  new UnsupportedOperationException(nativeTarget.getOperatingSystem().toString() + " is not implemented yet (add to this CASE statement!)");
         }
@@ -81,6 +92,8 @@ public class blaze {
             // make sure the place we are going to is writable BEFORE we bother to download anything
             final Path binDir = this.resolveBinDir();
             this.checkPathWritable(binDir);
+            final Path shareDir = this.resolveShareDir();
+            this.checkPathWritable(shareDir);
 
             // https://github.com/fastfetch-cli/fastfetch/releases/download/2.53.0/fastfetch-linux-amd64.zip
             final String url = nlm.format("https://github.com/fastfetch-cli/fastfetch/releases/download/{version}/fastfetch-{os}-{arch}.zip", nativeTarget);
@@ -110,6 +123,14 @@ public class blaze {
             mv(exeFile)
                 .verbose()
                 .target(binDir)
+                .force()
+                .run();
+
+            // we also need the share directory for presets, etc.
+            final Path sourceShareDir = unzippedDir.resolve("usr/share/fastfetch");
+            mv(sourceShareDir)
+                .verbose()
+                .target(shareDir)
                 .force()
                 .run();
         } finally {
