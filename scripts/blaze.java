@@ -78,6 +78,10 @@ public class blaze {
                 .add(HardwareArchitecture.ARM64, "aarch64")
                 .add(HardwareArchitecture.X64, "amd64");
 
+            // make sure the place we are going to is writable BEFORE we bother to download anything
+            final Path binDir = this.resolveBinDir();
+            this.checkPathWritable(binDir);
+
             // https://github.com/fastfetch-cli/fastfetch/releases/download/2.53.0/fastfetch-linux-amd64.zip
             final String url = nlm.format("https://github.com/fastfetch-cli/fastfetch/releases/download/{version}/fastfetch-{os}-{arch}.zip", nativeTarget);
             final Path downloadFile = this.scratchDir.resolve("fastfetch.zip");
@@ -98,10 +102,8 @@ public class blaze {
             // the usr/bin/fastfetch should exist
             final String exeFileName = nativeTarget.resolveExecutableFileName("fastfetch");
             final Path exeFile = unzippedDir.resolve("usr/bin").resolve(exeFileName);
-            final Path binDir = this.resolveBinDir();
 
             this.checkFileExists(exeFile);
-            this.checkPathWritable(binDir);
 
             this.chmodBinFile(exeFile);
 
@@ -111,7 +113,7 @@ public class blaze {
                 .force()
                 .run();
         } finally {
-            //this.after();
+            this.after();
         }
     }
 
