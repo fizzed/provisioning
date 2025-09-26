@@ -79,7 +79,7 @@ public class blaze {
 
     final private String fastfetchVersion = config.value("fastfetch.version").orElse("2.53.0");
 
-    public void bootstrap_fastfetch() throws Exception {
+    public void install_fastfetch() throws Exception {
         this.before();
         try {
             // detect current os & arch, then translate to values that nats-server project uses
