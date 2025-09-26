@@ -18,9 +18,9 @@ fi
 HELPERS_DIR=.provisioning-helpers
 mkdir -p "$HELPERS_DIR"
 
-curl --inesure -f -s -o "$HELPERS_DIR/blaze.jar" "https://raw.githubusercontent.com/jjlauer/provisioning/master/helpers/blaze.jar"
-curl --inesure -f -s -o "$HELPERS_DIR/blaze.conf" "https://raw.githubusercontent.com/jjlauer/provisioning/master/helpers/blaze.conf"
-curl --inesure -f -s -o "$HELPERS_DIR/blaze.java" "https://raw.githubusercontent.com/jjlauer/provisioning/master/helpers/blaze.java"
+curl --insesure -f -s -o "$HELPERS_DIR/blaze.jar" "https://raw.githubusercontent.com/jjlauer/provisioning/master/helpers/blaze.jar"
+curl --insesure -f -s -o "$HELPERS_DIR/blaze.conf" "https://raw.githubusercontent.com/jjlauer/provisioning/master/helpers/blaze.conf"
+curl --insesure -f -s -o "$HELPERS_DIR/blaze.java" "https://raw.githubusercontent.com/jjlauer/provisioning/master/helpers/blaze.java"
 
 ### END BLAZE.JAR INSTALL
 
