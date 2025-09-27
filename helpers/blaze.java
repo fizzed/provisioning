@@ -8,9 +8,8 @@ import org.slf4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.Set;
@@ -38,6 +37,34 @@ public class blaze {
 
     private void after() throws Exception {
         rm(this.scratchDir).recursive().force().verbose().run();
+    }
+
+    private Path resolveAppDir() throws Exception {
+        Path appDir = null;
+        switch (this.nativeTarget.getOperatingSystem()) {
+            case MACOS:
+            case LINUX:
+                appDir = Paths.get("/opt");
+                break;
+            case FREEBSD:
+            case OPENBSD:
+                appDir = Paths.get("/usr/local");
+                break;
+            default:
+                throw  new UnsupportedOperationException(this.nativeTarget.getOperatingSystem().toString() + " is not implemented yet (add to this CASE statement!)");
+        }
+
+        // amazingly, this may not exist yet
+        if (!Files.exists(appDir)) {
+            mkdir(appDir)
+                .parents()
+                .verbose()
+                .run();
+            // everyone needs to be able to read & execute
+            this.chmodBinFile(appDir);
+        }
+
+        return appDir;
     }
 
     private Path resolveBinDir() throws Exception {
@@ -92,6 +119,44 @@ public class blaze {
         return shareDir;
     }
 
+    private void installEnvVar(String appName, String name, Path value, boolean truncate) throws Exception {
+        this.installEnvVar(appName, name, value.toAbsolutePath().toString(), truncate);
+    }
+
+    private void installEnvVar(String appName, String name, String value, boolean truncate) throws Exception {
+        // does the /etc/profile.d directory exist?
+        final Path etcProfileDir = Paths.get("/etc/profile.d");
+        if (Files.exists(etcProfileDir)) {
+            final Path shellFile =  etcProfileDir.resolve(appName + ".sh");
+
+            // flags we'll use to write the lines with
+            OpenOption[] openOptions = new OpenOption[]{ StandardOpenOption.APPEND };
+            if (truncate) {
+                openOptions = new OpenOption[]{ StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.CREATE };
+            }
+
+            String lines = "export " + name + "=\"" + value + "\"\n";
+            Files.write(shellFile, lines.getBytes(StandardCharsets.UTF_8), openOptions);
+        }
+    }
+
+    private void installPath(String appName, Path value, boolean truncate) throws Exception {
+        // does the /etc/profile.d directory exist?
+        final Path etcProfileDir = Paths.get("/etc/profile.d");
+        if (Files.exists(etcProfileDir)) {
+            final Path shellFile =  etcProfileDir.resolve(appName + ".sh");
+
+            // flags we'll use to write the lines with
+            OpenOption[] openOptions = new OpenOption[]{ StandardOpenOption.APPEND };
+            if (truncate) {
+                openOptions = new OpenOption[]{ StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.CREATE };
+            }
+
+            String lines = "export PATH=\"" + value + ":$PATH\"\n";
+            Files.write(shellFile, lines.getBytes(StandardCharsets.UTF_8), openOptions);
+        }
+    }
+
     private void checkFileExists(Path path) throws Exception {
         if (Files.notExists(path)) {
             throw new FileNotFoundException("File " + path + " does not exist!");
@@ -113,6 +178,63 @@ public class blaze {
         final Set<PosixFilePermission> v = PosixFilePermissions.fromString(perms);
         Files.setPosixFilePermissions(path, v);
     }
+
+
+    final private String mavenVersion = config.value("maven.version").orElse("3.9.5");
+
+    public void install_maven() throws Exception {
+        this.before();
+        try {
+            log.info("Installing maven v{}...", this.mavenVersion);
+
+            final NativeLanguageModel nlm = new NativeLanguageModel()
+                .add("version", this.mavenVersion);
+
+            // make sure the place we are going to is writable BEFORE we bother to download anything
+            final Path appDir = this.resolveAppDir();
+            this.checkPathWritable(appDir);
+
+            // "https://dl.fizzed.com/maven/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
+            final String url = nlm.format("https://dl.fizzed.com/maven/apache-maven-{version}-bin.tar.gz", this.nativeTarget);
+            final Path downloadFile = this.scratchDir.resolve("maven.tar.gz");
+
+            httpGet(url)
+                .verbose()
+                .target(downloadFile)
+                .run();
+
+            final Path unzippedDir = this.scratchDir.resolve("maven");
+
+            unarchive(downloadFile)
+                .verbose()
+                .target(unzippedDir)
+                .stripLeadingPath()
+                .run();
+
+            final Path targetAppDir = appDir.resolve("maven");
+            rm(targetAppDir).recursive().force().run();
+            mv(unzippedDir)
+                .verbose()
+                .target(targetAppDir)
+                .force()
+                .run();
+
+            // we need to fix execute permissions
+            this.chmodBinFile(targetAppDir.resolve("bin/mvn"));
+            this.chmodBinFile(targetAppDir.resolve("bin/mvn.cmd"));
+            this.chmodBinFile(targetAppDir.resolve("bin/mvnDebug"));
+            this.chmodBinFile(targetAppDir.resolve("bin/mvnDebug.cmd"));
+
+            this.installEnvVar("maven", "M2_HOME", targetAppDir, true);
+            this.installPath("maven", targetAppDir.resolve("bin"), false);
+
+            log.info("Successfully installed maven v{}", this.mavenVersion);
+        } finally {
+            this.after();
+        }
+    }
+
+
 
     final private String fastfetchVersion = config.value("fastfetch.version").orElse("2.53.0");
 
