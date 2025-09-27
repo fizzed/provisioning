@@ -20,7 +20,7 @@ import static com.fizzed.blaze.Systems.*;
 public class blaze {
     private final Config config = Contexts.config();
     private final Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
-    private final Path scratchDir = Contexts.withBaseDir(".provisioning");
+    private final Path scratchDir = Contexts.withUserDir(".provisioning-ok-to-delete");
 
     private void before() throws Exception {
         this.after();
@@ -128,9 +128,11 @@ public class blaze {
 
             // we also need the share directory for presets, etc.
             final Path sourceShareDir = unzippedDir.resolve("usr/share/fastfetch");
+            final Path targetShareDir = shareDir.resolve("fastfetch");
+            rm(targetShareDir).recursive().force().run();
             mv(sourceShareDir)
                 .verbose()
-                .target(shareDir)
+                .target(targetShareDir)
                 .force()
                 .run();
         } finally {
