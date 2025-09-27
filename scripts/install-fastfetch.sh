@@ -19,9 +19,9 @@ TEMP_DIR=/tmp
 HELPERS_DIR="$TEMP_DIR/provisioning-helpers"
 mkdir "$HELPERS_DIR"
 
-curl --insecure -f -s -o "$HELPERS_DIR/blaze.jar" "https://raw.githubusercontent.com/jjlauer/provisioning/master/helpers/blaze.jar"
-curl --insecure -f -s -o "$HELPERS_DIR/blaze.conf" "https://raw.githubusercontent.com/jjlauer/provisioning/master/helpers/blaze.conf"
-curl --insecure -f -s -o "$HELPERS_DIR/blaze.java" "https://raw.githubusercontent.com/jjlauer/provisioning/master/helpers/blaze.java"
+curl --insecure -f -s -o "$HELPERS_DIR/blaze.jar" "https://raw.githubusercontent.com/fizzed/provisioning/master/helpers/blaze.jar"
+curl --insecure -f -s -o "$HELPERS_DIR/blaze.conf" "https://raw.githubusercontent.com/fizzed/provisioning/master/helpers/blaze.conf"
+curl --insecure -f -s -o "$HELPERS_DIR/blaze.java" "https://raw.githubusercontent.com/fizzed/provisioning/master/helpers/blaze.java"
 
 ### END BLAZE HEADER
 
