@@ -19,6 +19,7 @@ import java.util.Set;
 import static com.fizzed.blaze.Archives.unarchive;
 import static com.fizzed.blaze.Https.httpGet;
 import static com.fizzed.blaze.Systems.*;
+import static java.util.Optional.ofNullable;
 
 public class blaze {
     private final Config config = Contexts.config();
@@ -123,7 +124,7 @@ public class blaze {
 
     private void installEnv(Env env) throws Exception {
         final Shell shell = Shell.detect();
-        log.info("Detected shell {}", shell);
+        log.info("Detected shell {}", ofNullable(shell).map(Enum::toString).orElse("UNKNOWN"));
 
         // some possible locations we will use
         final Path bashEtcProfileDir = Paths.get("/etc/profile.d");
@@ -348,6 +349,7 @@ public class blaze {
 
         static public Shell detect() {
             final String shell = System.getenv("SHELL");
+            System.out.println("shell env: " + shell);
             if (shell != null) {
                 if (shell.contains("bash")) {
                     return Shell.BASH;
