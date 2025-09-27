@@ -122,18 +122,22 @@ public class blaze {
     }
 
     private void installEnv(Env env) throws Exception {
+        final Shell shell = Shell.detect();
+        log.info("Detected shell {}", shell);
+
         // some possible locations we will use
-        final Path etcProfileDir = Paths.get("/etc/profile.d");
-        final Path etcLocalProfileDir = Paths.get("/usr/local/etc/profile.d");
+        final Path bashEtcProfileDir = Paths.get("/etc/profile.d");
+        final Path bashEtcLocalProfileDir = Paths.get("/usr/local/etc/profile.d");
 
         // linux and freebsd share the same strategy, just different locations
-        if ((nativeTarget.getOperatingSystem() == OperatingSystem.LINUX && Files.exists(etcProfileDir))
-                || nativeTarget.getOperatingSystem() == OperatingSystem.FREEBSD) {
+        if (shell == Shell.BASH && (
+                (nativeTarget.getOperatingSystem() == OperatingSystem.LINUX && Files.exists(bashEtcProfileDir))
+                    || nativeTarget.getOperatingSystem() == OperatingSystem.FREEBSD)) {
 
-            Path targetDir = etcProfileDir;
+            Path targetDir = bashEtcProfileDir;
 
             if (nativeTarget.getOperatingSystem() == OperatingSystem.FREEBSD) {
-                targetDir = etcLocalProfileDir;
+                targetDir = bashEtcLocalProfileDir;
                 // on freebsd, we need to make sure the local profile dir exists
                 if (!Files.exists(targetDir)) {
                     mkdir(targetDir)
@@ -161,7 +165,9 @@ public class blaze {
 
             log.info("################################################################");
             log.info("");
-            log.info("Installed environment for {} to {}", env.getApplication(), targetFile);
+            log.info("Installed {} environment for {} to {}", shell, env.getApplication(), targetFile);
+            log.info("");
+            log.info("Usually a reboot is required for this system-wide profile to be activated...");
             log.info("");
             log.info("################################################################");
         }
@@ -333,6 +339,29 @@ public class blaze {
     }
 
     // Helpers
+
+    static public enum Shell {
+        BASH,
+        ZSH,
+        CSH,
+        KSH;
+
+        static public Shell detect() {
+            final String shell = System.getenv("SHELL");
+            if (shell != null) {
+                if (shell.contains("bash")) {
+                    return Shell.BASH;
+                } else if (shell.contains("zsh")) {
+                    return Shell.ZSH;
+                } else if (shell.contains("csh")) {
+                    return Shell.CSH;
+                } else if (shell.contains("ksh")) {
+                    return Shell.KSH;
+                }
+            }
+            return null;
+        }
+    }
 
     static public class EnvVar {
         final private String name;
