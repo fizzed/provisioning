@@ -3,6 +3,7 @@ import com.fizzed.blaze.Contexts;
 import com.fizzed.jne.HardwareArchitecture;
 import com.fizzed.jne.NativeLanguageModel;
 import com.fizzed.jne.NativeTarget;
+import org.slf4j.Logger;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,10 +20,17 @@ import static com.fizzed.blaze.Systems.*;
 
 public class blaze {
     private final Config config = Contexts.config();
+    private final Logger log = Contexts.logger();
     private final Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
     private final Path scratchDir = Contexts.withUserDir(".provisioning-ok-to-delete");
+    private final NativeTarget nativeTarget;
+
+    public blaze() {
+        this.nativeTarget = NativeTarget.detect();
+    }
 
     private void before() throws Exception {
+        log.info("Detected os [{}] with arch [{}] and abi [{}]", nativeTarget.getOperatingSystem(), nativeTarget.getHardwareArchitecture(), nativeTarget.getAbi());
         this.after();
         mkdir(this.scratchDir).parents().verbose().run();
     }
@@ -32,20 +40,18 @@ public class blaze {
     }
 
     private Path resolveBinDir() {
-        final NativeTarget nativeTarget = NativeTarget.detect();
-        switch (nativeTarget.getOperatingSystem()) {
+        switch (this.nativeTarget.getOperatingSystem()) {
            case LINUX:
            case FREEBSD:
            case OPENBSD:
                 return Paths.get("/usr/local/bin");
             default:
-                throw  new UnsupportedOperationException(nativeTarget.getOperatingSystem().toString() + " is not implemented yet (add to this CASE statement!)");
+                throw  new UnsupportedOperationException(this.nativeTarget.getOperatingSystem().toString() + " is not implemented yet (add to this CASE statement!)");
         }
     }
 
     private Path resolveShareDir() {
-        final NativeTarget nativeTarget = NativeTarget.detect();
-        switch (nativeTarget.getOperatingSystem()) {
+        switch (this.nativeTarget.getOperatingSystem()) {
             case LINUX:
             case FREEBSD:
             case OPENBSD:
@@ -83,7 +89,6 @@ public class blaze {
         this.before();
         try {
             // detect current os & arch, then translate to values that nats-server project uses
-            final NativeTarget nativeTarget = NativeTarget.detect();
             final NativeLanguageModel nlm = new NativeLanguageModel()
                 .add("version", this.fastfetchVersion)
                 .add(HardwareArchitecture.ARM64, "aarch64")
@@ -96,7 +101,7 @@ public class blaze {
             this.checkPathWritable(shareDir);
 
             // https://github.com/fastfetch-cli/fastfetch/releases/download/2.53.0/fastfetch-linux-amd64.zip
-            final String url = nlm.format("https://github.com/fastfetch-cli/fastfetch/releases/download/{version}/fastfetch-{os}-{arch}.zip", nativeTarget);
+            final String url = nlm.format("https://github.com/fastfetch-cli/fastfetch/releases/download/{version}/fastfetch-{os}-{arch}.zip", this.nativeTarget);
             final Path downloadFile = this.scratchDir.resolve("fastfetch.zip");
 
             httpGet(url)
@@ -113,7 +118,7 @@ public class blaze {
                 .run();
 
             // the usr/bin/fastfetch should exist
-            final String exeFileName = nativeTarget.resolveExecutableFileName("fastfetch");
+            final String exeFileName = this.nativeTarget.resolveExecutableFileName("fastfetch");
             final Path exeFile = unzippedDir.resolve("usr/bin").resolve(exeFileName);
 
             this.checkFileExists(exeFile);
