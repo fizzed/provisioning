@@ -187,6 +187,12 @@ public class blaze {
                 .target(targetShareDir)
                 .force()
                 .run();
+
+            exec(binDir.resolve(exeFileName), "-v")
+                .verbose()
+                .run();
+
+            log.info("fastfetch v{} has been successfully installed!", this.fastfetchVersion);
         } finally {
             this.after();
         }
