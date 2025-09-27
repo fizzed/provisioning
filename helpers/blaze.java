@@ -12,6 +12,8 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import static com.fizzed.blaze.Archives.unarchive;
@@ -119,41 +121,49 @@ public class blaze {
         return shareDir;
     }
 
-    private void installEnvVar(String appName, String name, Path value, boolean truncate) throws Exception {
-        this.installEnvVar(appName, name, value.toAbsolutePath().toString(), truncate);
-    }
-
-    private void installEnvVar(String appName, String name, String value, boolean truncate) throws Exception {
-        // does the /etc/profile.d directory exist?
+    private void installEnv(Env env) throws Exception {
+        // some possible locations we will use
         final Path etcProfileDir = Paths.get("/etc/profile.d");
-        if (Files.exists(etcProfileDir)) {
-            final Path shellFile =  etcProfileDir.resolve(appName + ".sh");
+        final Path etcLocalProfileDir = Paths.get("/usr/local/etc/profile.d");
 
-            // flags we'll use to write the lines with
-            OpenOption[] openOptions = new OpenOption[]{ StandardOpenOption.APPEND };
-            if (truncate) {
-                openOptions = new OpenOption[]{ StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.CREATE };
+        // linux and freebsd share the same strategy, just different locations
+        if ((nativeTarget.getOperatingSystem() == OperatingSystem.LINUX && Files.exists(etcProfileDir))
+                || nativeTarget.getOperatingSystem() == OperatingSystem.FREEBSD) {
+
+            Path targetDir = etcProfileDir;
+
+            if (nativeTarget.getOperatingSystem() == OperatingSystem.FREEBSD) {
+                targetDir = etcLocalProfileDir;
+                // on freebsd, we need to make sure the local profile dir exists
+                if (!Files.exists(targetDir)) {
+                    mkdir(targetDir)
+                        .parents()
+                        .verbose()
+                        .run();
+                    // everyone needs to be able to read & execute
+                    this.chmodBinFile(targetDir);
+                }
             }
 
-            String lines = "export " + name + "=\"" + value + "\"\n";
-            Files.write(shellFile, lines.getBytes(StandardCharsets.UTF_8), openOptions);
-        }
-    }
+            final Path targetFile = targetDir.resolve(env.getApplication() + ".sh");
 
-    private void installPath(String appName, Path value, boolean truncate) throws Exception {
-        // does the /etc/profile.d directory exist?
-        final Path etcProfileDir = Paths.get("/etc/profile.d");
-        if (Files.exists(etcProfileDir)) {
-            final Path shellFile =  etcProfileDir.resolve(appName + ".sh");
-
-            // flags we'll use to write the lines with
-            OpenOption[] openOptions = new OpenOption[]{ StandardOpenOption.APPEND };
-            if (truncate) {
-                openOptions = new OpenOption[]{ StandardOpenOption.TRUNCATE_EXISTING, StandardOpenOption.CREATE };
+            // build the shell file
+            final StringBuilder sb = new StringBuilder();
+            for (EnvVar var : env.getVars()) {
+                sb.append("export ").append(var.getName()).append("=\"").append(var.getValue()).append("\"\n");
+            }
+            for (EnvPath path : env.getPaths()) {
+                sb.append("export PATH=\"").append(path.getValue()).append(":$PATH\"\n");
             }
 
-            String lines = "export PATH=\"" + value + ":$PATH\"\n";
-            Files.write(shellFile, lines.getBytes(StandardCharsets.UTF_8), openOptions);
+            // overwrite the existing file (if its present)
+            Files.write(targetFile, sb.toString().getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+
+            log.info("################################################################");
+            log.info("");
+            log.info("Installed environment for {} to {}", env.getApplication(), targetFile);
+            log.info("");
+            log.info("################################################################");
         }
     }
 
@@ -225,16 +235,16 @@ public class blaze {
             this.chmodBinFile(targetAppDir.resolve("bin/mvnDebug"));
             this.chmodBinFile(targetAppDir.resolve("bin/mvnDebug.cmd"));
 
-            this.installEnvVar("maven", "M2_HOME", targetAppDir, true);
-            this.installPath("maven", targetAppDir.resolve("bin"), false);
+            this.installEnv(new Env("maven")
+                .addVar("M2_HOME", targetAppDir)
+                .addPath(targetAppDir.resolve("bin"))
+            );
 
             log.info("Successfully installed maven v{}", this.mavenVersion);
         } finally {
             this.after();
         }
     }
-
-
 
     final private String fastfetchVersion = config.value("fastfetch.version").orElse("2.53.0");
 
@@ -320,6 +330,82 @@ public class blaze {
         } finally {
             this.after();
         }
+    }
+
+    // Helpers
+
+    static public class EnvVar {
+        final private String name;
+        final private String value;
+
+        public EnvVar(String name, String value) {
+            this.name = name;
+            this.value = value;
+        }
+
+        public EnvVar(String name, Path value) {
+            this(name, value.toAbsolutePath().toString());
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getValue() {
+            return value;
+        }
+    }
+
+    static public class EnvPath {
+        final private Path value;
+
+        public EnvPath(Path value) {
+            this.value = value;
+        }
+
+        public Path getValue() {
+            return value;
+        }
+    }
+
+    static public class Env {
+        private final String application;
+        private final List<EnvVar> vars;
+        private final List<EnvPath> paths;
+
+        public Env(String application) {
+            this.application = application;
+            this.vars = new ArrayList<>();
+            this.paths = new ArrayList<>();
+        }
+
+        public Env addVar(String name, String value) {
+            this.vars.add(new EnvVar(name, value));
+            return this;
+        }
+
+        public Env addVar(String name, Path value) {
+            this.vars.add(new EnvVar(name, value));
+            return this;
+        }
+
+        public Env addPath(Path path) {
+            this.paths.add(new EnvPath(path));
+            return this;
+        }
+
+        public String getApplication() {
+            return application;
+        }
+
+        public List<EnvVar> getVars() {
+            return vars;
+        }
+
+        public List<EnvPath> getPaths() {
+            return paths;
+        }
+
     }
 
 }
