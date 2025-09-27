@@ -341,6 +341,15 @@ public class blaze {
 
     // Helpers
 
+    public void shell() {
+        Shell s = Shell.detect();
+        if (s == null) {
+            log.error("Unable to detect shell, exiting...");
+            System.exit(1);
+        }
+        log.info("Detected shell {}", s);
+    }
+
     static public enum Shell {
         BASH,
         ZSH,
@@ -348,19 +357,52 @@ public class blaze {
         KSH;
 
         static public Shell detect() {
-            final String shell = System.getenv("SHELL");
-            System.out.println("shell env: " + shell);
-            if (shell != null) {
-                if (shell.contains("bash")) {
+            String shellPath = null;
+
+            // NOTE: sometimes if running as "sudo", the shell the user will normally have will be changed just
+            // for sudo.  A more reliable method turns out to be "echo $0"??
+            final String sudoUser = System.getenv("SUDO_USER");
+            System.out.println("sudoUser env: " + sudoUser);
+
+            if (sudoUser != null) {
+                // looks like we are running as sudo, investigate /etc/passwd to see the default shell for the user
+                final Path etcPasswd = Paths.get("/etc/passwd");
+                if (Files.exists(etcPasswd)) {
+                    try {
+                        byte[] etcPasswdBytes = Files.readAllBytes(etcPasswd);
+                        String etcPasswdString = new String(etcPasswdBytes, StandardCharsets.UTF_8);
+                        String[] lines = etcPasswdString.split("\n");
+                        for (String line : lines) {
+                            String[] parts = line.split(":");
+                            if (parts.length == 7 && sudoUser.equals(parts[0])) {
+                                shellPath = parts[6];
+                                break;
+                            }
+                        }
+                    } catch (IOException e) {
+                        // ignore this error, will continue with later detection
+                    }
+                }
+            }
+
+            if (shellPath == null) {
+                // fallback to the shell variable (which hopefully matches the default)
+                shellPath = System.getenv("SHELL");
+            }
+
+            if (shellPath != null) {
+                if (shellPath.endsWith("bash")) {
                     return Shell.BASH;
-                } else if (shell.contains("zsh")) {
+                } else if (shellPath.endsWith("zsh")) {
                     return Shell.ZSH;
-                } else if (shell.contains("csh")) {
+                } else if (shellPath.endsWith("csh")) {
                     return Shell.CSH;
-                } else if (shell.contains("ksh")) {
+                } else if (shellPath.endsWith("ksh")) {
                     return Shell.KSH;
                 }
             }
+
+            // we were not able to detect it
             return null;
         }
     }
