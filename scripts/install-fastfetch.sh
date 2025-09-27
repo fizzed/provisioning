@@ -25,7 +25,7 @@ curl --insecure -f -s -o "$HELPERS_DIR/blaze.java" "https://raw.githubuserconten
 
 ### END BLAZE HEADER
 
-java -jar "$HELPERS_DIR/blaze.jar" "$HELPERS_DIR/blaze.java" install_fastfetch
+java -jar "$HELPERS_DIR/blaze.jar" "$HELPERS_DIR/blaze.java" install_fastfetch "$@"
 
 ### BEGIN BLAZE FOOTER
 

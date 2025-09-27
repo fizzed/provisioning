@@ -119,6 +119,8 @@ public class blaze {
     public void install_fastfetch() throws Exception {
         this.before();
         try {
+            log.info("Will install fastfetch v{}...", this.fastfetchVersion);
+
             // NOTE: fastfetch only publishes assets for some architectures, not all, we can make this recipe work
             // for a few more by delegating to the underlying package manager instead
             if (nativeTarget.getOperatingSystem() == OperatingSystem.FREEBSD && nativeTarget.getHardwareArchitecture() != HardwareArchitecture.X64) {
@@ -192,7 +194,7 @@ public class blaze {
                 .verbose()
                 .run();
 
-            log.info("fastfetch v{} has been successfully installed!", this.fastfetchVersion);
+            log.info("Successfully installed fastfetch v{}", this.fastfetchVersion);
         } finally {
             this.after();
         }
