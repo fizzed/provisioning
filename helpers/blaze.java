@@ -137,7 +137,9 @@ public class blaze {
             final NativeLanguageModel nlm = new NativeLanguageModel()
                 .add("version", this.fastfetchVersion)
                 .add(HardwareArchitecture.ARM64, "aarch64")
-                .add(HardwareArchitecture.X64, "amd64");
+                .add(HardwareArchitecture.X64, "amd64")
+                .add(HardwareArchitecture.ARMHF, "armv7l")
+                .add(HardwareArchitecture.ARMEL, "armv6l");
 
             // make sure the place we are going to is writable BEFORE we bother to download anything
             final Path binDir = this.resolveBinDir();
