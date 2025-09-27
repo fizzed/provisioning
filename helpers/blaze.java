@@ -40,16 +40,30 @@ public class blaze {
         rm(this.scratchDir).recursive().force().verbose().run();
     }
 
-    private Path resolveBinDir() {
+    private Path resolveBinDir() throws Exception {
+        Path binDir = null;
         switch (this.nativeTarget.getOperatingSystem()) {
            case MACOS:
            case LINUX:
            case FREEBSD:
            case OPENBSD:
-                return Paths.get("/usr/local/bin");
+               binDir = Paths.get("/usr/local/bin");
+               break;
             default:
                 throw  new UnsupportedOperationException(this.nativeTarget.getOperatingSystem().toString() + " is not implemented yet (add to this CASE statement!)");
         }
+
+        // amazingly, this may not exist yet
+        if (!Files.exists(binDir)) {
+            mkdir(binDir)
+                .parents()
+                .verbose()
+                .run();
+            // everyone needs to be able to read & execute
+            this.chmodBinFile(binDir);
+        }
+        
+        return binDir;
     }
 
     private Path resolveShareDir() {
