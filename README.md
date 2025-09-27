@@ -21,5 +21,5 @@ curl -s https://raw.githubusercontent.com/jjlauer/provisioning/master/linux/boot
 NOTE: `sudo` needs to have `java` in its path (this script leverages blaze to help install the app)
 
 ```
-curl -s https://raw.githubusercontent.com/jjlauer/provisioning/master/scripts/install-fastfetch.sh | sudo sh -s
+curl -s https://raw.githubusercontent.com/jjlauer/provisioning/master/scripts/install-fastfetch.sh | sudo sh
 ```

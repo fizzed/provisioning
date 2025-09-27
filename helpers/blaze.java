@@ -3,6 +3,7 @@ import com.fizzed.blaze.Contexts;
 import com.fizzed.jne.HardwareArchitecture;
 import com.fizzed.jne.NativeLanguageModel;
 import com.fizzed.jne.NativeTarget;
+import com.fizzed.jne.OperatingSystem;
 import org.slf4j.Logger;
 
 import java.io.FileNotFoundException;
@@ -88,6 +89,15 @@ public class blaze {
     public void install_fastfetch() throws Exception {
         this.before();
         try {
+            // NOTE: fastfetch only publishes assets for some architectures, not all, we can make this recipe work
+            // for a few more by delegating to the underlying package manager instead
+            if (nativeTarget.getOperatingSystem() == OperatingSystem.FREEBSD && nativeTarget.getHardwareArchitecture() != HardwareArchitecture.X64) {
+                exec("pkg", "install", "-y", "fastfetch")
+                    .verbose()
+                    .run();
+                return;
+            }
+
             // detect current os & arch, then translate to values that nats-server project uses
             final NativeLanguageModel nlm = new NativeLanguageModel()
                 .add("version", this.fastfetchVersion)
