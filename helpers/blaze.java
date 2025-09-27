@@ -42,6 +42,7 @@ public class blaze {
 
     private Path resolveBinDir() {
         switch (this.nativeTarget.getOperatingSystem()) {
+           case MACOS:
            case LINUX:
            case FREEBSD:
            case OPENBSD:
@@ -53,6 +54,7 @@ public class blaze {
 
     private Path resolveShareDir() {
         switch (this.nativeTarget.getOperatingSystem()) {
+            case MACOS:
             case LINUX:
             case FREEBSD:
             case OPENBSD:
@@ -93,6 +95,11 @@ public class blaze {
             // for a few more by delegating to the underlying package manager instead
             if (nativeTarget.getOperatingSystem() == OperatingSystem.FREEBSD && nativeTarget.getHardwareArchitecture() != HardwareArchitecture.X64) {
                 exec("pkg", "install", "-y", "fastfetch")
+                    .verbose()
+                    .run();
+                return;
+            } else if (nativeTarget.getOperatingSystem() == OperatingSystem.OPENBSD && nativeTarget.getHardwareArchitecture() != HardwareArchitecture.X64) {
+                exec("pkg_add", "fastfetch")
                     .verbose()
                     .run();
                 return;
