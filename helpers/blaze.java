@@ -221,17 +221,6 @@ public class blaze {
         }
     }
 
-    private boolean isTextMarkerPresent(Path file, String text) {
-        if (!Files.exists(file)) {
-            return false;
-        }
-        try (Stream<String> lines = Files.lines(file)) {
-            return lines.anyMatch(line -> line.contains(text));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
     private void checkFileExists(Path path) throws Exception {
         if (Files.notExists(path)) {
             throw new FileNotFoundException("File " + path + " does not exist!");
@@ -469,6 +458,7 @@ public class blaze {
             if (sudoUser != null) {
                 // looks like we are running as sudo, investigate /etc/passwd to see the default shell for the user
                 final Path etcPasswd = Paths.get("/etc/passwd");
+
                 if (Files.exists(etcPasswd)) {
                     try {
                         byte[] etcPasswdBytes = Files.readAllBytes(etcPasswd);
@@ -484,6 +474,12 @@ public class blaze {
                     } catch (IOException e) {
                         // ignore this error, will continue with later detection
                     }
+                }
+
+                // if we're running as sudo and we still do not have a shell, if we're on a mac assume zsh?
+                // the correct way is to actually use "dsl" utility
+                if (NativeTarget.detect().getOperatingSystem() == OperatingSystem.MACOS) {
+                    shellPath = "zsh";
                 }
             }
 
