@@ -204,13 +204,13 @@ public class blaze {
 
             for (EnvVar var : env.getVars()) {
                 // this is the line we want to have present
-                String line = "export " + var.getName() + " =\"" + var.getValue() + "\"";
+                String line = "export " + var.getName() + "=\"" + var.getValue() + "\"";
                 // does it already exist?
                 if (profileFileLines.stream().anyMatch(v -> v.equals(line))) {
                     log.info("Skipping environment variable for {} because it already exists in {}", var.getName(), profileFile);
                 } else {
                     log.info("Adding environment variable for {}={} to {}", var.getName(), var.getValue(), profileFile);
-                    Files.write(profileFile, ("\n"+line).getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                    Files.write(profileFile, ("\n"+line+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
                 }
             }
 
