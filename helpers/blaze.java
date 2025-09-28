@@ -15,6 +15,7 @@ import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Stream;
 
 import static com.fizzed.blaze.Archives.unarchive;
 import static com.fizzed.blaze.Https.httpGet;
@@ -124,11 +125,13 @@ public class blaze {
 
     private void installEnv(Env env) throws Exception {
         final Shell shell = Shell.detect();
-        log.info("Detected shell {}", ofNullable(shell).map(Enum::toString).orElse("UNKNOWN"));
-
         // some possible locations we will use
+        final Path homeDir = this.detectHomeDir();
         final Path bashEtcProfileDir = Paths.get("/etc/profile.d");
         final Path bashEtcLocalProfileDir = Paths.get("/usr/local/etc/profile.d");
+
+        log.info("Detected shell {}", ofNullable(shell).map(Enum::toString).orElse("UNKNOWN"));
+        log.info("Detected home dir {}", homeDir);
 
         // linux and freebsd share the same strategy, just different locations
         if (shell == Shell.BASH && (
@@ -171,6 +174,61 @@ public class blaze {
             log.info("Usually a reboot is required for this system-wide profile to be activated...");
             log.info("");
             log.info("################################################################");
+
+        } else if (shell == Shell.ZSH && nativeTarget.getOperatingSystem() == OperatingSystem.MACOS) {
+
+            final Path pathsDir = Paths.get("/etc/paths.d");
+            final Path pathFile = pathsDir.resolve(env.getApplication());
+
+            // build the path file
+            final StringBuilder sb = new StringBuilder();
+            for (EnvPath path : env.getPaths()) {
+                sb.append(path.getValue()).append("\n");
+            }
+
+            // overwrite the existing file (if its present)
+            Files.write(pathFile, sb.toString().getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+
+            log.info("################################################################");
+            log.info("");
+            log.info("Installed {} path for {} to {}", shell, env.getApplication(), pathFile);
+
+            // environment vars are more tricky, they need to be appended to ~/.zprofile
+            final Path profileFile = homeDir.resolve(".zprofile");
+            final List<String> profileFileLines;
+            if (Files.exists(profileFile)) {
+                profileFileLines = Files.readAllLines(profileFile, StandardCharsets.UTF_8);
+            } else {
+                profileFileLines = new ArrayList<>();
+            }
+
+            for (EnvVar var : env.getVars()) {
+                // this is the line we want to have present
+                String line = "export " + var.getName() + " =\"" + var.getValue() + "\"";
+                // does it already exist?
+                if (profileFileLines.stream().anyMatch(v -> v.equals(line))) {
+                    log.info("Skipping environment variable for {} because it already exists in {}", var.getName(), profileFile);
+                } else {
+                    log.info("Adding environment variable for {}={} to {}", var.getName(), var.getValue(), profileFile);
+                    Files.write(profileFile, ("\n"+line).getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE_NEW, StandardOpenOption.APPEND);
+                }
+            }
+
+            log.info("");
+            log.info("Usually a reboot is required for this system-wide profile to be activated...");
+            log.info("");
+            log.info("################################################################");
+        }
+    }
+
+    private boolean isTextMarkerPresent(Path file, String text) {
+        if (!Files.exists(file)) {
+            return false;
+        }
+        try (Stream<String> lines = Files.lines(file)) {
+            return lines.anyMatch(line -> line.contains(text));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -350,7 +408,45 @@ public class blaze {
         log.info("Detected shell {}", s);
     }
 
-    static public enum Shell {
+    public Path detectHomeDir() {
+        // are we being run as sudo?
+        final String home = System.getenv("HOME");
+        final String sudoUser = ofNullable(System.getenv("SUDO_USER")).orElse(System.getenv("DOAS_USER"));
+        final String sudoHome = System.getenv("SUDO_HOME");
+
+        if (sudoUser != null) {
+            if (sudoHome != null) {
+                return Paths.get(sudoHome);
+            }
+            // some systems, like macos do not set the SUDO_HOME env var
+            // the HOME may still be correct
+            if (home != null && home.endsWith(sudoUser)) {
+                return Paths.get(home);
+            }
+            // we'll need to parse the /etc/passwd file?
+            final Path etcPasswd = Paths.get("/etc/passwd");
+            if (Files.exists(etcPasswd)) {
+                try {
+                    byte[] etcPasswdBytes = Files.readAllBytes(etcPasswd);
+                    String etcPasswdString = new String(etcPasswdBytes, StandardCharsets.UTF_8);
+                    String[] lines = etcPasswdString.split("\n");
+                    for (String line : lines) {
+                        String[] parts = line.split(":");
+                        if (parts.length == 7 && sudoUser.equals(parts[0])) {
+                            return Paths.get(parts[5]);
+                        }
+                    }
+                } catch (IOException e) {
+                    // ignore this error, will continue with later detection
+                }
+            }
+        }
+
+        // otherwise, just return HOME
+        return Paths.get(home);
+    }
+
+    public enum Shell {
         BASH,
         ZSH,
         CSH,
@@ -361,8 +457,14 @@ public class blaze {
 
             // NOTE: sometimes if running as "sudo", the shell the user will normally have will be changed just
             // for sudo.  A more reliable method turns out to be "echo $0"??
-            final String sudoUser = System.getenv("SUDO_USER");
-            System.out.println("sudoUser env: " + sudoUser);
+            String sudoUser = System.getenv("SUDO_USER");
+            //System.out.println("sudoUser env: " + sudoUser);
+
+            // or DOAS_USER on openbsd
+            if (sudoUser == null) {
+                sudoUser = System.getenv("DOAS_USER");
+                //System.out.println("doasUser env: " + sudoUser);
+            }
 
             if (sudoUser != null) {
                 // looks like we are running as sudo, investigate /etc/passwd to see the default shell for the user
