@@ -218,6 +218,48 @@ public class blaze {
             log.info("Usually a reboot is required for this system-wide profile to be activated...");
             log.info("");
             log.info("################################################################");
+
+        } else if (shell == Shell.CSH) {
+            final Path profileFile = homeDir.resolve(".cshrc");
+            final List<String> profileFileLines;
+            if (Files.exists(profileFile)) {
+                profileFileLines = Files.readAllLines(profileFile, StandardCharsets.UTF_8);
+            } else {
+                profileFileLines = new ArrayList<>();
+            }
+
+            log.info("################################################################");
+            log.info("");
+
+            // append env vars first
+            for (EnvVar var : env.getVars()) {
+                // this is the line we want to have present
+                String line = "setenv " + var.getName() + " \"" + var.getValue() + "\"";
+                // does it already exist?
+                if (profileFileLines.stream().anyMatch(v -> v.equals(line))) {
+                    log.info("Skipping environment variable for {} because it already exists in {}", var.getName(), profileFile);
+                } else {
+                    log.info("Adding environment variable for {}={} to {}", var.getName(), var.getValue(), profileFile);
+                    Files.write(profileFile, ("\n"+line+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                }
+            }
+
+            for (EnvPath path : env.getPaths()) {
+                // this is the line we want to have present
+                String line = "setenv PATH \"" + path.getValue() + ":${PATH}\"";
+                // does it already exist?
+                if (profileFileLines.stream().anyMatch(v -> v.equals(line))) {
+                    log.info("Skipping environment path for {} because it already exists in {}", path.getValue(), profileFile);
+                } else {
+                    log.info("Adding environment path for {} to {}", path.getValue(), profileFile);
+                    Files.write(profileFile, ("\n"+line+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+                }
+            }
+
+            log.info("");
+            log.info("Usually a reboot is required for this system-wide profile to be activated...");
+            log.info("");
+            log.info("################################################################");
         }
     }
 
@@ -478,6 +520,7 @@ public class blaze {
 
                 // if we're running as sudo and we still do not have a shell, if we're on a mac assume zsh?
                 // the correct way is to actually use "dsl" utility
+                // dscl . -read /Users/builder
                 if (NativeTarget.detect().getOperatingSystem() == OperatingSystem.MACOS) {
                     shellPath = "zsh";
                 }
