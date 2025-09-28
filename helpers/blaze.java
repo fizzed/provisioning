@@ -210,7 +210,7 @@ public class blaze {
                     log.info("Skipping environment variable for {} because it already exists in {}", var.getName(), profileFile);
                 } else {
                     log.info("Adding environment variable for {}={} to {}", var.getName(), var.getValue(), profileFile);
-                    Files.write(profileFile, ("\n"+line).getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE_NEW, StandardOpenOption.APPEND);
+                    Files.write(profileFile, ("\n"+line).getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
                 }
             }
 
