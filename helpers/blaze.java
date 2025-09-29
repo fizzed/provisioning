@@ -1,9 +1,6 @@
 import com.fizzed.blaze.Config;
 import com.fizzed.blaze.Contexts;
-import com.fizzed.jne.HardwareArchitecture;
-import com.fizzed.jne.NativeLanguageModel;
-import com.fizzed.jne.NativeTarget;
-import com.fizzed.jne.OperatingSystem;
+import com.fizzed.jne.*;
 import org.slf4j.Logger;
 
 import java.io.FileNotFoundException;
@@ -15,7 +12,6 @@ import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Stream;
 
 import static com.fizzed.blaze.Archives.unarchive;
 import static com.fizzed.blaze.Https.httpGet;
@@ -43,290 +39,9 @@ public class blaze {
         rm(this.scratchDir).recursive().force().verbose().run();
     }
 
-    private Path resolveAppDir() throws Exception {
-        Path appDir = null;
-        switch (this.nativeTarget.getOperatingSystem()) {
-            case MACOS:
-            case LINUX:
-                appDir = Paths.get("/opt");
-                break;
-            case FREEBSD:
-            case OPENBSD:
-                appDir = Paths.get("/usr/local");
-                break;
-            default:
-                throw  new UnsupportedOperationException(this.nativeTarget.getOperatingSystem().toString() + " is not implemented yet (add to this CASE statement!)");
-        }
-
-        // amazingly, this may not exist yet
-        if (!Files.exists(appDir)) {
-            mkdir(appDir)
-                .parents()
-                .verbose()
-                .run();
-            // everyone needs to be able to read & execute
-            this.chmodBinFile(appDir);
-        }
-
-        return appDir;
-    }
-
-    private Path resolveBinDir() throws Exception {
-        Path binDir = null;
-        switch (this.nativeTarget.getOperatingSystem()) {
-           case MACOS:
-           case LINUX:
-           case FREEBSD:
-           case OPENBSD:
-               binDir = Paths.get("/usr/local/bin");
-               break;
-            default:
-                throw  new UnsupportedOperationException(this.nativeTarget.getOperatingSystem().toString() + " is not implemented yet (add to this CASE statement!)");
-        }
-
-        // amazingly, this may not exist yet
-        if (!Files.exists(binDir)) {
-            mkdir(binDir)
-                .parents()
-                .verbose()
-                .run();
-            // everyone needs to be able to read & execute
-            this.chmodBinFile(binDir);
-        }
-
-        return binDir;
-    }
-
-    private Path resolveShareDir() throws Exception {
-        Path shareDir = null;
-        switch (this.nativeTarget.getOperatingSystem()) {
-            case MACOS:
-            case LINUX:
-            case FREEBSD:
-            case OPENBSD:
-                shareDir = Paths.get("/usr/local/share");
-                break;
-            default:
-                throw  new UnsupportedOperationException(nativeTarget.getOperatingSystem().toString() + " is not implemented yet (add to this CASE statement!)");
-        }
-
-        // amazingly, this may not exist yet
-        if (!Files.exists(shareDir)) {
-            mkdir(shareDir)
-                .parents()
-                .verbose()
-                .run();
-            // everyone needs to be able to read & execute
-            this.chmodBinFile(shareDir);
-        }
-
-        return shareDir;
-    }
-
-    private void installEnv(Env env) throws Exception {
-        final Shell shell = Shell.detect();
-        // some possible locations we will use
-        final Path homeDir = this.detectHomeDir();
-        final Path bashEtcProfileDir = Paths.get("/etc/profile.d");
-        final Path bashEtcLocalProfileDir = Paths.get("/usr/local/etc/profile.d");
-
-        log.info("Detected shell {}", ofNullable(shell).map(Enum::toString).orElse("UNKNOWN"));
-        log.info("Detected home dir {}", homeDir);
-
-        // linux and freebsd share the same strategy, just different locations
-        if (shell == Shell.BASH && (
-                (nativeTarget.getOperatingSystem() == OperatingSystem.LINUX && Files.exists(bashEtcProfileDir))
-                    || nativeTarget.getOperatingSystem() == OperatingSystem.FREEBSD)) {
-
-            Path targetDir = bashEtcProfileDir;
-
-            if (nativeTarget.getOperatingSystem() == OperatingSystem.FREEBSD) {
-                targetDir = bashEtcLocalProfileDir;
-                // on freebsd, we need to make sure the local profile dir exists
-                if (!Files.exists(targetDir)) {
-                    mkdir(targetDir)
-                        .parents()
-                        .verbose()
-                        .run();
-                    // everyone needs to be able to read & execute
-                    this.chmodBinFile(targetDir);
-                }
-            }
-
-            final Path targetFile = targetDir.resolve(env.getApplication() + ".sh");
-
-            // build the shell file
-            final StringBuilder sb = new StringBuilder();
-            for (EnvVar var : env.getVars()) {
-                sb.append("export ").append(var.getName()).append("=\"").append(var.getValue()).append("\"\n");
-            }
-            for (EnvPath path : env.getPaths()) {
-                sb.append("export PATH=\"").append(path.getValue()).append(":$PATH\"\n");
-            }
-
-            // overwrite the existing file (if its present)
-            Files.write(targetFile, sb.toString().getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-
-            log.info("################################################################");
-            log.info("");
-            log.info("Installed {} environment for {} to {}", shell, env.getApplication(), targetFile);
-            log.info("");
-            log.info("Usually a reboot is required for this system-wide profile to be activated...");
-            log.info("");
-            log.info("################################################################");
-
-        } else if (shell == Shell.ZSH && nativeTarget.getOperatingSystem() == OperatingSystem.MACOS) {
-
-            final Path pathsDir = Paths.get("/etc/paths.d");
-            final Path pathFile = pathsDir.resolve(env.getApplication());
-
-            // build the path file
-            final StringBuilder sb = new StringBuilder();
-            for (EnvPath path : env.getPaths()) {
-                sb.append(path.getValue()).append("\n");
-            }
-
-            // overwrite the existing file (if its present)
-            Files.write(pathFile, sb.toString().getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-
-            log.info("################################################################");
-            log.info("");
-            log.info("Installed {} path for {} to {}", shell, env.getApplication(), pathFile);
-
-            // environment vars are more tricky, they need to be appended to ~/.zprofile
-            final Path profileFile = homeDir.resolve(".zprofile");
-            final List<String> profileFileLines;
-            if (Files.exists(profileFile)) {
-                profileFileLines = Files.readAllLines(profileFile, StandardCharsets.UTF_8);
-            } else {
-                profileFileLines = new ArrayList<>();
-            }
-
-            for (EnvVar var : env.getVars()) {
-                // this is the line we want to have present
-                String line = "export " + var.getName() + "=\"" + var.getValue() + "\"";
-                // does it already exist?
-                if (profileFileLines.stream().anyMatch(v -> v.equals(line))) {
-                    log.info("Skipping environment variable for {} because it already exists in {}", var.getName(), profileFile);
-                } else {
-                    log.info("Adding environment variable for {}={} to {}", var.getName(), var.getValue(), profileFile);
-                    Files.write(profileFile, ("\n"+line+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-                }
-            }
-
-            log.info("");
-            log.info("Usually a reboot is required for this system-wide profile to be activated...");
-            log.info("");
-            log.info("################################################################");
-
-        } else if (shell == Shell.CSH) {
-            final Path profileFile = homeDir.resolve(".cshrc");
-            final List<String> profileFileLines;
-            if (Files.exists(profileFile)) {
-                profileFileLines = Files.readAllLines(profileFile, StandardCharsets.UTF_8);
-            } else {
-                profileFileLines = new ArrayList<>();
-            }
-
-            log.info("################################################################");
-            log.info("");
-
-            // append env vars first
-            for (EnvVar var : env.getVars()) {
-                // this is the line we want to have present
-                String line = "setenv " + var.getName() + " \"" + var.getValue() + "\"";
-                // does it already exist?
-                if (profileFileLines.stream().anyMatch(v -> v.equals(line))) {
-                    log.info("Skipping environment variable for {} because it already exists in {}", var.getName(), profileFile);
-                } else {
-                    log.info("Adding environment variable for {}={} to {}", var.getName(), var.getValue(), profileFile);
-                    Files.write(profileFile, ("\n"+line+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-                }
-            }
-
-            for (EnvPath path : env.getPaths()) {
-                // this is the line we want to have present
-                String line = "setenv PATH \"" + path.getValue() + ":${PATH}\"";
-                // does it already exist?
-                if (profileFileLines.stream().anyMatch(v -> v.equals(line))) {
-                    log.info("Skipping environment path for {} because it already exists in {}", path.getValue(), profileFile);
-                } else {
-                    log.info("Adding environment path for {} to {}", path.getValue(), profileFile);
-                    Files.write(profileFile, ("\n"+line+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-                }
-            }
-
-            log.info("");
-            log.info("Usually a reboot is required for this system-wide profile to be activated...");
-            log.info("");
-            log.info("################################################################");
-
-        } else if (shell == Shell.KSH) {
-            final Path profileFile = homeDir.resolve(".profile");
-            final List<String> profileFileLines;
-            if (Files.exists(profileFile)) {
-                profileFileLines = Files.readAllLines(profileFile, StandardCharsets.UTF_8);
-            } else {
-                profileFileLines = new ArrayList<>();
-            }
-
-            log.info("################################################################");
-            log.info("");
-
-            // append env vars first
-            for (EnvVar var : env.getVars()) {
-                // this is the line we want to have present
-                String line = "export " + var.getName() + "=\"" + var.getValue() + "\"";
-                // does it already exist?
-                if (profileFileLines.stream().anyMatch(v -> v.equals(line))) {
-                    log.info("Skipping environment variable for {} because it already exists in {}", var.getName(), profileFile);
-                } else {
-                    log.info("Adding environment variable for {}={} to {}", var.getName(), var.getValue(), profileFile);
-                    Files.write(profileFile, ("\n"+line+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-                }
-            }
-
-            for (EnvPath path : env.getPaths()) {
-                // this is the line we want to have present
-                String line = "export PATH=\"" + path.getValue() + ":$PATH\"";
-                // does it already exist?
-                if (profileFileLines.stream().anyMatch(v -> v.equals(line))) {
-                    log.info("Skipping environment path for {} because it already exists in {}", path.getValue(), profileFile);
-                } else {
-                    log.info("Adding environment path for {} to {}", path.getValue(), profileFile);
-                    Files.write(profileFile, ("\n"+line+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-                }
-            }
-
-            log.info("");
-            log.info("Usually a reboot is required for this system-wide profile to be activated...");
-            log.info("");
-            log.info("################################################################");
-        }
-    }
-
-    private void checkFileExists(Path path) throws Exception {
-        if (Files.notExists(path)) {
-            throw new FileNotFoundException("File " + path + " does not exist!");
-        }
-    }
-
-    private void checkPathWritable(Path path) throws Exception {
-        if (!Files.isWritable(path)) {
-            throw new IOException("Path " + path + " is not writable (perhaps you meant to run this as sudo?)");
-        }
-    }
-
-    private void chmodBinFile(Path path) throws Exception {
-        final Set<PosixFilePermission> v = PosixFilePermissions.fromString("rwxr-xr-x");
-        Files.setPosixFilePermissions(path, v);
-    }
-
-    private void chmodFile(Path path, String perms) throws Exception {
-        final Set<PosixFilePermission> v = PosixFilePermissions.fromString(perms);
-        Files.setPosixFilePermissions(path, v);
-    }
-
+    //
+    // Apache Maven Install
+    //
 
     final private String mavenVersion = config.value("maven.version").orElse("3.9.5");
 
@@ -383,6 +98,10 @@ public class blaze {
             this.after();
         }
     }
+
+    //
+    // Fastfetch Install
+    //
 
     final private String fastfetchVersion = config.value("fastfetch.version").orElse("2.53.0");
 
@@ -470,123 +189,267 @@ public class blaze {
         }
     }
 
+    //
     // Helpers
+    //
 
-    public void shell() {
-        Shell s = Shell.detect();
-        if (s == null) {
-            log.error("Unable to detect shell, exiting...");
-            System.exit(1);
-        }
-        log.info("Detected shell {}", s);
-    }
-
-    public Path detectHomeDir() {
-        // are we being run as sudo?
-        final String home = System.getenv("HOME");
-        final String sudoUser = ofNullable(System.getenv("SUDO_USER")).orElse(System.getenv("DOAS_USER"));
-        final String sudoHome = System.getenv("SUDO_HOME");
-
-        if (sudoUser != null) {
-            if (sudoHome != null) {
-                return Paths.get(sudoHome);
-            }
-            // some systems, like macos do not set the SUDO_HOME env var
-            // the HOME may still be correct
-            if (home != null && home.endsWith(sudoUser)) {
-                return Paths.get(home);
-            }
-            // we'll need to parse the /etc/passwd file?
-            final Path etcPasswd = Paths.get("/etc/passwd");
-            if (Files.exists(etcPasswd)) {
-                try {
-                    byte[] etcPasswdBytes = Files.readAllBytes(etcPasswd);
-                    String etcPasswdString = new String(etcPasswdBytes, StandardCharsets.UTF_8);
-                    String[] lines = etcPasswdString.split("\n");
-                    for (String line : lines) {
-                        String[] parts = line.split(":");
-                        if (parts.length == 7 && sudoUser.equals(parts[0])) {
-                            return Paths.get(parts[5]);
-                        }
-                    }
-                } catch (IOException e) {
-                    // ignore this error, will continue with later detection
-                }
-            }
+    private Path resolveAppDir() throws Exception {
+        Path appDir = null;
+        switch (this.nativeTarget.getOperatingSystem()) {
+            case MACOS:
+            case LINUX:
+                appDir = Paths.get("/opt");
+                break;
+            case FREEBSD:
+            case OPENBSD:
+                appDir = Paths.get("/usr/local");
+                break;
+            default:
+                throw  new UnsupportedOperationException(this.nativeTarget.getOperatingSystem().toString() + " is not implemented yet (add to this CASE statement!)");
         }
 
-        // otherwise, just return HOME
-        return Paths.get(home);
+        // amazingly, this may not exist yet
+        if (!Files.exists(appDir)) {
+            mkdir(appDir)
+                .parents()
+                .verbose()
+                .run();
+            // everyone needs to be able to read & execute
+            this.chmodBinFile(appDir);
+        }
+
+        return appDir;
     }
 
-    public enum Shell {
-        BASH,
-        ZSH,
-        CSH,
-        KSH;
+    private Path resolveBinDir() throws Exception {
+        Path binDir = null;
+        switch (this.nativeTarget.getOperatingSystem()) {
+            case MACOS:
+            case LINUX:
+            case FREEBSD:
+            case OPENBSD:
+                binDir = Paths.get("/usr/local/bin");
+                break;
+            default:
+                throw  new UnsupportedOperationException(this.nativeTarget.getOperatingSystem().toString() + " is not implemented yet (add to this CASE statement!)");
+        }
 
-        static public Shell detect() {
-            String shellPath = null;
+        // amazingly, this may not exist yet
+        if (!Files.exists(binDir)) {
+            mkdir(binDir)
+                .parents()
+                .verbose()
+                .run();
+            // everyone needs to be able to read & execute
+            this.chmodBinFile(binDir);
+        }
 
-            // NOTE: sometimes if running as "sudo", the shell the user will normally have will be changed just
-            // for sudo.  A more reliable method turns out to be "echo $0"??
-            String sudoUser = System.getenv("SUDO_USER");
-            //System.out.println("sudoUser env: " + sudoUser);
+        return binDir;
+    }
 
-            // or DOAS_USER on openbsd
-            if (sudoUser == null) {
-                sudoUser = System.getenv("DOAS_USER");
-                //System.out.println("doasUser env: " + sudoUser);
-            }
+    private Path resolveShareDir() throws Exception {
+        Path shareDir = null;
+        switch (this.nativeTarget.getOperatingSystem()) {
+            case MACOS:
+            case LINUX:
+            case FREEBSD:
+            case OPENBSD:
+                shareDir = Paths.get("/usr/local/share");
+                break;
+            default:
+                throw  new UnsupportedOperationException(nativeTarget.getOperatingSystem().toString() + " is not implemented yet (add to this CASE statement!)");
+        }
 
-            if (sudoUser != null) {
-                // looks like we are running as sudo, investigate /etc/passwd to see the default shell for the user
-                final Path etcPasswd = Paths.get("/etc/passwd");
+        // amazingly, this may not exist yet
+        if (!Files.exists(shareDir)) {
+            mkdir(shareDir)
+                .parents()
+                .verbose()
+                .run();
+            // everyone needs to be able to read & execute
+            this.chmodBinFile(shareDir);
+        }
 
-                if (Files.exists(etcPasswd)) {
-                    try {
-                        byte[] etcPasswdBytes = Files.readAllBytes(etcPasswd);
-                        String etcPasswdString = new String(etcPasswdBytes, StandardCharsets.UTF_8);
-                        String[] lines = etcPasswdString.split("\n");
-                        for (String line : lines) {
-                            String[] parts = line.split(":");
-                            if (parts.length == 7 && sudoUser.equals(parts[0])) {
-                                shellPath = parts[6];
-                                break;
-                            }
-                        }
-                    } catch (IOException e) {
-                        // ignore this error, will continue with later detection
-                    }
+        return shareDir;
+    }
+
+    private void installEnv(Env env) throws Exception {
+        // even if running as sudo/doas, we want the user installing NOT if they are elevated
+        final UserEnvironment userEnvironment = UserEnvironment.detectLogical();
+
+        // some possible locations we will use
+        final ShellType shellType = userEnvironment.getShellType();
+        final Path homeDir = userEnvironment.getHomeDir();
+        final Path bashEtcProfileDir = Paths.get("/etc/profile.d");
+        final Path bashEtcLocalProfileDir = Paths.get("/usr/local/etc/profile.d");
+
+        log.info("Detected homeDir: {}", homeDir);
+        log.info("Detected shellType: {}", ofNullable(shellType).map(Enum::toString).orElse("UNKNOWN"));
+
+        // linux and freebsd share the same strategy, just different locations
+        if (shellType == ShellType.BASH && (
+            (nativeTarget.getOperatingSystem() == OperatingSystem.LINUX && Files.exists(bashEtcProfileDir))
+                || nativeTarget.getOperatingSystem() == OperatingSystem.FREEBSD)) {
+
+            Path targetDir = bashEtcProfileDir;
+
+            if (nativeTarget.getOperatingSystem() == OperatingSystem.FREEBSD) {
+                targetDir = bashEtcLocalProfileDir;
+                // on freebsd, we need to make sure the local profile dir exists
+                if (!Files.exists(targetDir)) {
+                    mkdir(targetDir)
+                        .parents()
+                        .verbose()
+                        .run();
+                    // everyone needs to be able to read & execute
+                    this.chmodBinFile(targetDir);
                 }
-
-                // if we're running as sudo and we still do not have a shell, if we're on a mac assume zsh?
-                // the correct way is to actually use "dsl" utility
-                // dscl . -read /Users/builder
-                if (NativeTarget.detect().getOperatingSystem() == OperatingSystem.MACOS) {
-                    shellPath = "zsh";
-                }
             }
 
-            if (shellPath == null) {
-                // fallback to the shell variable (which hopefully matches the default)
-                shellPath = System.getenv("SHELL");
+            final Path targetFile = targetDir.resolve(env.getApplication() + ".sh");
+
+            // build the shell file
+            final StringBuilder sb = new StringBuilder();
+            for (EnvVar var : env.getVars()) {
+                sb.append("export ").append(var.getName()).append("=\"").append(var.getValue()).append("\"\n");
+            }
+            for (EnvPath path : env.getPaths()) {
+                sb.append("export PATH=\"").append(path.getValue()).append(":$PATH\"\n");
             }
 
-            if (shellPath != null) {
-                if (shellPath.endsWith("bash")) {
-                    return Shell.BASH;
-                } else if (shellPath.endsWith("zsh")) {
-                    return Shell.ZSH;
-                } else if (shellPath.endsWith("csh")) {
-                    return Shell.CSH;
-                } else if (shellPath.endsWith("ksh")) {
-                    return Shell.KSH;
-                }
+            // overwrite the existing file (if its present)
+            Files.write(targetFile, sb.toString().getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+
+            log.info("################################################################");
+            log.info("");
+            log.info("Installed {} environment for {} to {}", shellType, env.getApplication(), targetFile);
+            log.info("");
+            log.info("Usually a REBOOT is required for this system-wide profile to be activated...");
+            log.info("");
+            log.info("################################################################");
+
+        } else if (shellType == ShellType.ZSH && nativeTarget.getOperatingSystem() == OperatingSystem.MACOS) {
+
+            final Path pathsDir = Paths.get("/etc/paths.d");
+            final Path pathFile = pathsDir.resolve(env.getApplication());
+
+            // build the path file
+            final StringBuilder sb = new StringBuilder();
+            for (EnvPath path : env.getPaths()) {
+                sb.append(path.getValue()).append("\n");
             }
 
-            // we were not able to detect it
-            return null;
+            // overwrite the existing file (if its present)
+            Files.write(pathFile, sb.toString().getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+
+            log.info("################################################################");
+            log.info("");
+            log.info("Installed {} path for {} to {}", shellType, env.getApplication(), pathFile);
+
+            // environment vars are more tricky, they need to be appended to ~/.zprofile
+            final Path profileFile = homeDir.resolve(".zprofile");
+            final List<String> profileFileLines = readFileLines(profileFile);
+
+            for (EnvVar var : env.getVars()) {
+                // this is the line we want to have present
+                String line = "export " + var.getName() + "=\"" + var.getValue() + "\"";
+                appendLineIfNotExists(profileFileLines, profileFile, line);
+            }
+
+            log.info("");
+            log.info("Usually a REBOOT is required for this system-wide profile to be activated...");
+            log.info("");
+            log.info("################################################################");
+
+        } else if (shellType == ShellType.CSH) {
+            final Path profileFile = homeDir.resolve(".cshrc");
+            final List<String> profileFileLines = readFileLines(profileFile);
+
+            log.info("################################################################");
+            log.info("");
+
+            // append env vars first
+            for (EnvVar var : env.getVars()) {
+                // this is the line we want to have present
+                String line = "setenv " + var.getName() + " \"" + var.getValue() + "\"";
+                appendLineIfNotExists(profileFileLines, profileFile, line);
+            }
+
+            for (EnvPath path : env.getPaths()) {
+                // this is the line we want to have present
+                String line = "setenv PATH \"" + path.getValue() + ":${PATH}\"";
+                appendLineIfNotExists(profileFileLines, profileFile, line);
+            }
+
+            log.info("");
+            log.info("Usually logging OUT/IN is required for this profile to be activated...");
+            log.info("");
+            log.info("################################################################");
+
+        } else if (shellType == ShellType.KSH) {
+            final Path profileFile = homeDir.resolve(".profile");
+            final List<String> profileFileLines = readFileLines(profileFile);
+
+            log.info("################################################################");
+            log.info("");
+
+            // append env vars first
+            for (EnvVar var : env.getVars()) {
+                // this is the line we want to have present
+                String line = "export " + var.getName() + "=\"" + var.getValue() + "\"";
+                appendLineIfNotExists(profileFileLines, profileFile, line);
+            }
+
+            for (EnvPath path : env.getPaths()) {
+                // this is the line we want to have present
+                String line = "export PATH=\"" + path.getValue() + ":$PATH\"";
+                appendLineIfNotExists(profileFileLines, profileFile, line);
+            }
+
+            log.info("");
+            log.info("Usually logging OUT/IN is required for this profile to be activated...");
+            log.info("");
+            log.info("################################################################");
+        }
+    }
+
+    private void checkFileExists(Path path) throws Exception {
+        if (Files.notExists(path)) {
+            throw new FileNotFoundException("File " + path + " does not exist!");
+        }
+    }
+
+    private void checkPathWritable(Path path) throws Exception {
+        if (!Files.isWritable(path)) {
+            throw new IOException("Path " + path + " is not writable (perhaps you meant to run this as sudo?)");
+        }
+    }
+
+    private void chmodBinFile(Path path) throws Exception {
+        final Set<PosixFilePermission> v = PosixFilePermissions.fromString("rwxr-xr-x");
+        Files.setPosixFilePermissions(path, v);
+    }
+
+    private void chmodFile(Path path, String perms) throws Exception {
+        final Set<PosixFilePermission> v = PosixFilePermissions.fromString(perms);
+        Files.setPosixFilePermissions(path, v);
+    }
+
+    private List<String> readFileLines(Path file) throws IOException {
+        final List<String> profileFileLines;
+        if (Files.exists(file)) {
+            return Files.readAllLines(file, StandardCharsets.UTF_8);
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    private void appendLineIfNotExists(List<String> filesLine, Path file, String line) throws IOException {
+        if (filesLine.stream().anyMatch(v -> v.equals(line))) {
+            log.info("Skipping '{}' (already exists in {})", line, file);
+        } else {
+            log.info("Adding '{}' to {}", line, file);
+            Files.write(file, ("\n"+line+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         }
     }
 
