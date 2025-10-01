@@ -3,6 +3,7 @@ import com.fizzed.blaze.Contexts;
 import com.fizzed.jne.*;
 import org.slf4j.Logger;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -10,12 +11,15 @@ import java.nio.file.*;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
 import static com.fizzed.blaze.Archives.unarchive;
 import static com.fizzed.blaze.Https.httpGet;
 import static com.fizzed.blaze.Systems.*;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 import static java.util.Optional.ofNullable;
 
 public class blaze {
@@ -108,7 +112,10 @@ public class blaze {
     public void install_fastfetch() throws Exception {
         this.before();
         try {
-            log.info("Installing fastfetch v{}...", this.fastfetchVersion);
+            final EnvScope scope = this.resolveScope();
+            final InstallEnvironment installEnvironment = InstallEnvironment.detect("FastFetch", "fastfetch", scope);
+
+            log.info("Installing fastfetch v{} with scope {}...", this.fastfetchVersion, scope);
 
             // NOTE: fastfetch only publishes assets for some architectures, not all, we can make this recipe work
             // for a few more by delegating to the underlying package manager instead
@@ -131,47 +138,55 @@ public class blaze {
                 .add(HardwareArchitecture.X64, "amd64")
                 .add(HardwareArchitecture.ARMHF, "armv7l")
                 .add(HardwareArchitecture.ARMEL, "armv6l");
-
-            // make sure the place we are going to is writable BEFORE we bother to download anything
-            final Path binDir = this.resolveBinDir();
-            this.checkPathWritable(binDir);
-            final Path shareDir = this.resolveShareDir();
-            this.checkPathWritable(shareDir);
+            
+            final Path targetLocalBinDir = installEnvironment.resolveLocalBinDir(true);
+            final Path targetLocalShareDir = installEnvironment.resolveLocalShareDir(true);
 
             // https://github.com/fastfetch-cli/fastfetch/releases/download/2.53.0/fastfetch-linux-amd64.zip
             final String url = nlm.format("https://github.com/fastfetch-cli/fastfetch/releases/download/{version}/fastfetch-{os}-{arch}.zip", this.nativeTarget);
-            final Path downloadFile = this.scratchDir.resolve("fastfetch.zip");
+            final Path archiveFile = this.scratchDir.resolve("fastfetch.zip");
 
             httpGet(url)
                 .verbose()
-                .target(downloadFile)
+                .target(archiveFile)
                 .run();
 
-            final Path unzippedDir = this.scratchDir.resolve("fastfetch");
+            final Path unarchivedDir = this.scratchDir.resolve("fastfetch");
 
-            unarchive(downloadFile)
+            // NOTE: annoyingly, on windows, the archive file structure is different and its "flattened" so it all goes
+            // into the same directory (including the presets), so we don't want to strip any components on that platform
+            // while also adjusting the locations of everything else too
+            int stripComponents = 1;
+            String archiveBinDir = "usr/bin";
+            String archiveShareDir = "usr/share/fastfetch";
+
+            if (installEnvironment.getOperatingSystem() == OperatingSystem.WINDOWS) {
+                stripComponents = 0;
+                archiveBinDir = ".";
+                archiveShareDir = ".";
+            }
+
+            unarchive(archiveFile)
                 .verbose()
-                .target(unzippedDir)
-                .stripLeadingPath()
+                .target(unarchivedDir)
+                .stripComponents(stripComponents)
                 .run();
 
             // the usr/bin/fastfetch should exist
             final String exeFileName = this.nativeTarget.resolveExecutableFileName("fastfetch");
-            final Path exeFile = unzippedDir.resolve("usr/bin").resolve(exeFileName);
+            final Path sourceExeFile = unarchivedDir.resolve(archiveBinDir).resolve(exeFileName);
 
-            this.checkFileExists(exeFile);
+            this.chmodBinFile(sourceExeFile);
 
-            this.chmodBinFile(exeFile);
-
-            mv(exeFile)
+            mv(sourceExeFile)
                 .verbose()
-                .target(binDir)
+                .target(targetLocalBinDir)
                 .force()
                 .run();
 
             // we also need the share directory for presets, etc.
-            final Path sourceShareDir = unzippedDir.resolve("usr/share/fastfetch");
-            final Path targetShareDir = shareDir.resolve("fastfetch");
+            final Path sourceShareDir = unarchivedDir.resolve(archiveShareDir);
+            final Path targetShareDir = targetLocalShareDir.resolve("fastfetch");
             rm(targetShareDir).recursive().force().run();
             mv(sourceShareDir)
                 .verbose()
@@ -179,9 +194,15 @@ public class blaze {
                 .force()
                 .run();
 
-            exec(binDir.resolve(exeFileName), "-v")
+            // validate the install worked by displaying the version
+            exec(targetLocalBinDir.resolve(exeFileName), "-v")
                 .verbose()
                 .run();
+
+            installEnvironment.installEnv(
+                emptyList(),
+                singletonList(new com.fizzed.jne.EnvPath(targetLocalBinDir))
+            );
 
             log.info("Successfully installed fastfetch v{}", this.fastfetchVersion);
         } finally {
@@ -192,6 +213,20 @@ public class blaze {
     //
     // Helpers
     //
+
+    private EnvScope resolveScope() {
+        final String scopeStr = this.config.value("scope").orNull();
+        if (scopeStr != null) {
+            if ("user".equalsIgnoreCase(scopeStr)) {
+                return EnvScope.USER;
+            } else if ("system".equalsIgnoreCase(scopeStr)) {
+                return EnvScope.SYSTEM;
+            } else {
+                throw new IllegalArgumentException("Invalid scope value: " + scopeStr);
+            }
+        }
+        return EnvScope.SYSTEM;
+    }
 
     private Path resolveAppDir() throws Exception {
         Path appDir = null;
@@ -426,8 +461,14 @@ public class blaze {
     }
 
     private void chmodBinFile(Path path) throws Exception {
-        final Set<PosixFilePermission> v = PosixFilePermissions.fromString("rwxr-xr-x");
-        Files.setPosixFilePermissions(path, v);
+        try {
+            final Set<PosixFilePermission> v = PosixFilePermissions.fromString("rwxr-xr-x");
+            Files.setPosixFilePermissions(path, v);
+        } catch (UnsupportedOperationException e) {
+            // fallback to hacky File method
+            final File file = path.toFile();
+            file.setExecutable(true);
+        }
     }
 
     private void chmodFile(Path path, String perms) throws Exception {
