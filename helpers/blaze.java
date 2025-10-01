@@ -31,6 +31,14 @@ public class blaze {
         log.info("Detected platform {} (arch {}) (abi {})", nativeTarget.getOperatingSystem(), nativeTarget.getHardwareArchitecture(), nativeTarget.getAbi());
         log.info("Using install scope {}", this.scope);
 
+        if (scope == EnvScope.SYSTEM) {
+            UserEnvironment userEnvironment = UserEnvironment.detectLogical();
+            if (!userEnvironment.isElevated()) {
+                throw new IllegalStateException("Cannot install to system scope without elevated permissions (maybe run it with sudo?)");
+            }
+            log.info("Confirmed you are running with elevated permissions :-)");
+        }
+
         this.after(false);
         mkdir(this.scratchDir).parents().verbose().run();
     }
@@ -202,6 +210,8 @@ public class blaze {
             exec(targetLocalBinDir.resolve(exeFileName), "-v")
                 .verbose()
                 .run();
+
+            log.info("Installing env now...");
 
             installEnvironment.installEnv(
                 singletonList(new EnvPath(targetLocalBinDir)),
