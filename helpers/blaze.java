@@ -27,14 +27,16 @@ public class blaze {
     private final Logger log = Contexts.logger();
     private final Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
     private final Path scratchDir = Contexts.withUserDir(".provisioning-ok-to-delete");
-    private final NativeTarget nativeTarget;
-
-    public blaze() {
-        this.nativeTarget = NativeTarget.detect();
-    }
+    private NativeTarget nativeTarget;
+    private EnvScope scope;
 
     private void before() throws Exception {
-        log.info("Detected os [{}] with arch [{}] and abi [{}]", nativeTarget.getOperatingSystem(), nativeTarget.getHardwareArchitecture(), nativeTarget.getAbi());
+        this.nativeTarget = NativeTarget.detect();
+        this.scope = this.resolveScope();
+
+        log.info("Detected platform {} (arch {}) (abi {})", nativeTarget.getOperatingSystem(), nativeTarget.getHardwareArchitecture(), nativeTarget.getAbi());
+        log.info("Using install scope {}", this.scope);
+
         this.after();
         mkdir(this.scratchDir).parents().verbose().run();
     }
@@ -52,35 +54,35 @@ public class blaze {
     public void install_maven() throws Exception {
         this.before();
         try {
-            log.info("Installing maven v{}...", this.mavenVersion);
+            final InstallEnvironment installEnvironment = InstallEnvironment.detect("Apache Maven", "maven", this.scope);
+
+            log.info("Installing maven v{}} with scope {}...", this.mavenVersion, this.scope);
 
             final NativeLanguageModel nlm = new NativeLanguageModel()
                 .add("version", this.mavenVersion);
 
             // make sure the place we are going to is writable BEFORE we bother to download anything
-            final Path appDir = this.resolveAppDir();
-            this.checkPathWritable(appDir);
+            final Path targetAppDir = installEnvironment.resolveOptApplicationDir(true);
 
             // "https://dl.fizzed.com/maven/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
             final String url = nlm.format("https://dl.fizzed.com/maven/apache-maven-{version}-bin.tar.gz", this.nativeTarget);
-            final Path downloadFile = this.scratchDir.resolve("maven.tar.gz");
+            final Path archiveFile = this.scratchDir.resolve("maven.tar.gz");
 
             httpGet(url)
                 .verbose()
-                .target(downloadFile)
+                .target(archiveFile)
                 .run();
 
-            final Path unzippedDir = this.scratchDir.resolve("maven");
+            final Path unarchivedDir = this.scratchDir.resolve("maven");
 
-            unarchive(downloadFile)
+            unarchive(archiveFile)
                 .verbose()
-                .target(unzippedDir)
+                .target(unarchivedDir)
                 .stripLeadingPath()
                 .run();
 
-            final Path targetAppDir = appDir.resolve("maven");
             rm(targetAppDir).recursive().force().run();
-            mv(unzippedDir)
+            mv(unarchivedDir)
                 .verbose()
                 .target(targetAppDir)
                 .force()
@@ -92,12 +94,12 @@ public class blaze {
             this.chmodBinFile(targetAppDir.resolve("bin/mvnDebug"));
             this.chmodBinFile(targetAppDir.resolve("bin/mvnDebug.cmd"));
 
-            this.installEnv(new Env("maven")
-                .addVar("M2_HOME", targetAppDir)
-                .addPath(targetAppDir.resolve("bin"))
+            installEnvironment.installEnv(
+                singletonList(new com.fizzed.jne.EnvVar("M2_HOME", targetAppDir)),
+                singletonList(new com.fizzed.jne.EnvPath(targetAppDir.resolve("bin")))
             );
 
-            log.info("Successfully installed maven v{}", this.mavenVersion);
+            log.info("Successfully installed maven v{} with scope {}", this.mavenVersion, scope);
         } finally {
             this.after();
         }
@@ -112,10 +114,9 @@ public class blaze {
     public void install_fastfetch() throws Exception {
         this.before();
         try {
-            final EnvScope scope = this.resolveScope();
-            final InstallEnvironment installEnvironment = InstallEnvironment.detect("FastFetch", "fastfetch", scope);
+            final InstallEnvironment installEnvironment = InstallEnvironment.detect("FastFetch", "fastfetch", this.scope);
 
-            log.info("Installing fastfetch v{} with scope {}...", this.fastfetchVersion, scope);
+            log.info("Installing fastfetch v{} with scope {}...", this.fastfetchVersion, this.scope);
 
             // NOTE: fastfetch only publishes assets for some architectures, not all, we can make this recipe work
             // for a few more by delegating to the underlying package manager instead
@@ -204,7 +205,7 @@ public class blaze {
                 singletonList(new com.fizzed.jne.EnvPath(targetLocalBinDir))
             );
 
-            log.info("Successfully installed fastfetch v{}", this.fastfetchVersion);
+            log.info("Successfully installed fastfetch v{} with scope {}", this.fastfetchVersion, this.scope);
         } finally {
             this.after();
         }
@@ -228,7 +229,7 @@ public class blaze {
         return EnvScope.SYSTEM;
     }
 
-    private Path resolveAppDir() throws Exception {
+    /*private Path resolveAppDir() throws Exception {
         Path appDir = null;
         switch (this.nativeTarget.getOperatingSystem()) {
             case MACOS:
@@ -446,9 +447,9 @@ public class blaze {
             log.info("");
             log.info("################################################################");
         }
-    }
+    }*/
 
-    private void checkFileExists(Path path) throws Exception {
+    /*private void checkFileExists(Path path) throws Exception {
         if (Files.notExists(path)) {
             throw new FileNotFoundException("File " + path + " does not exist!");
         }
@@ -458,7 +459,7 @@ public class blaze {
         if (!Files.isWritable(path)) {
             throw new IOException("Path " + path + " is not writable (perhaps you meant to run this as sudo?)");
         }
-    }
+    }*/
 
     private void chmodBinFile(Path path) throws Exception {
         try {
@@ -494,7 +495,7 @@ public class blaze {
         }
     }
 
-    static public class EnvVar {
+    /*static public class EnvVar {
         final private String name;
         final private String value;
 
@@ -566,6 +567,6 @@ public class blaze {
             return paths;
         }
 
-    }
+    }*/
 
 }
