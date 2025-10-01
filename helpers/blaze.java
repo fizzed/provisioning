@@ -3,24 +3,18 @@ import com.fizzed.blaze.Contexts;
 import com.fizzed.jne.*;
 import org.slf4j.Logger;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
-import java.nio.file.attribute.PosixFilePermission;
-import java.nio.file.attribute.PosixFilePermissions;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import static com.fizzed.blaze.Archives.unarchive;
 import static com.fizzed.blaze.Https.httpGet;
 import static com.fizzed.blaze.Systems.*;
+import static com.fizzed.jne.Chmod.chmod;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
-import static java.util.Optional.ofNullable;
 
 public class blaze {
     private final Config config = Contexts.config();
@@ -37,12 +31,21 @@ public class blaze {
         log.info("Detected platform {} (arch {}) (abi {})", nativeTarget.getOperatingSystem(), nativeTarget.getHardwareArchitecture(), nativeTarget.getAbi());
         log.info("Using install scope {}", this.scope);
 
-        this.after();
+        this.after(false);
         mkdir(this.scratchDir).parents().verbose().run();
     }
 
-    private void after() throws Exception {
-        rm(this.scratchDir).recursive().force().verbose().run();
+    private void after(boolean ignoreException) throws Exception {
+        // this is just a best attempt
+        try {
+            rm(this.scratchDir).recursive().force().verbose().run();
+        } catch (Exception e) {
+            if (ignoreException) {
+                log.warn("Unable to cleanly remove scratch dir: {}", this.scratchDir);
+            } else {
+                throw e;
+            }
+        }
     }
 
     //
@@ -89,19 +92,19 @@ public class blaze {
                 .run();
 
             // we need to fix execute permissions
-            this.chmodBinFile(targetAppDir.resolve("bin/mvn"));
-            this.chmodBinFile(targetAppDir.resolve("bin/mvn.cmd"));
-            this.chmodBinFile(targetAppDir.resolve("bin/mvnDebug"));
-            this.chmodBinFile(targetAppDir.resolve("bin/mvnDebug.cmd"));
+            chmod(targetAppDir.resolve("bin/mvn"), "755");
+            chmod(targetAppDir.resolve("bin/mvn.cmd"), "755");
+            chmod(targetAppDir.resolve("bin/mvnDebug"), "755");
+            chmod(targetAppDir.resolve("bin/mvnDebug.cmd"), "755");
 
             installEnvironment.installEnv(
-                singletonList(new com.fizzed.jne.EnvVar("M2_HOME", targetAppDir)),
-                singletonList(new com.fizzed.jne.EnvPath(targetAppDir.resolve("bin")))
+                singletonList(new EnvPath(targetAppDir.resolve("bin"))),
+                singletonList(new EnvVar("M2_HOME", targetAppDir))
             );
 
             log.info("Successfully installed maven v{} with scope {}", this.mavenVersion, scope);
         } finally {
-            this.after();
+            this.after(true);
         }
     }
 
@@ -177,7 +180,7 @@ public class blaze {
             final String exeFileName = this.nativeTarget.resolveExecutableFileName("fastfetch");
             final Path sourceExeFile = unarchivedDir.resolve(archiveBinDir).resolve(exeFileName);
 
-            this.chmodBinFile(sourceExeFile);
+            chmod(sourceExeFile, "755");
 
             mv(sourceExeFile)
                 .verbose()
@@ -201,13 +204,13 @@ public class blaze {
                 .run();
 
             installEnvironment.installEnv(
-                emptyList(),
-                singletonList(new com.fizzed.jne.EnvPath(targetLocalBinDir))
+                singletonList(new EnvPath(targetLocalBinDir)),
+                emptyList()
             );
 
             log.info("Successfully installed fastfetch v{} with scope {}", this.fastfetchVersion, this.scope);
         } finally {
-            this.after();
+            this.after(true);
         }
     }
 
@@ -461,7 +464,7 @@ public class blaze {
         }
     }*/
 
-    private void chmodBinFile(Path path) throws Exception {
+    /*private void chmodBinFile(Path path) throws Exception {
         try {
             final Set<PosixFilePermission> v = PosixFilePermissions.fromString("rwxr-xr-x");
             Files.setPosixFilePermissions(path, v);
@@ -475,7 +478,7 @@ public class blaze {
     private void chmodFile(Path path, String perms) throws Exception {
         final Set<PosixFilePermission> v = PosixFilePermissions.fromString(perms);
         Files.setPosixFilePermissions(path, v);
-    }
+    }*/
 
     private List<String> readFileLines(Path file) throws IOException {
         final List<String> profileFileLines;
