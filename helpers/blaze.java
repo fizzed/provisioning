@@ -211,8 +211,6 @@ public class blaze {
                 .verbose()
                 .run();
 
-            log.info("Installing env now...");
-
             installEnvironment.installEnv(
                 singletonList(new EnvPath(targetLocalBinDir)),
                 emptyList()
