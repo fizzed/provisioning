@@ -97,10 +97,10 @@ public class blaze {
                 .recursive()
                 .force()
                 .run();
-            
+
             mv(unarchivedDir)
                 .verbose()
-                .target(targetAppDir)
+                .target(targetAppDir.getParent())
                 .force()
                 .run();
 
