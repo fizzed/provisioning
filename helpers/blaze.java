@@ -1,49 +1,313 @@
 import com.fizzed.blaze.Config;
 import com.fizzed.blaze.Contexts;
-import com.fizzed.jne.HardwareArchitecture;
-import com.fizzed.jne.NativeLanguageModel;
-import com.fizzed.jne.NativeTarget;
-import com.fizzed.jne.OperatingSystem;
+import com.fizzed.jne.*;
 import org.slf4j.Logger;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
-import java.nio.file.attribute.PosixFilePermission;
-import java.nio.file.attribute.PosixFilePermissions;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Stream;
 
 import static com.fizzed.blaze.Archives.unarchive;
 import static com.fizzed.blaze.Https.httpGet;
 import static com.fizzed.blaze.Systems.*;
-import static java.util.Optional.ofNullable;
+import static com.fizzed.jne.Chmod.chmod;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
 
 public class blaze {
     private final Config config = Contexts.config();
     private final Logger log = Contexts.logger();
     private final Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
     private final Path scratchDir = Contexts.withUserDir(".provisioning-ok-to-delete");
-    private final NativeTarget nativeTarget;
-
-    public blaze() {
-        this.nativeTarget = NativeTarget.detect();
-    }
+    private NativeTarget nativeTarget;
+    private EnvScope scope;
 
     private void before() throws Exception {
-        log.info("Detected os [{}] with arch [{}] and abi [{}]", nativeTarget.getOperatingSystem(), nativeTarget.getHardwareArchitecture(), nativeTarget.getAbi());
-        this.after();
+        this.nativeTarget = NativeTarget.detect();
+        this.scope = this.resolveScope();
+
+        log.info("Detected platform {} (arch {}) (abi {})", nativeTarget.getOperatingSystem(), nativeTarget.getHardwareArchitecture(), nativeTarget.getAbi());
+        log.info("Using install scope {}", this.scope);
+
+        if (scope == EnvScope.SYSTEM) {
+            UserEnvironment userEnvironment = UserEnvironment.detectLogical();
+            if (!userEnvironment.isElevated()) {
+                throw new IllegalStateException("Cannot install to system scope without elevated permissions (maybe run it with sudo?)");
+            }
+            log.info("Confirmed you are running with elevated permissions :-)");
+        }
+
+        this.after(false);
         mkdir(this.scratchDir).parents().verbose().run();
     }
 
-    private void after() throws Exception {
-        rm(this.scratchDir).recursive().force().verbose().run();
+    private void after(boolean ignoreException) throws Exception {
+        // this is just a best attempt
+        try {
+            rm(this.scratchDir).recursive().force().verbose().run();
+        } catch (Exception e) {
+            if (ignoreException) {
+                log.warn("Unable to cleanly remove scratch dir: {}", this.scratchDir);
+            } else {
+                throw e;
+            }
+        }
     }
 
-    private Path resolveAppDir() throws Exception {
+    //
+    // Apache Maven Install
+    //
+
+    final private String mavenVersion = config.value("maven.version").orElse("3.9.5");
+
+    public void install_maven() throws Exception {
+        this.before();
+        try {
+            final InstallEnvironment installEnvironment = InstallEnvironment.detect("Apache Maven", "maven", this.scope);
+
+            log.info("Installing maven v{}} with scope {}...", this.mavenVersion, this.scope);
+
+            final NativeLanguageModel nlm = new NativeLanguageModel()
+                .add("version", this.mavenVersion);
+
+            // make sure the place we are going to is writable BEFORE we bother to download anything
+            final Path targetAppDir = installEnvironment.resolveOptApplicationDir(true);
+
+            // "https://dl.fizzed.com/maven/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
+            final String url = nlm.format("https://dl.fizzed.com/maven/apache-maven-{version}-bin.tar.gz", this.nativeTarget);
+            final Path archiveFile = this.scratchDir.resolve("maven.tar.gz");
+
+            httpGet(url)
+                .verbose()
+                .target(archiveFile)
+                .run();
+
+            final Path unarchivedDir = this.scratchDir.resolve("maven");
+
+            unarchive(archiveFile)
+                .verbose()
+                .target(unarchivedDir)
+                .stripLeadingPath()
+                .run();
+
+            rm(targetAppDir)
+                .verbose()
+                .recursive()
+                .force()
+                .run();
+
+            //log.info("confirming {} is deleted: {}", targetAppDir, !Files.exists(targetAppDir));
+
+            // this version works across filesystems on unix
+            moveDirectory(unarchivedDir, targetAppDir);
+
+            //Files.move(unarchivedDir, targetAppDir);
+
+//            mv(unarchivedDir)
+//                .verbose()
+//                .target(targetAppDir)
+//                .force()
+//                .run();
+
+            // we need to fix execute permissions on everything but windows
+            if (this.nativeTarget.getOperatingSystem() != OperatingSystem.WINDOWS) {
+                chmod(targetAppDir.resolve("bin/mvn"), "755");
+                chmod(targetAppDir.resolve("bin/mvn.cmd"), "755");
+                chmod(targetAppDir.resolve("bin/mvnDebug"), "755");
+                chmod(targetAppDir.resolve("bin/mvnDebug.cmd"), "755");
+            }
+
+            installEnvironment.installEnv(
+                singletonList(new EnvPath(targetAppDir.resolve("bin"))),
+                singletonList(new EnvVar("M2_HOME", targetAppDir))
+            );
+
+            log.info("Successfully installed maven v{} with scope {}", this.mavenVersion, scope);
+        } finally {
+            this.after(true);
+        }
+    }
+
+    //
+    // Fastfetch Install
+    //
+
+    final private String fastfetchVersion = config.value("fastfetch.version").orElse("2.53.0");
+
+    public void install_fastfetch() throws Exception {
+        this.before();
+        try {
+            final InstallEnvironment installEnvironment = InstallEnvironment.detect("FastFetch", "fastfetch", this.scope);
+
+            log.info("Installing fastfetch v{} with scope {}...", this.fastfetchVersion, this.scope);
+
+            // NOTE: fastfetch only publishes assets for some architectures, not all, we can make this recipe work
+            // for a few more by delegating to the underlying package manager instead
+            if (this.nativeTarget.getOperatingSystem() == OperatingSystem.FREEBSD && nativeTarget.getHardwareArchitecture() != HardwareArchitecture.X64) {
+                exec("pkg", "install", "-y", "fastfetch")
+                    .verbose()
+                    .run();
+                return;
+            } else if (this.nativeTarget.getOperatingSystem() == OperatingSystem.OPENBSD && nativeTarget.getHardwareArchitecture() != HardwareArchitecture.X64) {
+                exec("pkg_add", "fastfetch")
+                    .verbose()
+                    .run();
+                return;
+            }
+
+            // detect current os & arch, then translate to values that nats-server project uses
+            final NativeLanguageModel nlm = new NativeLanguageModel()
+                .add("version", this.fastfetchVersion)
+                .add(HardwareArchitecture.ARM64, "aarch64")
+                .add(HardwareArchitecture.X64, "amd64")
+                .add(HardwareArchitecture.ARMHF, "armv7l")
+                .add(HardwareArchitecture.ARMEL, "armv6l");
+            
+            final Path targetLocalBinDir = installEnvironment.resolveLocalBinDir(true);
+            final Path targetLocalShareDir = installEnvironment.resolveLocalShareDir(true);
+
+            // https://github.com/fastfetch-cli/fastfetch/releases/download/2.53.0/fastfetch-linux-amd64.zip
+            final String url = nlm.format("https://github.com/fastfetch-cli/fastfetch/releases/download/{version}/fastfetch-{os}-{arch}.zip", this.nativeTarget);
+            final Path archiveFile = this.scratchDir.resolve("fastfetch.zip");
+
+            httpGet(url)
+                .verbose()
+                .target(archiveFile)
+                .run();
+
+            final Path unarchivedDir = this.scratchDir.resolve("fastfetch");
+
+            // NOTE: annoyingly, on windows, the archive file structure is different and its "flattened" so it all goes
+            // into the same directory (including the presets), so we don't want to strip any components on that platform
+            // while also adjusting the locations of everything else too
+            int stripComponents = 1;
+            String archiveBinDir = "usr/bin";
+            String archiveShareDir = "usr/share/fastfetch";
+
+            if (installEnvironment.getOperatingSystem() == OperatingSystem.WINDOWS) {
+                stripComponents = 0;
+                archiveBinDir = ".";
+                archiveShareDir = ".";
+            }
+
+            unarchive(archiveFile)
+                .verbose()
+                .target(unarchivedDir)
+                .stripComponents(stripComponents)
+                .run();
+
+            // the usr/bin/fastfetch should exist
+            final String exeFileName = this.nativeTarget.resolveExecutableFileName("fastfetch");
+            final Path sourceExeFile = unarchivedDir.resolve(archiveBinDir).resolve(exeFileName);
+
+            chmod(sourceExeFile, "755");
+
+            mv(sourceExeFile)
+                .verbose()
+                .target(targetLocalBinDir)
+                .force()
+                .run();
+
+            // we also need the share directory for presets, etc.
+            final Path sourceShareDir = unarchivedDir.resolve(archiveShareDir);
+            final Path targetShareDir = targetLocalShareDir.resolve("fastfetch");
+            rm(targetShareDir).recursive().force().run();
+
+            // this version works across filesystems on unix
+            moveDirectory(unarchivedDir, targetShareDir);
+
+            /*mv(sourceShareDir)
+                .verbose()
+                .target(targetShareDir)
+                .force()
+                .run();*/
+
+            // validate the install worked by displaying the version
+            exec(targetLocalBinDir.resolve(exeFileName), "-v")
+                .verbose()
+                .run();
+
+            installEnvironment.installEnv(
+                singletonList(new EnvPath(targetLocalBinDir)),
+                emptyList()
+            );
+
+            log.info("Successfully installed fastfetch v{} with scope {}", this.fastfetchVersion, this.scope);
+        } finally {
+            this.after(true);
+        }
+    }
+
+    //
+    // Helpers
+    //
+
+    private EnvScope resolveScope() {
+        final String scopeStr = this.config.value("scope").orNull();
+        if (scopeStr != null) {
+            if ("user".equalsIgnoreCase(scopeStr)) {
+                return EnvScope.USER;
+            } else if ("system".equalsIgnoreCase(scopeStr)) {
+                return EnvScope.SYSTEM;
+            } else {
+                throw new IllegalArgumentException("Invalid scope value: " + scopeStr);
+            }
+        }
+        return EnvScope.SYSTEM;
+    }
+
+    public static void moveDirectory(Path source, Path destination) throws IOException {
+        try {
+            // Attempt a simple move first, which works for same-filesystem moves.
+            Files.move(source, destination, StandardCopyOption.REPLACE_EXISTING);
+        } catch (DirectoryNotEmptyException e) {
+            // This exception should not occur for a top-level directory rename
+            // if the move was successful, but is a good catch-all.
+            System.err.println("Directory is not empty and cannot be moved by rename. Falling back to copy-and-delete.");
+            copyThenDelete(source, destination);
+        } catch (FileSystemException e) {
+            // If the simple move fails, it's likely a cross-filesystem move.
+            System.err.println("Cross-filesystem move detected. Falling back to copy-and-delete.");
+            copyThenDelete(source, destination);
+        }
+    }
+
+    private static void copyThenDelete(Path source, Path destination) throws IOException {
+        Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                Path targetDir = destination.resolve(source.relativize(dir));
+                Files.createDirectories(targetDir);
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                Files.copy(file, destination.resolve(source.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
+                return FileVisitResult.CONTINUE;
+            }
+        });
+
+        // After copying, delete the source directory.
+        Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                Files.delete(dir);
+                return FileVisitResult.CONTINUE;
+            }
+        });
+    }
+
+    /*private Path resolveAppDir() throws Exception {
         Path appDir = null;
         switch (this.nativeTarget.getOperatingSystem()) {
             case MACOS:
@@ -74,12 +338,12 @@ public class blaze {
     private Path resolveBinDir() throws Exception {
         Path binDir = null;
         switch (this.nativeTarget.getOperatingSystem()) {
-           case MACOS:
-           case LINUX:
-           case FREEBSD:
-           case OPENBSD:
-               binDir = Paths.get("/usr/local/bin");
-               break;
+            case MACOS:
+            case LINUX:
+            case FREEBSD:
+            case OPENBSD:
+                binDir = Paths.get("/usr/local/bin");
+                break;
             default:
                 throw  new UnsupportedOperationException(this.nativeTarget.getOperatingSystem().toString() + " is not implemented yet (add to this CASE statement!)");
         }
@@ -124,19 +388,22 @@ public class blaze {
     }
 
     private void installEnv(Env env) throws Exception {
-        final Shell shell = Shell.detect();
+        // even if running as sudo/doas, we want the user installing NOT if they are elevated
+        final UserEnvironment userEnvironment = UserEnvironment.detectLogical();
+
         // some possible locations we will use
-        final Path homeDir = this.detectHomeDir();
+        final ShellType shellType = userEnvironment.getShellType();
+        final Path homeDir = userEnvironment.getHomeDir();
         final Path bashEtcProfileDir = Paths.get("/etc/profile.d");
         final Path bashEtcLocalProfileDir = Paths.get("/usr/local/etc/profile.d");
 
-        log.info("Detected shell {}", ofNullable(shell).map(Enum::toString).orElse("UNKNOWN"));
-        log.info("Detected home dir {}", homeDir);
+        log.info("Detected homeDir: {}", homeDir);
+        log.info("Detected shellType: {}", ofNullable(shellType).map(Enum::toString).orElse("UNKNOWN"));
 
         // linux and freebsd share the same strategy, just different locations
-        if (shell == Shell.BASH && (
-                (nativeTarget.getOperatingSystem() == OperatingSystem.LINUX && Files.exists(bashEtcProfileDir))
-                    || nativeTarget.getOperatingSystem() == OperatingSystem.FREEBSD)) {
+        if (shellType == ShellType.BASH && (
+            (nativeTarget.getOperatingSystem() == OperatingSystem.LINUX && Files.exists(bashEtcProfileDir))
+                || nativeTarget.getOperatingSystem() == OperatingSystem.FREEBSD)) {
 
             Path targetDir = bashEtcProfileDir;
 
@@ -169,13 +436,13 @@ public class blaze {
 
             log.info("################################################################");
             log.info("");
-            log.info("Installed {} environment for {} to {}", shell, env.getApplication(), targetFile);
+            log.info("Installed {} environment for {} to {}", shellType, env.getApplication(), targetFile);
             log.info("");
-            log.info("Usually a reboot is required for this system-wide profile to be activated...");
+            log.info("Usually a REBOOT is required for this system-wide profile to be activated...");
             log.info("");
             log.info("################################################################");
 
-        } else if (shell == Shell.ZSH && nativeTarget.getOperatingSystem() == OperatingSystem.MACOS) {
+        } else if (shellType == ShellType.ZSH && nativeTarget.getOperatingSystem() == OperatingSystem.MACOS) {
 
             final Path pathsDir = Paths.get("/etc/paths.d");
             final Path pathFile = pathsDir.resolve(env.getApplication());
@@ -191,42 +458,26 @@ public class blaze {
 
             log.info("################################################################");
             log.info("");
-            log.info("Installed {} path for {} to {}", shell, env.getApplication(), pathFile);
+            log.info("Installed {} path for {} to {}", shellType, env.getApplication(), pathFile);
 
             // environment vars are more tricky, they need to be appended to ~/.zprofile
             final Path profileFile = homeDir.resolve(".zprofile");
-            final List<String> profileFileLines;
-            if (Files.exists(profileFile)) {
-                profileFileLines = Files.readAllLines(profileFile, StandardCharsets.UTF_8);
-            } else {
-                profileFileLines = new ArrayList<>();
-            }
+            final List<String> profileFileLines = readFileLines(profileFile);
 
             for (EnvVar var : env.getVars()) {
                 // this is the line we want to have present
                 String line = "export " + var.getName() + "=\"" + var.getValue() + "\"";
-                // does it already exist?
-                if (profileFileLines.stream().anyMatch(v -> v.equals(line))) {
-                    log.info("Skipping environment variable for {} because it already exists in {}", var.getName(), profileFile);
-                } else {
-                    log.info("Adding environment variable for {}={} to {}", var.getName(), var.getValue(), profileFile);
-                    Files.write(profileFile, ("\n"+line+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-                }
+                appendLineIfNotExists(profileFileLines, profileFile, line);
             }
 
             log.info("");
-            log.info("Usually a reboot is required for this system-wide profile to be activated...");
+            log.info("Usually a REBOOT is required for this system-wide profile to be activated...");
             log.info("");
             log.info("################################################################");
 
-        } else if (shell == Shell.CSH) {
+        } else if (shellType == ShellType.CSH) {
             final Path profileFile = homeDir.resolve(".cshrc");
-            final List<String> profileFileLines;
-            if (Files.exists(profileFile)) {
-                profileFileLines = Files.readAllLines(profileFile, StandardCharsets.UTF_8);
-            } else {
-                profileFileLines = new ArrayList<>();
-            }
+            final List<String> profileFileLines = readFileLines(profileFile);
 
             log.info("################################################################");
             log.info("");
@@ -235,40 +486,23 @@ public class blaze {
             for (EnvVar var : env.getVars()) {
                 // this is the line we want to have present
                 String line = "setenv " + var.getName() + " \"" + var.getValue() + "\"";
-                // does it already exist?
-                if (profileFileLines.stream().anyMatch(v -> v.equals(line))) {
-                    log.info("Skipping environment variable for {} because it already exists in {}", var.getName(), profileFile);
-                } else {
-                    log.info("Adding environment variable for {}={} to {}", var.getName(), var.getValue(), profileFile);
-                    Files.write(profileFile, ("\n"+line+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-                }
+                appendLineIfNotExists(profileFileLines, profileFile, line);
             }
 
             for (EnvPath path : env.getPaths()) {
                 // this is the line we want to have present
                 String line = "setenv PATH \"" + path.getValue() + ":${PATH}\"";
-                // does it already exist?
-                if (profileFileLines.stream().anyMatch(v -> v.equals(line))) {
-                    log.info("Skipping environment path for {} because it already exists in {}", path.getValue(), profileFile);
-                } else {
-                    log.info("Adding environment path for {} to {}", path.getValue(), profileFile);
-                    Files.write(profileFile, ("\n"+line+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-                }
+                appendLineIfNotExists(profileFileLines, profileFile, line);
             }
 
             log.info("");
-            log.info("Usually a reboot is required for this system-wide profile to be activated...");
+            log.info("Usually logging OUT/IN is required for this profile to be activated...");
             log.info("");
             log.info("################################################################");
 
-        } else if (shell == Shell.KSH) {
+        } else if (shellType == ShellType.KSH) {
             final Path profileFile = homeDir.resolve(".profile");
-            final List<String> profileFileLines;
-            if (Files.exists(profileFile)) {
-                profileFileLines = Files.readAllLines(profileFile, StandardCharsets.UTF_8);
-            } else {
-                profileFileLines = new ArrayList<>();
-            }
+            final List<String> profileFileLines = readFileLines(profileFile);
 
             log.info("################################################################");
             log.info("");
@@ -277,35 +511,23 @@ public class blaze {
             for (EnvVar var : env.getVars()) {
                 // this is the line we want to have present
                 String line = "export " + var.getName() + "=\"" + var.getValue() + "\"";
-                // does it already exist?
-                if (profileFileLines.stream().anyMatch(v -> v.equals(line))) {
-                    log.info("Skipping environment variable for {} because it already exists in {}", var.getName(), profileFile);
-                } else {
-                    log.info("Adding environment variable for {}={} to {}", var.getName(), var.getValue(), profileFile);
-                    Files.write(profileFile, ("\n"+line+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-                }
+                appendLineIfNotExists(profileFileLines, profileFile, line);
             }
 
             for (EnvPath path : env.getPaths()) {
                 // this is the line we want to have present
                 String line = "export PATH=\"" + path.getValue() + ":$PATH\"";
-                // does it already exist?
-                if (profileFileLines.stream().anyMatch(v -> v.equals(line))) {
-                    log.info("Skipping environment path for {} because it already exists in {}", path.getValue(), profileFile);
-                } else {
-                    log.info("Adding environment path for {} to {}", path.getValue(), profileFile);
-                    Files.write(profileFile, ("\n"+line+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-                }
+                appendLineIfNotExists(profileFileLines, profileFile, line);
             }
 
             log.info("");
-            log.info("Usually a reboot is required for this system-wide profile to be activated...");
+            log.info("Usually logging OUT/IN is required for this profile to be activated...");
             log.info("");
             log.info("################################################################");
         }
-    }
+    }*/
 
-    private void checkFileExists(Path path) throws Exception {
+    /*private void checkFileExists(Path path) throws Exception {
         if (Files.notExists(path)) {
             throw new FileNotFoundException("File " + path + " does not exist!");
         }
@@ -315,282 +537,43 @@ public class blaze {
         if (!Files.isWritable(path)) {
             throw new IOException("Path " + path + " is not writable (perhaps you meant to run this as sudo?)");
         }
-    }
+    }*/
 
-    private void chmodBinFile(Path path) throws Exception {
-        final Set<PosixFilePermission> v = PosixFilePermissions.fromString("rwxr-xr-x");
-        Files.setPosixFilePermissions(path, v);
+    /*private void chmodBinFile(Path path) throws Exception {
+        try {
+            final Set<PosixFilePermission> v = PosixFilePermissions.fromString("rwxr-xr-x");
+            Files.setPosixFilePermissions(path, v);
+        } catch (UnsupportedOperationException e) {
+            // fallback to hacky File method
+            final File file = path.toFile();
+            file.setExecutable(true);
+        }
     }
 
     private void chmodFile(Path path, String perms) throws Exception {
         final Set<PosixFilePermission> v = PosixFilePermissions.fromString(perms);
         Files.setPosixFilePermissions(path, v);
-    }
+    }*/
 
-
-    final private String mavenVersion = config.value("maven.version").orElse("3.9.5");
-
-    public void install_maven() throws Exception {
-        this.before();
-        try {
-            log.info("Installing maven v{}...", this.mavenVersion);
-
-            final NativeLanguageModel nlm = new NativeLanguageModel()
-                .add("version", this.mavenVersion);
-
-            // make sure the place we are going to is writable BEFORE we bother to download anything
-            final Path appDir = this.resolveAppDir();
-            this.checkPathWritable(appDir);
-
-            // "https://dl.fizzed.com/maven/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
-            final String url = nlm.format("https://dl.fizzed.com/maven/apache-maven-{version}-bin.tar.gz", this.nativeTarget);
-            final Path downloadFile = this.scratchDir.resolve("maven.tar.gz");
-
-            httpGet(url)
-                .verbose()
-                .target(downloadFile)
-                .run();
-
-            final Path unzippedDir = this.scratchDir.resolve("maven");
-
-            unarchive(downloadFile)
-                .verbose()
-                .target(unzippedDir)
-                .stripLeadingPath()
-                .run();
-
-            final Path targetAppDir = appDir.resolve("maven");
-            rm(targetAppDir).recursive().force().run();
-            mv(unzippedDir)
-                .verbose()
-                .target(targetAppDir)
-                .force()
-                .run();
-
-            // we need to fix execute permissions
-            this.chmodBinFile(targetAppDir.resolve("bin/mvn"));
-            this.chmodBinFile(targetAppDir.resolve("bin/mvn.cmd"));
-            this.chmodBinFile(targetAppDir.resolve("bin/mvnDebug"));
-            this.chmodBinFile(targetAppDir.resolve("bin/mvnDebug.cmd"));
-
-            this.installEnv(new Env("maven")
-                .addVar("M2_HOME", targetAppDir)
-                .addPath(targetAppDir.resolve("bin"))
-            );
-
-            log.info("Successfully installed maven v{}", this.mavenVersion);
-        } finally {
-            this.after();
+    private List<String> readFileLines(Path file) throws IOException {
+        final List<String> profileFileLines;
+        if (Files.exists(file)) {
+            return Files.readAllLines(file, StandardCharsets.UTF_8);
+        } else {
+            return new ArrayList<>();
         }
     }
 
-    final private String fastfetchVersion = config.value("fastfetch.version").orElse("2.53.0");
-
-    public void install_fastfetch() throws Exception {
-        this.before();
-        try {
-            log.info("Installing fastfetch v{}...", this.fastfetchVersion);
-
-            // NOTE: fastfetch only publishes assets for some architectures, not all, we can make this recipe work
-            // for a few more by delegating to the underlying package manager instead
-            if (this.nativeTarget.getOperatingSystem() == OperatingSystem.FREEBSD && nativeTarget.getHardwareArchitecture() != HardwareArchitecture.X64) {
-                exec("pkg", "install", "-y", "fastfetch")
-                    .verbose()
-                    .run();
-                return;
-            } else if (this.nativeTarget.getOperatingSystem() == OperatingSystem.OPENBSD && nativeTarget.getHardwareArchitecture() != HardwareArchitecture.X64) {
-                exec("pkg_add", "fastfetch")
-                    .verbose()
-                    .run();
-                return;
-            }
-
-            // detect current os & arch, then translate to values that nats-server project uses
-            final NativeLanguageModel nlm = new NativeLanguageModel()
-                .add("version", this.fastfetchVersion)
-                .add(HardwareArchitecture.ARM64, "aarch64")
-                .add(HardwareArchitecture.X64, "amd64")
-                .add(HardwareArchitecture.ARMHF, "armv7l")
-                .add(HardwareArchitecture.ARMEL, "armv6l");
-
-            // make sure the place we are going to is writable BEFORE we bother to download anything
-            final Path binDir = this.resolveBinDir();
-            this.checkPathWritable(binDir);
-            final Path shareDir = this.resolveShareDir();
-            this.checkPathWritable(shareDir);
-
-            // https://github.com/fastfetch-cli/fastfetch/releases/download/2.53.0/fastfetch-linux-amd64.zip
-            final String url = nlm.format("https://github.com/fastfetch-cli/fastfetch/releases/download/{version}/fastfetch-{os}-{arch}.zip", this.nativeTarget);
-            final Path downloadFile = this.scratchDir.resolve("fastfetch.zip");
-
-            httpGet(url)
-                .verbose()
-                .target(downloadFile)
-                .run();
-
-            final Path unzippedDir = this.scratchDir.resolve("fastfetch");
-
-            unarchive(downloadFile)
-                .verbose()
-                .target(unzippedDir)
-                .stripLeadingPath()
-                .run();
-
-            // the usr/bin/fastfetch should exist
-            final String exeFileName = this.nativeTarget.resolveExecutableFileName("fastfetch");
-            final Path exeFile = unzippedDir.resolve("usr/bin").resolve(exeFileName);
-
-            this.checkFileExists(exeFile);
-
-            this.chmodBinFile(exeFile);
-
-            mv(exeFile)
-                .verbose()
-                .target(binDir)
-                .force()
-                .run();
-
-            // we also need the share directory for presets, etc.
-            final Path sourceShareDir = unzippedDir.resolve("usr/share/fastfetch");
-            final Path targetShareDir = shareDir.resolve("fastfetch");
-            rm(targetShareDir).recursive().force().run();
-            mv(sourceShareDir)
-                .verbose()
-                .target(targetShareDir)
-                .force()
-                .run();
-
-            exec(binDir.resolve(exeFileName), "-v")
-                .verbose()
-                .run();
-
-            log.info("Successfully installed fastfetch v{}", this.fastfetchVersion);
-        } finally {
-            this.after();
+    private void appendLineIfNotExists(List<String> filesLine, Path file, String line) throws IOException {
+        if (filesLine.stream().anyMatch(v -> v.equals(line))) {
+            log.info("Skipping '{}' (already exists in {})", line, file);
+        } else {
+            log.info("Adding '{}' to {}", line, file);
+            Files.write(file, ("\n"+line+"\n").getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.APPEND);
         }
     }
 
-    // Helpers
-
-    public void shell() {
-        Shell s = Shell.detect();
-        if (s == null) {
-            log.error("Unable to detect shell, exiting...");
-            System.exit(1);
-        }
-        log.info("Detected shell {}", s);
-    }
-
-    public Path detectHomeDir() {
-        // are we being run as sudo?
-        final String home = System.getenv("HOME");
-        final String sudoUser = ofNullable(System.getenv("SUDO_USER")).orElse(System.getenv("DOAS_USER"));
-        final String sudoHome = System.getenv("SUDO_HOME");
-
-        if (sudoUser != null) {
-            if (sudoHome != null) {
-                return Paths.get(sudoHome);
-            }
-            // some systems, like macos do not set the SUDO_HOME env var
-            // the HOME may still be correct
-            if (home != null && home.endsWith(sudoUser)) {
-                return Paths.get(home);
-            }
-            // we'll need to parse the /etc/passwd file?
-            final Path etcPasswd = Paths.get("/etc/passwd");
-            if (Files.exists(etcPasswd)) {
-                try {
-                    byte[] etcPasswdBytes = Files.readAllBytes(etcPasswd);
-                    String etcPasswdString = new String(etcPasswdBytes, StandardCharsets.UTF_8);
-                    String[] lines = etcPasswdString.split("\n");
-                    for (String line : lines) {
-                        String[] parts = line.split(":");
-                        if (parts.length == 7 && sudoUser.equals(parts[0])) {
-                            return Paths.get(parts[5]);
-                        }
-                    }
-                } catch (IOException e) {
-                    // ignore this error, will continue with later detection
-                }
-            }
-        }
-
-        // otherwise, just return HOME
-        return Paths.get(home);
-    }
-
-    public enum Shell {
-        BASH,
-        ZSH,
-        CSH,
-        KSH;
-
-        static public Shell detect() {
-            String shellPath = null;
-
-            // NOTE: sometimes if running as "sudo", the shell the user will normally have will be changed just
-            // for sudo.  A more reliable method turns out to be "echo $0"??
-            String sudoUser = System.getenv("SUDO_USER");
-            //System.out.println("sudoUser env: " + sudoUser);
-
-            // or DOAS_USER on openbsd
-            if (sudoUser == null) {
-                sudoUser = System.getenv("DOAS_USER");
-                //System.out.println("doasUser env: " + sudoUser);
-            }
-
-            if (sudoUser != null) {
-                // looks like we are running as sudo, investigate /etc/passwd to see the default shell for the user
-                final Path etcPasswd = Paths.get("/etc/passwd");
-
-                if (Files.exists(etcPasswd)) {
-                    try {
-                        byte[] etcPasswdBytes = Files.readAllBytes(etcPasswd);
-                        String etcPasswdString = new String(etcPasswdBytes, StandardCharsets.UTF_8);
-                        String[] lines = etcPasswdString.split("\n");
-                        for (String line : lines) {
-                            String[] parts = line.split(":");
-                            if (parts.length == 7 && sudoUser.equals(parts[0])) {
-                                shellPath = parts[6];
-                                break;
-                            }
-                        }
-                    } catch (IOException e) {
-                        // ignore this error, will continue with later detection
-                    }
-                }
-
-                // if we're running as sudo and we still do not have a shell, if we're on a mac assume zsh?
-                // the correct way is to actually use "dsl" utility
-                // dscl . -read /Users/builder
-                if (NativeTarget.detect().getOperatingSystem() == OperatingSystem.MACOS) {
-                    shellPath = "zsh";
-                }
-            }
-
-            if (shellPath == null) {
-                // fallback to the shell variable (which hopefully matches the default)
-                shellPath = System.getenv("SHELL");
-            }
-
-            if (shellPath != null) {
-                if (shellPath.endsWith("bash")) {
-                    return Shell.BASH;
-                } else if (shellPath.endsWith("zsh")) {
-                    return Shell.ZSH;
-                } else if (shellPath.endsWith("csh")) {
-                    return Shell.CSH;
-                } else if (shellPath.endsWith("ksh")) {
-                    return Shell.KSH;
-                }
-            }
-
-            // we were not able to detect it
-            return null;
-        }
-    }
-
-    static public class EnvVar {
+    /*static public class EnvVar {
         final private String name;
         final private String value;
 
@@ -662,6 +645,6 @@ public class blaze {
             return paths;
         }
 
-    }
+    }*/
 
 }
