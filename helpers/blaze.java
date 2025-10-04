@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,11 +99,18 @@ public class blaze {
                 .force()
                 .run();
 
-            mv(unarchivedDir)
-                .verbose()
-                .target(targetAppDir)
-                .force()
-                .run();
+            //log.info("confirming {} is deleted: {}", targetAppDir, !Files.exists(targetAppDir));
+
+            // this version works across filesystems on unix
+            moveDirectory(unarchivedDir, targetAppDir);
+
+            //Files.move(unarchivedDir, targetAppDir);
+
+//            mv(unarchivedDir)
+//                .verbose()
+//                .target(targetAppDir)
+//                .force()
+//                .run();
 
             // we need to fix execute permissions on everything but windows
             if (this.nativeTarget.getOperatingSystem() != OperatingSystem.WINDOWS) {
@@ -207,11 +215,15 @@ public class blaze {
             final Path sourceShareDir = unarchivedDir.resolve(archiveShareDir);
             final Path targetShareDir = targetLocalShareDir.resolve("fastfetch");
             rm(targetShareDir).recursive().force().run();
-            mv(sourceShareDir)
+
+            // this version works across filesystems on unix
+            moveDirectory(unarchivedDir, targetShareDir);
+
+            /*mv(sourceShareDir)
                 .verbose()
                 .target(targetShareDir)
                 .force()
-                .run();
+                .run();*/
 
             // validate the install worked by displaying the version
             exec(targetLocalBinDir.resolve(exeFileName), "-v")
@@ -245,6 +257,54 @@ public class blaze {
             }
         }
         return EnvScope.SYSTEM;
+    }
+
+    public static void moveDirectory(Path source, Path destination) throws IOException {
+        try {
+            // Attempt a simple move first, which works for same-filesystem moves.
+            Files.move(source, destination, StandardCopyOption.REPLACE_EXISTING);
+        } catch (DirectoryNotEmptyException e) {
+            // This exception should not occur for a top-level directory rename
+            // if the move was successful, but is a good catch-all.
+            System.err.println("Directory is not empty and cannot be moved by rename. Falling back to copy-and-delete.");
+            copyThenDelete(source, destination);
+        } catch (FileSystemException e) {
+            // If the simple move fails, it's likely a cross-filesystem move.
+            System.err.println("Cross-filesystem move detected. Falling back to copy-and-delete.");
+            copyThenDelete(source, destination);
+        }
+    }
+
+    private static void copyThenDelete(Path source, Path destination) throws IOException {
+        Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+                Path targetDir = destination.resolve(source.relativize(dir));
+                Files.createDirectories(targetDir);
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                Files.copy(file, destination.resolve(source.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
+                return FileVisitResult.CONTINUE;
+            }
+        });
+
+        // After copying, delete the source directory.
+        Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                Files.delete(file);
+                return FileVisitResult.CONTINUE;
+            }
+
+            @Override
+            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
+                Files.delete(dir);
+                return FileVisitResult.CONTINUE;
+            }
+        });
     }
 
     /*private Path resolveAppDir() throws Exception {
