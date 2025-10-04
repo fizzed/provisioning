@@ -104,11 +104,13 @@ public class blaze {
                 .force()
                 .run();
 
-            // we need to fix execute permissions
-            chmod(targetAppDir.resolve("bin/mvn"), "755");
-            chmod(targetAppDir.resolve("bin/mvn.cmd"), "755");
-            chmod(targetAppDir.resolve("bin/mvnDebug"), "755");
-            chmod(targetAppDir.resolve("bin/mvnDebug.cmd"), "755");
+            // we need to fix execute permissions on everything but windows
+            if (this.nativeTarget.getOperatingSystem() != OperatingSystem.WINDOWS) {
+                chmod(targetAppDir.resolve("bin/mvn"), "755");
+                chmod(targetAppDir.resolve("bin/mvn.cmd"), "755");
+                chmod(targetAppDir.resolve("bin/mvnDebug"), "755");
+                chmod(targetAppDir.resolve("bin/mvnDebug.cmd"), "755");
+            }
 
             installEnvironment.installEnv(
                 singletonList(new EnvPath(targetAppDir.resolve("bin"))),
