@@ -100,7 +100,7 @@ public class blaze {
 
             mv(unarchivedDir)
                 .verbose()
-                .target(targetAppDir.getParent())
+                .target(targetAppDir)
                 .force()
                 .run();
 
