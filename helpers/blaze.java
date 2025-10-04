@@ -92,7 +92,12 @@ public class blaze {
                 .stripLeadingPath()
                 .run();
 
-            rm(targetAppDir).recursive().force().run();
+            rm(targetAppDir)
+                .verbose()
+                .recursive()
+                .force()
+                .run();
+            
             mv(unarchivedDir)
                 .verbose()
                 .target(targetAppDir)
