@@ -10,13 +10,13 @@ but can be used with cloud images or traditional machines as well.
 curl -sfL https://raw.githubusercontent.com/fizzed/provisioning/master/linux/bootstrap-java.sh | sudo sh -s -- --version=17
 ```
 
-## Install Maven (Linux, MacOS, FreeBSD, etc)
+## Install Maven (cross platform: e.g. Linux, MacOS, FreeBSD, etc)
 
 ```shell
-curl -sfL https://raw.githubusercontent.com/fizzed/provisioning/master/linux/bootstrap-maven.sh | sudo sh
+curl -sfL https://raw.githubusercontent.com/fizzed/provisioning/master/scripts/install-maven.sh | sudo sh
 ```
 
-## Install FastFetch (Linux, MacOS, FreeBSD, etc)
+## Install FastFetch (cross platform: e.g. Linux, MacOS, FreeBSD, etc)
 
 NOTE: `sudo` needs to have `java` in its path (this script leverages blaze to help install the app)
 
