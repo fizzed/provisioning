@@ -121,7 +121,8 @@ public class blaze {
             }
 
             installEnvironment.installEnv(
-                singletonList(new EnvPath(targetAppDir.resolve("bin"))),
+                // in case there is maven on the system, prepending should let us prefer this one
+                singletonList(new EnvPath(targetAppDir.resolve("bin"), true)),
                 singletonList(new EnvVar("M2_HOME", targetAppDir))
             );
 
