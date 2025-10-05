@@ -241,7 +241,6 @@ public class blaze {
             log.info("");
 
             exec(targetLocalBinDir.resolve(exeFileName), "-v")
-                .verbose()
                 .run();
 
             log.info("");
