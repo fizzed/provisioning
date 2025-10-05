@@ -120,6 +120,15 @@ public class blaze {
                 chmod(targetAppDir.resolve("bin/mvnDebug.cmd"), "755");
             }
 
+            /*log.info("Will execute `mvn -v` to validate installation...");
+            log.info("");
+
+            exec("mvn", "-v")
+                .verbose()
+                .run();
+
+            log.info("");*/
+
             installEnvironment.installEnv(
                 // in case there is maven on the system, prepending should let us prefer this one
                 singletonList(new EnvPath(targetAppDir.resolve("bin"), true)),
@@ -215,10 +224,11 @@ public class blaze {
             // we also need the share directory for presets, etc.
             final Path sourceShareDir = unarchivedDir.resolve(archiveShareDir);
             final Path targetShareDir = targetLocalShareDir.resolve("fastfetch");
+
             rm(targetShareDir).recursive().force().run();
 
             // this version works across filesystems on unix
-            moveDirectory(unarchivedDir, targetShareDir);
+            moveDirectory(sourceShareDir, targetShareDir);
 
             /*mv(sourceShareDir)
                 .verbose()
@@ -227,9 +237,14 @@ public class blaze {
                 .run();*/
 
             // validate the install worked by displaying the version
+            log.info("Will execute `fastfetch -v` to validate installation...");
+            log.info("");
+
             exec(targetLocalBinDir.resolve(exeFileName), "-v")
                 .verbose()
                 .run();
+
+            log.info("");
 
             installEnvironment.installEnv(
                 singletonList(new EnvPath(targetLocalBinDir)),
