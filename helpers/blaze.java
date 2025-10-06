@@ -306,6 +306,12 @@ public class blaze {
                 targetFile = userEnvironment.getHomeDir().resolve(".tcshrc");
                 sourceFile = this.getResource("git-prompt.tcsh");
 
+            } else if (userEnvironment.getShellType() == ShellType.KSH) {
+
+                shellBuilder = new ShellBuilder(userEnvironment.getShellType());
+                targetFile = userEnvironment.getHomeDir().resolve(".kshrc");
+                sourceFile = this.getResource("git-prompt.ksh");
+
             } else {
                 throw new UnsupportedOperationException("Unsupported shell type: " + userEnvironment.getShellType());
             }
