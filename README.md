@@ -54,4 +54,7 @@ Then you can activate the prompt by running the following:
 
 # for csh
 source ~/.tcshrc
+
+# for ksh
+. ~/.kshrc
 ```
