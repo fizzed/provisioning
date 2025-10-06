@@ -287,30 +287,35 @@ public class blaze {
             final ShellBuilder shellBuilder;
             final Path targetFile;
             final Path sourceFile;
+            final String helpProfileActivateMessage;
 
             if (userEnvironment.getShellType() == ShellType.BASH) {
 
                 shellBuilder = new ShellBuilder(userEnvironment.getShellType());
                 targetFile = userEnvironment.getHomeDir().resolve(".bashrc");
                 sourceFile = this.getResource("git-prompt.bash");
+                helpProfileActivateMessage = ". ~/.bashrc";
 
             } else if (userEnvironment.getShellType() == ShellType.ZSH) {
 
                 shellBuilder = new ShellBuilder(userEnvironment.getShellType());
                 targetFile = userEnvironment.getHomeDir().resolve(".zshrc");
                 sourceFile = this.getResource("git-prompt.zsh");
+                helpProfileActivateMessage = ". ~/.zshrc";
 
             } else if (userEnvironment.getShellType() == ShellType.TCSH) {
 
                 shellBuilder = new ShellBuilder(userEnvironment.getShellType());
                 targetFile = userEnvironment.getHomeDir().resolve(".tcshrc");
                 sourceFile = this.getResource("git-prompt.tcsh");
+                helpProfileActivateMessage = "source ~/.tcshrc";
 
             } else if (userEnvironment.getShellType() == ShellType.KSH) {
 
                 shellBuilder = new ShellBuilder(userEnvironment.getShellType());
                 targetFile = userEnvironment.getHomeDir().resolve(".kshrc");
                 sourceFile = this.getResource("git-prompt.ksh");
+                helpProfileActivateMessage = ". ~/.kshrc";
 
             } else if (userEnvironment.getShellType() == ShellType.PS) {
 
@@ -331,6 +336,7 @@ public class blaze {
 
                 shellBuilder = new ShellBuilder(userEnvironment.getShellType());
                 sourceFile = this.getResource("git-prompt.ps1");
+                helpProfileActivateMessage = ". $PROFILE";
 
             } else {
                 throw new UnsupportedOperationException("Unsupported shell type: " + userEnvironment.getShellType());
@@ -344,6 +350,13 @@ public class blaze {
             Utils.writeLinesToFileWithSectionBeginAndEndLines(targetFile, shellLines, true);
 
             log.info("Successfully installed git prompt for shell {} to {}", userEnvironment.getShellType(), targetFile);
+            log.info("");
+            log.info("To activate your new profile, in your current shell you can:");
+            log.info("");
+            log.info("  {}", helpProfileActivateMessage);
+            log.info("");
+            log.info("Or you can open a new terminal or reboot your machine");
+            log.info("");
         } finally {
             this.after(true);
         }
