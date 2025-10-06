@@ -1,6 +1,8 @@
 import com.fizzed.blaze.Config;
 import com.fizzed.blaze.Contexts;
 import com.fizzed.jne.*;
+import com.fizzed.jne.internal.ShellBuilder;
+import com.fizzed.jne.internal.Utils;
 import org.slf4j.Logger;
 
 import java.io.IOException;
@@ -14,6 +16,7 @@ import static com.fizzed.blaze.Archives.unarchive;
 import static com.fizzed.blaze.Https.httpGet;
 import static com.fizzed.blaze.Systems.*;
 import static com.fizzed.jne.Chmod.chmod;
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
@@ -25,9 +28,9 @@ public class blaze {
     private NativeTarget nativeTarget;
     private EnvScope scope;
 
-    private void before() throws Exception {
+    private void before(EnvScope defaultScope) throws Exception {
         this.nativeTarget = NativeTarget.detect();
-        this.scope = this.resolveScope();
+        this.scope = this.resolveScope(defaultScope);
 
         log.info("Detected platform {} (arch {}) (abi {})", nativeTarget.getOperatingSystem(), nativeTarget.getHardwareArchitecture(), nativeTarget.getAbi());
         log.info("Using install scope {}", this.scope);
@@ -57,6 +60,20 @@ public class blaze {
         }
     }
 
+    private EnvScope resolveScope(EnvScope defaultScope) throws Exception {
+        final String scopeStr = this.config.value("scope").orNull();
+        if (scopeStr != null) {
+            if ("user".equalsIgnoreCase(scopeStr)) {
+                return EnvScope.USER;
+            } else if ("system".equalsIgnoreCase(scopeStr)) {
+                return EnvScope.SYSTEM;
+            } else {
+                throw new IllegalArgumentException("Invalid scope value: " + scopeStr);
+            }
+        }
+        return defaultScope != null ? defaultScope : EnvScope.SYSTEM;
+    }
+
     //
     // Apache Maven Install
     //
@@ -64,7 +81,7 @@ public class blaze {
     final private String mavenVersion = config.value("maven.version").orElse("3.9.5");
 
     public void install_maven() throws Exception {
-        this.before();
+        this.before(EnvScope.SYSTEM);
         try {
             final InstallEnvironment installEnvironment = InstallEnvironment.detect("Apache Maven", "maven", this.scope);
 
@@ -148,7 +165,7 @@ public class blaze {
     final private String fastfetchVersion = config.value("fastfetch.version").orElse("2.53.0");
 
     public void install_fastfetch() throws Exception {
-        this.before();
+        this.before(EnvScope.SYSTEM);
         try {
             final InstallEnvironment installEnvironment = InstallEnvironment.detect("FastFetch", "fastfetch", this.scope);
 
@@ -257,24 +274,104 @@ public class blaze {
     }
 
     //
+    // Git Prompt into Shell Install
+    //
+
+    public void install_git_prompt() throws Exception {
+        this.before(EnvScope.USER);
+        try {
+            final UserEnvironment userEnvironment = UserEnvironment.detectEffective();
+
+            log.info("Installing git prompt for shell {}", userEnvironment.getShellType());
+
+            final ShellBuilder shellBuilder;
+            final Path targetFile;
+            final Path sourceFile;
+
+            if (userEnvironment.getShellType() == ShellType.BASH) {
+
+                shellBuilder = new ShellBuilder(userEnvironment.getShellType());
+                targetFile = userEnvironment.getHomeDir().resolve(".bashrc");
+                sourceFile = this.getResource("git-prompt.bash");
+
+            } else if (userEnvironment.getShellType() == ShellType.ZSH) {
+
+                shellBuilder = new ShellBuilder(userEnvironment.getShellType());
+                targetFile = userEnvironment.getHomeDir().resolve(".zshrc");
+                sourceFile = this.getResource("git-prompt.zsh");
+
+            } else if (userEnvironment.getShellType() == ShellType.TCSH) {
+
+                shellBuilder = new ShellBuilder(userEnvironment.getShellType());
+                targetFile = userEnvironment.getHomeDir().resolve(".tcshrc");
+                sourceFile = this.getResource("git-prompt.tcsh");
+
+            } else if (userEnvironment.getShellType() == ShellType.KSH) {
+
+                shellBuilder = new ShellBuilder(userEnvironment.getShellType());
+                targetFile = userEnvironment.getHomeDir().resolve(".kshrc");
+                sourceFile = this.getResource("git-prompt.ksh");
+
+            } else if (userEnvironment.getShellType() == ShellType.PS) {
+
+                // This profile applies to the current user across all PowerShell host applications. Its path is typically
+                // $HOME\Documents\PowerShell\Profile.ps1 on Windows or ~/.config/powershell/profile.ps1 on Linux/macOS.
+                if (this.nativeTarget.getOperatingSystem() == OperatingSystem.WINDOWS) {
+                    targetFile = userEnvironment.getHomeDir().resolve("Documents/PowerShell/Microsoft.PowerShell_profile.ps1");
+                } else {
+                    targetFile = userEnvironment.getHomeDir().resolve(".config/powershell/profile.ps1");
+                }
+
+                // the directory to this file may not yet exist
+                final Path ps1ProfileDir = targetFile.getParent();
+                if (!Files.exists(ps1ProfileDir)) {
+                    Files.createDirectories(ps1ProfileDir);
+                    log.info("Created powershell profile directory: {}", ps1ProfileDir);
+                }
+
+                shellBuilder = new ShellBuilder(userEnvironment.getShellType());
+                sourceFile = this.getResource("git-prompt.ps1");
+
+            } else {
+                throw new UnsupportedOperationException("Unsupported shell type: " + userEnvironment.getShellType());
+            }
+
+            final List<String> shellLines = new ArrayList<>();
+            shellLines.addAll(shellBuilder.sectionBegin("git-prompt"));
+            shellLines.add(Utils.readFileToString(sourceFile));
+            shellLines.addAll(shellBuilder.sectionEnd("git-prompt"));
+
+            Utils.writeLinesToFileWithSectionBeginAndEndLines(targetFile, shellLines, true);
+
+            log.info("Successfully installed git prompt for shell {} to {}", userEnvironment.getShellType(), targetFile);
+        } finally {
+            this.after(true);
+        }
+    }
+
+    //
     // Helpers
     //
 
-    private EnvScope resolveScope() {
-        final String scopeStr = this.config.value("scope").orNull();
-        if (scopeStr != null) {
-            if ("user".equalsIgnoreCase(scopeStr)) {
-                return EnvScope.USER;
-            } else if ("system".equalsIgnoreCase(scopeStr)) {
-                return EnvScope.SYSTEM;
-            } else {
-                throw new IllegalArgumentException("Invalid scope value: " + scopeStr);
+    private Path getResource(String resourcePath) throws IOException {
+        // are we in a local development environment?
+        Path localResourcesDir = Contexts.withBaseDir("../resources").toAbsolutePath();
+        if (Files.exists(localResourcesDir) && Files.isDirectory(localResourcesDir)) {
+            log.info("Detected local development environment. Using local resources directory: {}", localResourcesDir);
+
+            final Path file = localResourcesDir.resolve(resourcePath);
+
+            if (!Files.exists(file)) {
+                throw new IOException("Local resource file does not exist: " + file);
             }
+
+            return file;
         }
-        return EnvScope.SYSTEM;
+
+        throw new IOException("Remote fetching of resources is not supported yet.");
     }
 
-    public static void moveDirectory(Path source, Path destination) throws IOException {
+    static private void moveDirectory(Path source, Path destination) throws IOException {
         try {
             // Attempt a simple move first, which works for same-filesystem moves.
             Files.move(source, destination, StandardCopyOption.REPLACE_EXISTING);
