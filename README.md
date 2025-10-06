@@ -37,6 +37,7 @@ curl -sfL https://raw.githubusercontent.com/fizzed/provisioning/master/scripts/i
 ```
 
 
+=======
 
 ## Install Shell Prompt w/ Git Branch
 
