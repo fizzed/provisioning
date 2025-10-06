@@ -1,6 +1,8 @@
 import com.fizzed.blaze.Config;
 import com.fizzed.blaze.Contexts;
 import com.fizzed.jne.*;
+import com.fizzed.jne.internal.ShellBuilder;
+import com.fizzed.jne.internal.Utils;
 import org.slf4j.Logger;
 
 import java.io.IOException;
@@ -14,6 +16,7 @@ import static com.fizzed.blaze.Archives.unarchive;
 import static com.fizzed.blaze.Https.httpGet;
 import static com.fizzed.blaze.Systems.*;
 import static com.fizzed.jne.Chmod.chmod;
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
@@ -25,9 +28,9 @@ public class blaze {
     private NativeTarget nativeTarget;
     private EnvScope scope;
 
-    private void before() throws Exception {
+    private void before(EnvScope defaultScope) throws Exception {
         this.nativeTarget = NativeTarget.detect();
-        this.scope = this.resolveScope();
+        this.scope = this.resolveScope(defaultScope);
 
         log.info("Detected platform {} (arch {}) (abi {})", nativeTarget.getOperatingSystem(), nativeTarget.getHardwareArchitecture(), nativeTarget.getAbi());
         log.info("Using install scope {}", this.scope);
@@ -57,6 +60,20 @@ public class blaze {
         }
     }
 
+    private EnvScope resolveScope(EnvScope defaultScope) throws Exception {
+        final String scopeStr = this.config.value("scope").orNull();
+        if (scopeStr != null) {
+            if ("user".equalsIgnoreCase(scopeStr)) {
+                return EnvScope.USER;
+            } else if ("system".equalsIgnoreCase(scopeStr)) {
+                return EnvScope.SYSTEM;
+            } else {
+                throw new IllegalArgumentException("Invalid scope value: " + scopeStr);
+            }
+        }
+        return defaultScope != null ? defaultScope : EnvScope.SYSTEM;
+    }
+
     //
     // Apache Maven Install
     //
@@ -64,7 +81,7 @@ public class blaze {
     final private String mavenVersion = config.value("maven.version").orElse("3.9.5");
 
     public void install_maven() throws Exception {
-        this.before();
+        this.before(EnvScope.SYSTEM);
         try {
             final InstallEnvironment installEnvironment = InstallEnvironment.detect("Apache Maven", "maven", this.scope);
 
@@ -148,7 +165,7 @@ public class blaze {
     final private String fastfetchVersion = config.value("fastfetch.version").orElse("2.53.0");
 
     public void install_fastfetch() throws Exception {
-        this.before();
+        this.before(EnvScope.SYSTEM);
         try {
             final InstallEnvironment installEnvironment = InstallEnvironment.detect("FastFetch", "fastfetch", this.scope);
 
@@ -257,22 +274,148 @@ public class blaze {
     }
 
     //
-    // Helpers
+    // Shell Git Branch
     //
 
-    private EnvScope resolveScope() {
-        final String scopeStr = this.config.value("scope").orNull();
-        if (scopeStr != null) {
-            if ("user".equalsIgnoreCase(scopeStr)) {
-                return EnvScope.USER;
-            } else if ("system".equalsIgnoreCase(scopeStr)) {
-                return EnvScope.SYSTEM;
-            } else {
-                throw new IllegalArgumentException("Invalid scope value: " + scopeStr);
+//    final private String fastfetchVersion = config.value("fastfetch.version").orElse("2.53.0");
+
+    public void install_git_prompt() throws Exception {
+        this.before(EnvScope.USER);
+        try {
+            final UserEnvironment userEnvironment = UserEnvironment.detectEffective();
+
+            log.info("Installing git prompt for shell {}", userEnvironment.getShellType());
+
+            if (userEnvironment.getShellType() == ShellType.BASH) {
+                final ShellBuilder shellBuilder = new ShellBuilder(userEnvironment.getShellType());
+                final Path targetFile = userEnvironment.getHomeDir().resolve(".bashrc");
+
+                final String shellContent = "" +
+                    "parse_git_branch() {\n" +
+                    "  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \\(.*\\)/ (\\1)/'\n" +
+                    "}\n" +
+                    "\n" +
+                    "export PS1=\"\\[\\033[0;32m\\]\\u@\\h\\[\\033[00m\\] \\[\\033[0;36m\\]\\w\\[\\033[00m\\]\\$(parse_git_branch)\\[\\033[00m\\] \\$ \"";
+
+                final List<String> shellLines = new ArrayList<>();
+                shellLines.addAll(shellBuilder.sectionBegin("git-prompt"));
+                shellLines.add(shellContent);
+                shellLines.addAll(shellBuilder.sectionEnd("git-prompt"));
+
+                Utils.writeLinesToFileWithSectionBeginAndEndLines(targetFile, shellLines, true);
+
+                log.info("Successfully installed git prompt for shell {} to {}", userEnvironment.getShellType(), targetFile);
             }
+
+            /*final InstallEnvironment installEnvironment = InstallEnvironment.detect("FastFetch", "fastfetch", this.scope);
+
+            log.info("Installing fastfetch v{} with scope {}...", this.fastfetchVersion, this.scope);
+
+            // NOTE: fastfetch only publishes assets for some architectures, not all, we can make this recipe work
+            // for a few more by delegating to the underlying package manager instead
+            if (this.nativeTarget.getOperatingSystem() == OperatingSystem.FREEBSD && nativeTarget.getHardwareArchitecture() != HardwareArchitecture.X64) {
+                exec("pkg", "install", "-y", "fastfetch")
+                    .verbose()
+                    .run();
+                return;
+            } else if (this.nativeTarget.getOperatingSystem() == OperatingSystem.OPENBSD && nativeTarget.getHardwareArchitecture() != HardwareArchitecture.X64) {
+                exec("pkg_add", "fastfetch")
+                    .verbose()
+                    .run();
+                return;
+            }
+
+            // detect current os & arch, then translate to values that nats-server project uses
+            final NativeLanguageModel nlm = new NativeLanguageModel()
+                .add("version", this.fastfetchVersion)
+                .add(HardwareArchitecture.ARM64, "aarch64")
+                .add(HardwareArchitecture.X64, "amd64")
+                .add(HardwareArchitecture.ARMHF, "armv7l")
+                .add(HardwareArchitecture.ARMEL, "armv6l");
+
+            final Path targetLocalBinDir = installEnvironment.resolveLocalBinDir(true);
+            final Path targetLocalShareDir = installEnvironment.resolveLocalShareDir(true);
+
+            // https://github.com/fastfetch-cli/fastfetch/releases/download/2.53.0/fastfetch-linux-amd64.zip
+            final String url = nlm.format("https://github.com/fastfetch-cli/fastfetch/releases/download/{version}/fastfetch-{os}-{arch}.zip", this.nativeTarget);
+            final Path archiveFile = this.scratchDir.resolve("fastfetch.zip");
+
+            httpGet(url)
+                .verbose()
+                .target(archiveFile)
+                .run();
+
+            final Path unarchivedDir = this.scratchDir.resolve("fastfetch");
+
+            // NOTE: annoyingly, on windows, the archive file structure is different and its "flattened" so it all goes
+            // into the same directory (including the presets), so we don't want to strip any components on that platform
+            // while also adjusting the locations of everything else too
+            int stripComponents = 1;
+            String archiveBinDir = "usr/bin";
+            String archiveShareDir = "usr/share/fastfetch";
+
+            if (installEnvironment.getOperatingSystem() == OperatingSystem.WINDOWS) {
+                stripComponents = 0;
+                archiveBinDir = ".";
+                archiveShareDir = ".";
+            }
+
+            unarchive(archiveFile)
+                .verbose()
+                .target(unarchivedDir)
+                .stripComponents(stripComponents)
+                .run();
+
+            // the usr/bin/fastfetch should exist
+            final String exeFileName = this.nativeTarget.resolveExecutableFileName("fastfetch");
+            final Path sourceExeFile = unarchivedDir.resolve(archiveBinDir).resolve(exeFileName);
+
+            chmod(sourceExeFile, "755");
+
+            mv(sourceExeFile)
+                .verbose()
+                .target(targetLocalBinDir)
+                .force()
+                .run();
+
+            // we also need the share directory for presets, etc.
+            final Path sourceShareDir = unarchivedDir.resolve(archiveShareDir);
+            final Path targetShareDir = targetLocalShareDir.resolve("fastfetch");
+
+            rm(targetShareDir).recursive().force().run();
+
+            // this version works across filesystems on unix
+            moveDirectory(sourceShareDir, targetShareDir);
+
+            *//*mv(sourceShareDir)
+                .verbose()
+                .target(targetShareDir)
+                .force()
+                .run();*//*
+
+            // validate the install worked by displaying the version
+            log.info("Will execute `fastfetch -v` to validate installation...");
+            log.info("");
+
+            exec(targetLocalBinDir.resolve(exeFileName), "-v")
+                .run();
+
+            log.info("");
+
+            installEnvironment.installEnv(
+                singletonList(new EnvPath(targetLocalBinDir)),
+                emptyList()
+            );
+
+            log.info("Successfully installed fastfetch v{} with scope {}", this.fastfetchVersion, this.scope);*/
+        } finally {
+            this.after(true);
         }
-        return EnvScope.SYSTEM;
     }
+
+    //
+    // Helpers
+    //
 
     public static void moveDirectory(Path source, Path destination) throws IOException {
         try {
