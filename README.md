@@ -46,5 +46,9 @@ java -jar helpers/blaze.jar helpers/blaze.java install_git_prompt
 Then you can activate the prompt by running the following:
 
 ```
+# for bash
 . ~/.bashrc
+
+# for zsh
+. ~/.zshrc
 ```

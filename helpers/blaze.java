@@ -289,9 +289,17 @@ public class blaze {
             final Path sourceFile;
 
             if (userEnvironment.getShellType() == ShellType.BASH) {
+
                 shellBuilder = new ShellBuilder(userEnvironment.getShellType());
                 targetFile = userEnvironment.getHomeDir().resolve(".bashrc");
                 sourceFile = this.getResource("git-prompt.bash");
+
+            } else if (userEnvironment.getShellType() == ShellType.ZSH) {
+
+                shellBuilder = new ShellBuilder(userEnvironment.getShellType());
+                targetFile = userEnvironment.getHomeDir().resolve(".zshrc");
+                sourceFile = this.getResource("git-prompt.zsh");
+
             } else {
                 throw new UnsupportedOperationException("Unsupported shell type: " + userEnvironment.getShellType());
             }
