@@ -51,4 +51,7 @@ Then you can activate the prompt by running the following:
 
 # for zsh
 . ~/.zshrc
+
+# for csh
+source ~/.tcshrc
 ```
