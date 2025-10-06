@@ -16,6 +16,7 @@ import com.fizzed.provisioning.zulu.ZuluClient;
 import com.fizzed.provisioning.zulu.ZuluJavaRelease;
 import org.slf4j.Logger;
 
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
@@ -53,8 +54,38 @@ public class blaze {
     private final Path projectDir = withBaseDir("../").toAbsolutePath();
     private final Path dataDir = projectDir.resolve("data");
     private final Path linuxDir = projectDir.resolve("linux");
+    private final Path scriptsDir = projectDir.resolve("scripts");
+    private final Path resourcesDir = projectDir.resolve("resources");
     private final Logger log = Contexts.logger();
     private final Path javaInstallersFile = dataDir.resolve("java-installers.json");
+
+    public void build_scripts() throws Exception {
+        // we basically expose the methods of helpers/blaze.java into .sh and .ps1 scripts
+        final List<String> methods = asList("install_maven", "install_fastfetch", "install_git_prompt");
+
+        // we generate both .ps1 and .sh versions based on templates
+        final Path shTemplateFile = resourcesDir.resolve("install-template.sh");
+        final Path ps1TemplateFile = resourcesDir.resolve("install-template.ps1");
+
+        final String shTemplateContent = Files.readString(shTemplateFile);
+        final String ps1TemplateContent = Files.readString(ps1TemplateFile);
+
+        for (String method : methods) {
+            final String shContent = shTemplateContent.replace("install_template", method);
+            final String ps1Content = ps1TemplateContent.replace("install_template", method);
+
+            final String name = method.replace("_", "-");
+
+            final Path shTargetFile = scriptsDir.resolve(name + ".sh");
+            final Path ps1TargetFile = scriptsDir.resolve(name + ".ps1");
+
+            Files.write(shTargetFile, shContent.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            log.info("Built script {}", shTargetFile);
+
+            Files.write(ps1TargetFile, ps1Content.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+            log.info("Built script {}", ps1TargetFile);
+        }
+    }
 
     public void update_java_installers() throws Exception {
         // we will collect all java installers into this array

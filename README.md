@@ -16,6 +16,8 @@ curl -sfL https://raw.githubusercontent.com/fizzed/provisioning/master/linux/boo
 curl -sfL https://raw.githubusercontent.com/fizzed/provisioning/master/scripts/install-maven.sh | sudo sh
 ```
 
+
+
 ## Install FastFetch (cross platform: e.g. Linux, MacOS, FreeBSD, etc)
 
 NOTE: `sudo` needs to have `java` in its path (this script leverages blaze to help install the app)
@@ -24,10 +26,27 @@ NOTE: `sudo` needs to have `java` in its path (this script leverages blaze to he
 curl -sfL https://raw.githubusercontent.com/fizzed/provisioning/master/scripts/install-fastfetch.sh | sudo sh
 ```
 
+```powershell
+sudo powershell -Command 'iwr "https://raw.githubusercontent.com/fizzed/provisioning/master/scripts/install-fastfetch.ps1" | iex'
+```
+
 Or if you need a specific version, such as for Ubuntu 20.04
 
 ```shell
 curl -sfL https://raw.githubusercontent.com/fizzed/provisioning/master/scripts/install-fastfetch.sh | sudo sh -s -- --fastfetch.version 2.40.4
+```
+
+
+=======
+
+## Install Shell Prompt w/ Git Branch
+
+```shell
+curl -sfL https://raw.githubusercontent.com/fizzed/provisioning/master/scripts/install-git-prompt.sh | sh
+```
+
+```powershell
+powershell -Command 'iwr "https://raw.githubusercontent.com/fizzed/provisioning/master/scripts/install-git-prompt.ps1" | iex'
 ```
 
 

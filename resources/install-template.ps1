@@ -56,7 +56,7 @@ try {
 
     # The automatic variable '$args' in PowerShell contains all arguments passed to the script,
     # just like '$@' in the shell script.
-    java -jar $jarPath $javaPath install_git_prompt $args
+    java -jar $jarPath $javaPath install_template $args
 
 }
 finally {

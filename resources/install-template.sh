@@ -21,6 +21,6 @@ curl --insecure -f -s -o "$HELPERS_DIR/blaze.jar" "https://raw.githubusercontent
 curl --insecure -f -s -o "$HELPERS_DIR/blaze.conf" "https://raw.githubusercontent.com/fizzed/provisioning/master/helpers/blaze.conf"
 curl --insecure -f -s -o "$HELPERS_DIR/blaze.java" "https://raw.githubusercontent.com/fizzed/provisioning/master/helpers/blaze.java"
 
-java -jar "$HELPERS_DIR/blaze.jar" "$HELPERS_DIR/blaze.java" install_fastfetch "$@"
+java -jar "$HELPERS_DIR/blaze.jar" "$HELPERS_DIR/blaze.java" install_template "$@"
 
 rm -Rf "$HELPERS_DIR"
