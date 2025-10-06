@@ -13,10 +13,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.fizzed.blaze.Archives.unarchive;
+import static com.fizzed.blaze.Contexts.fail;
 import static com.fizzed.blaze.Https.httpGet;
 import static com.fizzed.blaze.Systems.*;
 import static com.fizzed.jne.Chmod.chmod;
-import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
@@ -363,11 +363,82 @@ public class blaze {
     }
 
     //
+    // Install Java Path
+    //
+
+    final private String javaMajorVersion = config.value("java.major").orNull();
+
+    public void install_java_path() throws Exception {
+        final List<JavaHome> javaHomes = JavaHomes.detect();
+
+        log.info("Detected the following java homes:");
+        log.info("");
+        if (!javaHomes.isEmpty()) {
+            for (JavaHome javaHome : javaHomes) {
+                log.info("  {}", javaHome);
+            }
+        } else {
+            fail("No java homes were detected on this system");
+        }
+        log.info("");
+
+        // try to parse the version into something we want
+        final Integer preferredJavaMajorVersion;
+
+        if (javaMajorVersion != null) {
+            preferredJavaMajorVersion = Integer.parseInt(javaMajorVersion);
+        } else {
+            // if no preferred version, find the greatest major version
+            final JavaVersion latestJavaVersion = javaHomes.stream()
+                .map(JavaHome::getVersion)
+                .max(JavaVersion::compareTo)
+                .orElse(null);
+
+            log.info("Latest java version: {}", latestJavaVersion);
+
+            preferredJavaMajorVersion = latestJavaVersion.getMajor();
+        }
+
+        log.info("Preferred major java version: {}", preferredJavaMajorVersion);
+
+        // find the latest java for our preferred major version
+        final JavaHome preferredJavaHome = javaHomes.stream()
+            .filter(v -> preferredJavaMajorVersion.equals(v.getVersion().getMajor()))
+            .max((a, b) -> a.getVersion().compareTo(b.getVersion()))
+            .orElse(null);
+
+        if (preferredJavaHome == null) {
+            fail("Unable to find a java home for major version " + preferredJavaMajorVersion);
+        }
+
+        log.info("Preferred java home: {}", preferredJavaHome);
+
+        final InstallEnvironment installEnvironment = InstallEnvironment.detect("Java Path", "java-path", EnvScope.SYSTEM);
+
+        // we are going create two symlinks?
+        //Path defaultJdkLink = preferredJavaHome.getDirectory().getParent().resolve("jdk-current");
+        //Path majorVersionJdkLink = preferredJavaHome.getDirectory().getParent().resolve("jdk-" + preferredJavaMajorVersion);
+
+        final Path defaultJdkLink;
+        final Path majorVersionJdkLink;
+
+        if (installEnvironment.getOperatingSystem() ==  OperatingSystem.WINDOWS) {
+            defaultJdkLink
+        }
+
+        Files.createSymbolicLink(defaultJdkLink, preferredJavaHome.getDirectory());
+        log.info("Created symlink {} -> {}", defaultJdkLink, preferredJavaHome.getDirectory());
+
+        Files.createSymbolicLink(majorVersionJdkLink, preferredJavaHome.getDirectory());
+        log.info("Created symlink {} -> {}", majorVersionJdkLink, preferredJavaHome.getDirectory());
+    }
+
+    //
     // Helpers
     //
 
     private Path getResource(String resourcePath) throws IOException {
-        // are we in a local development environment?
+        // are we in a local development environment?   
         Path localResourcesDir = Contexts.withBaseDir("../resources").toAbsolutePath();
         if (Files.exists(localResourcesDir) && Files.isDirectory(localResourcesDir)) {
             log.info("Detected local development environment. Using local resources directory: {}", localResourcesDir);
