@@ -1,7 +1,5 @@
 #!/bin/sh
 
-### BEGIN BLAZE HEADER
-
 # we need java to function
 if ! [ -x "$(command -v java)" ]; then
   echo "Dependency 'java' is missing. Please install it first then re-run this script"
@@ -23,12 +21,6 @@ curl --insecure -f -s -o "$HELPERS_DIR/blaze.jar" "https://raw.githubusercontent
 curl --insecure -f -s -o "$HELPERS_DIR/blaze.conf" "https://raw.githubusercontent.com/fizzed/provisioning/master/helpers/blaze.conf"
 curl --insecure -f -s -o "$HELPERS_DIR/blaze.java" "https://raw.githubusercontent.com/fizzed/provisioning/master/helpers/blaze.java"
 
-### END BLAZE HEADER
-
 java -jar "$HELPERS_DIR/blaze.jar" "$HELPERS_DIR/blaze.java" install_maven "$@"
 
-### BEGIN BLAZE FOOTER
-
 rm -Rf "$HELPERS_DIR"
-
-### END BLAZE FOOTER
