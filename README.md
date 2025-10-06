@@ -57,4 +57,7 @@ source ~/.tcshrc
 
 # for ksh
 . ~/.kshrc
+
+# for powershell
+. $PROFILE
 ```

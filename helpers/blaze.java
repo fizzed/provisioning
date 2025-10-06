@@ -312,6 +312,26 @@ public class blaze {
                 targetFile = userEnvironment.getHomeDir().resolve(".kshrc");
                 sourceFile = this.getResource("git-prompt.ksh");
 
+            } else if (userEnvironment.getShellType() == ShellType.PS) {
+
+                // This profile applies to the current user across all PowerShell host applications. Its path is typically
+                // $HOME\Documents\PowerShell\Profile.ps1 on Windows or ~/.config/powershell/profile.ps1 on Linux/macOS.
+                if (this.nativeTarget.getOperatingSystem() == OperatingSystem.WINDOWS) {
+                    targetFile = userEnvironment.getHomeDir().resolve("Documents/PowerShell/Microsoft.PowerShell_profile.ps1");
+                } else {
+                    targetFile = userEnvironment.getHomeDir().resolve(".config/powershell/profile.ps1");
+                }
+
+                // the directory to this file may not yet exist
+                final Path ps1ProfileDir = targetFile.getParent();
+                if (!Files.exists(ps1ProfileDir)) {
+                    Files.createDirectories(ps1ProfileDir);
+                    log.info("Created powershell profile directory: {}", ps1ProfileDir);
+                }
+
+                shellBuilder = new ShellBuilder(userEnvironment.getShellType());
+                sourceFile = this.getResource("git-prompt.ps1");
+
             } else {
                 throw new UnsupportedOperationException("Unsupported shell type: " + userEnvironment.getShellType());
             }
