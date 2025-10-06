@@ -1,6 +1,3 @@
-# --- BEGIN BLAZE HEADER ---
-
-# Ensure we clean up no matter what happens
 try {
     # We need java to function
     if (-not (Get-Command java -ErrorAction SilentlyContinue)) {
