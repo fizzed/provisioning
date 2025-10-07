@@ -17,6 +17,7 @@ import static com.fizzed.blaze.Contexts.fail;
 import static com.fizzed.blaze.Https.httpGet;
 import static com.fizzed.blaze.Systems.*;
 import static com.fizzed.jne.Chmod.chmod;
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 
@@ -369,68 +370,104 @@ public class blaze {
     final private String javaMajorVersion = config.value("java.major").orNull();
 
     public void install_java_path() throws Exception {
-        final List<JavaHome> javaHomes = JavaHomes.detect();
+        this.before(EnvScope.SYSTEM);
+        try {
+            final List<JavaHome> javaHomes = JavaHomes.detect();
 
-        log.info("Detected the following java homes:");
-        log.info("");
-        if (!javaHomes.isEmpty()) {
-            for (JavaHome javaHome : javaHomes) {
-                log.info("  {}", javaHome);
+            log.info("Detected the following java homes:");
+            log.info("");
+            if (!javaHomes.isEmpty()) {
+                for (JavaHome javaHome : javaHomes) {
+                    log.info("  {}", javaHome);
+                }
+            } else {
+                fail("No java homes were detected on this system");
             }
-        } else {
-            fail("No java homes were detected on this system");
-        }
-        log.info("");
+            log.info("");
 
-        // try to parse the version into something we want
-        final Integer preferredJavaMajorVersion;
+            // try to parse the version into something we want
+            final Integer preferredJavaMajorVersion;
 
-        if (javaMajorVersion != null) {
-            preferredJavaMajorVersion = Integer.parseInt(javaMajorVersion);
-        } else {
-            // if no preferred version, find the greatest major version
-            final JavaVersion latestJavaVersion = javaHomes.stream()
-                .map(JavaHome::getVersion)
-                .max(JavaVersion::compareTo)
+            if (javaMajorVersion != null) {
+                preferredJavaMajorVersion = Integer.parseInt(javaMajorVersion);
+            } else {
+                // if no preferred version, find the greatest major version
+                final JavaVersion latestJavaVersion = javaHomes.stream()
+                    .map(JavaHome::getVersion)
+                    .max(JavaVersion::compareTo)
+                    .orElse(null);
+
+                log.info("Latest java version: {}", latestJavaVersion);
+
+                preferredJavaMajorVersion = latestJavaVersion.getMajor();
+            }
+
+            log.info("Preferred major java version: {}", preferredJavaMajorVersion);
+
+            // find the latest java for our preferred major version
+            final JavaHome preferredJavaHome = javaHomes.stream()
+                .filter(v -> preferredJavaMajorVersion.equals(v.getVersion().getMajor()))
+                .max((a, b) -> a.getVersion().compareTo(b.getVersion()))
                 .orElse(null);
 
-            log.info("Latest java version: {}", latestJavaVersion);
+            if (preferredJavaHome == null) {
+                fail("Unable to find a java home for major version " + preferredJavaMajorVersion);
+            }
 
-            preferredJavaMajorVersion = latestJavaVersion.getMajor();
+            log.info("Preferred java home: {}", preferredJavaHome);
+
+            final InstallEnvironment installEnvironment = InstallEnvironment.detect("Java", "java", this.scope);
+
+            final Path defaultJdkLink;
+            final Path majorVersionJdkLink;
+            final boolean mkdirs;
+
+            if (this.scope == EnvScope.SYSTEM) {
+                if (installEnvironment.getOperatingSystem() == OperatingSystem.WINDOWS) {
+                    // most JDKs will install to C:\Program Files\Zulu\jdk-21 or something to that effect
+                    defaultJdkLink = installEnvironment.getApplicationDir().resolve("jdk-current");
+                    majorVersionJdkLink = installEnvironment.getApplicationDir().resolve("jdk-" + preferredJavaHome.getVersion().getMajor());
+                } else {
+                    // we will take the preferred java home, get the parent of it, and create our links there
+                    // e.g. /usr/lib/jvm/java-17-openjdk-amd64
+                    defaultJdkLink = preferredJavaHome.getDirectory().getParent().resolve("jdk-current");
+                    majorVersionJdkLink = preferredJavaHome.getDirectory().getParent().resolve("jdk-" + preferredJavaHome.getVersion().getMajor());
+                }
+                mkdirs = false;
+            } else {
+                defaultJdkLink = installEnvironment.getOptApplicationDir().resolve("jdk-current");
+                majorVersionJdkLink = installEnvironment.getOptApplicationDir().resolve("jdk-" + preferredJavaHome.getVersion().getMajor());
+                mkdirs = true;
+            }
+
+            log.info("Creating symlinks for current & major java homes...");
+            log.info("");
+
+            for (Path link : asList(defaultJdkLink, majorVersionJdkLink) ) {
+                if (Files.exists(link)) {
+                    if (!Files.isSymbolicLink(link)) {
+                        fail("The symlink " + link + " already exists and is not a symbolic link. Please remove it and try again.");
+                    } else {
+                        Files.delete(link);
+                    }
+                }
+                if (mkdirs && !Files.exists(link.getParent())) {
+                    Files.createDirectories(link.getParent());
+                }
+                Files.createSymbolicLink(link, preferredJavaHome.getDirectory());
+                log.info("  {} -> {}", link, preferredJavaHome.getDirectory());
+            }
+
+            log.info("");
+
+            // we are now ready to install these as our new java environment
+            installEnvironment.installEnv(
+                asList(new EnvPath(defaultJdkLink.resolve("bin"), true)),
+                asList(new EnvVar("JAVA_HOME", defaultJdkLink))
+            );
+        } finally {
+            this.after(true);
         }
-
-        log.info("Preferred major java version: {}", preferredJavaMajorVersion);
-
-        // find the latest java for our preferred major version
-        final JavaHome preferredJavaHome = javaHomes.stream()
-            .filter(v -> preferredJavaMajorVersion.equals(v.getVersion().getMajor()))
-            .max((a, b) -> a.getVersion().compareTo(b.getVersion()))
-            .orElse(null);
-
-        if (preferredJavaHome == null) {
-            fail("Unable to find a java home for major version " + preferredJavaMajorVersion);
-        }
-
-        log.info("Preferred java home: {}", preferredJavaHome);
-
-        final InstallEnvironment installEnvironment = InstallEnvironment.detect("Java Path", "java-path", EnvScope.SYSTEM);
-
-        // we are going create two symlinks?
-        //Path defaultJdkLink = preferredJavaHome.getDirectory().getParent().resolve("jdk-current");
-        //Path majorVersionJdkLink = preferredJavaHome.getDirectory().getParent().resolve("jdk-" + preferredJavaMajorVersion);
-
-        final Path defaultJdkLink;
-        final Path majorVersionJdkLink;
-
-        if (installEnvironment.getOperatingSystem() ==  OperatingSystem.WINDOWS) {
-            defaultJdkLink
-        }
-
-        Files.createSymbolicLink(defaultJdkLink, preferredJavaHome.getDirectory());
-        log.info("Created symlink {} -> {}", defaultJdkLink, preferredJavaHome.getDirectory());
-
-        Files.createSymbolicLink(majorVersionJdkLink, preferredJavaHome.getDirectory());
-        log.info("Created symlink {} -> {}", majorVersionJdkLink, preferredJavaHome.getDirectory());
     }
 
     //
