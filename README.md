@@ -7,7 +7,7 @@ but can be used with cloud images or traditional machines as well.
 ## Install Java (only works on linux)
 
 ```shell
-curl -sfL https://raw.githubusercontent.com/fizzed/provisioning/master/linux/bootstrap-java.sh | sudo sh -s -- --version=17
+curl -sfL https://cdn.fizzed.com/provisioning/scripts/bootstrap-java.sh | sudo sh -s -- --version=17
 ```
 
 

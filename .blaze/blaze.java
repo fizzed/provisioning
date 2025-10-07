@@ -149,6 +149,16 @@ public class blaze {
             Files.write(ps1TargetFile, ps1Content.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
             log.info("Built script {}", ps1TargetFile);
         }
+
+        // now we need to update the bootstrap-java.sh file
+        update_bootstrap_java_sh();
+
+        // copy the linux/bootstrap-java.sh file to the scripts directory
+        cp(linuxDir.resolve("bootstrap-java.sh"))
+            .verbose()
+            .target(scriptsDir)
+            .force()
+            .run();
     }
 
     public void update_java_installers() throws Exception {
