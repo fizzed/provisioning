@@ -428,6 +428,11 @@ public class blaze {
                     defaultJdkLink = installEnvironment.getApplicationDir().resolve("jdk-current");
                     majorVersionJdkLink = installEnvironment.getApplicationDir().resolve("jdk-" + preferredJavaHome.getVersion().getMajor());
                     mkdirs = true;
+                } else if (installEnvironment.getOperatingSystem() == OperatingSystem.MACOS) {
+                    // /Library/Java/JavaVirtualMachines/liberica-jdk-17.jdk/Contents/Home
+                    defaultJdkLink = Paths.get("/Library/Java/JavaVirtualMachines").resolve("jdk-current");
+                    majorVersionJdkLink = Paths.get("/Library/Java/JavaVirtualMachines").resolve("jdk-" + preferredJavaHome.getVersion().getMajor());
+                    mkdirs = true;
                 } else {
                     // we will take the preferred java home, get the parent of it, and create our links there
                     // e.g. /usr/lib/jvm/java-17-openjdk-amd64
