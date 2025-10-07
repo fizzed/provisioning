@@ -451,6 +451,10 @@ public class blaze {
 
             for (Path link : asList(defaultJdkLink, majorVersionJdkLink) ) {
                 if (Files.exists(link)) {
+                    if (!link.toString().endsWith("-current")) {
+                        // we will just skip making this a symlink
+                        continue;
+                    }
                     if (!Files.isSymbolicLink(link)) {
                         fail("The symlink " + link + " already exists and is not a symbolic link. Please remove it and try again.");
                     } else {
