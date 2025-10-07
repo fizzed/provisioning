@@ -22,7 +22,9 @@ import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.*;
 
+import static com.fizzed.blaze.Contexts.fail;
 import static com.fizzed.blaze.Contexts.withBaseDir;
+import static com.fizzed.blaze.Systems.*;
 import static com.fizzed.crux.util.Maybe.maybe;
 import static java.util.Arrays.asList;
 
@@ -58,6 +60,68 @@ public class blaze {
     private final Path resourcesDir = projectDir.resolve("resources");
     private final Logger log = Contexts.logger();
     private final Path javaInstallersFile = dataDir.resolve("java-installers.json");
+
+    public void publish() throws Exception {
+        // we will copy the scripts/resources to our cdn repo
+        final Path cdndlDir = this.projectDir.resolve("../cdndl").normalize();
+        if (!Files.exists(cdndlDir)) {
+            fail("The cdndl directory " + cdndlDir + " does not exist (publish is only available for maintainers, not the public at large)");
+        }
+
+        final Path cdnDir = cdndlDir.resolve("cdn");
+        final Path cdnProvisioningDir = cdnDir.resolve("provisioning");
+
+        // we will simply delete the provisioning directory and recreate it
+        rm(cdnProvisioningDir)
+            .verbose()
+            .recursive()
+            .force()
+            .run();
+
+        mkdir(cdnProvisioningDir)
+            .verbose()
+            .run();
+
+        for (String dirName : asList("helpers", "resources", "scripts")) {
+            final Path sourceDir = this.projectDir.resolve(dirName);
+            cp(sourceDir)
+                .verbose()
+                .recursive()
+                .target(cdnProvisioningDir)
+                .run();
+        }
+
+        // now we simply need to trigger a cdn deploy
+        exec("java", "-jar", "blaze.jar", "deploy")
+            .workingDir(cdndlDir)
+            .run();
+
+        // any git changes to push?
+        int exitCode = (int)exec("git", "diff", "--exit-code")
+            .verbose()
+            .workingDir(cdndlDir)
+            .run();
+
+        if (exitCode != 0) {
+            // git commit and push changes
+            exec("git", "add", "-A")
+                .verbose()
+                .workingDir(cdndlDir)
+                .run();
+            exec("git", "commit", "-m", "Publish updated provisioning scripts")
+                .verbose()
+                .workingDir(cdndlDir)
+                .run();
+            exec("git", "push", "origin")
+                .verbose()
+                .workingDir(cdndlDir)
+                .run();
+        } else {
+            log.info("");
+            log.info("No git changes to push!");
+            log.info("");
+        }
+    }
 
     public void build_scripts() throws Exception {
         // we basically expose the methods of helpers/blaze.java into .sh and .ps1 scripts
@@ -194,40 +258,6 @@ public class blaze {
         final List<OperatingSystem> operatingSystems = asList(OperatingSystem.LINUX);
         // all architectures
         final List<ABI> abis = asList(ABI.DEFAULT, ABI.MUSL);
-
-        //final List<String> distros = asList("zulu", "liberica", "nitro");
-        //final List<Integer> javaVersions = asList(21, 17, 11, 8, 7);
-        //final List<String> systems = asList("linux", "linux_musl");
-        //final List<String> architectures = asList("x64", "x32", "arm64", "armhf", "armel", "riscv64");
-        //final List<JavaInstaller> javaInstallers = new ArrayList<>();
-
-        /*// manually include "nitro" jdk for riscv64 architectures, for ALL versions requested
-        for (int version : asList(21, 19, 17, 11, 8)) {
-            javaInstallers.add(new JavaInstaller()
-                .setDistro("nitro")
-                .setOs("linux")
-                .setArch("riscv64")
-                .setMajorVersion(version)
-                .setMinorVersion(999999)    // something large so its the first
-                .setPatchVersion(999999)    // something large so its the first
-                .setType("jdk")
-                .setInstallerType("tar.gz")
-//                .setDownloadUrl("https://github.com/fizzed/nitro/releases/download/builds/fizzed19.36-jdk19.0.1-linux_riscv64.tar.gz"));
-                .setDownloadUrl("https://github.com/fizzed/nitro/releases/download/builds/fizzed21.35-jdk21.0.1-linux_riscv64.tar.gz"));
-        }
-
-        // there is an issue w/ azul hard-float arm32 builds, we will pin ourselves to the latest version 11 that works
-        javaInstallers.add(new JavaInstaller()
-            .setDistro("zulu")
-            .setOs("linux")
-            .setArch("armhf")
-            .setMajorVersion(11)
-            .setMinorVersion(999999)    // something large so its the first
-            .setPatchVersion(999999)    // something large so its the first
-            .setType("jdk")
-            .setInstallerType("tar.gz")
-            .setDownloadUrl("https://cdn.azul.com/zulu-embedded/bin/zulu11.64.19-ca-jdk11.0.19-linux_aarch32hf.tar.gz"));
-*/
 
         final String startComment = "#\n# Automatically generated list of urls (do not edit by hand)\n#\n";
         final String endComment = "#\n# End of automatically generated list of urls\n#\n";

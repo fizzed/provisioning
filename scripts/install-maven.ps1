@@ -24,15 +24,15 @@ try {
     # Define files to download in a structured way
     $filesToDownload = @(
         @{
-            Uri  = "https://raw.githubusercontent.com/fizzed/provisioning/master/helpers/blaze.jar"
+            Uri  = "https://cdn.fizzed.com/provisioning/helpers/blaze.jar"
             OutFile = "blaze.jar"
         },
         @{
-            Uri  = "https://raw.githubusercontent.com/fizzed/provisioning/master/helpers/blaze.conf"
+            Uri  = "https://cdn.fizzed.com/provisioning/helpers/blaze.conf"
             OutFile = "blaze.conf"
         },
         @{
-            Uri  = "https://raw.githubusercontent.com/fizzed/provisioning/master/helpers/blaze.java"
+            Uri  = "https://cdn.fizzed.com/provisioning/helpers/blaze.java"
             OutFile = "blaze.java"
         }
     )

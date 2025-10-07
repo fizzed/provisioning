@@ -10,10 +10,22 @@ but can be used with cloud images or traditional machines as well.
 curl -sfL https://raw.githubusercontent.com/fizzed/provisioning/master/linux/bootstrap-java.sh | sudo sh -s -- --version=17
 ```
 
+
 ## Install Maven (cross platform: e.g. Linux, MacOS, FreeBSD, etc)
 
 ```shell
-curl -sfL https://raw.githubusercontent.com/fizzed/provisioning/master/scripts/install-maven.sh | sudo sh
+curl -sfL https://cdn.fizzed.com/provisioning/scripts/install-maven.sh | sudo sh
+```
+
+
+## Install Git Shell Prompt (cross platform: e.g. Linux, MacOS, FreeBSD, etc)
+
+```shell
+curl -sfL https://cdn.fizzed.com/provisioning/scripts/install-git-prompt.sh | sh
+```
+
+```powershell
+powershell -Command 'iwr "https://cdn.fizzed.com/provisioning/scripts/install-git-prompt.ps1" | iex'
 ```
 
 
@@ -23,17 +35,17 @@ curl -sfL https://raw.githubusercontent.com/fizzed/provisioning/master/scripts/i
 NOTE: `sudo` needs to have `java` in its path (this script leverages blaze to help install the app)
 
 ```shell
-curl -sfL https://raw.githubusercontent.com/fizzed/provisioning/master/scripts/install-fastfetch.sh | sudo sh
+curl -sfL https://cdn.fizzed.com/provisioning/scripts/install-fastfetch.sh | sudo sh
 ```
 
 ```powershell
-sudo powershell -Command 'iwr "https://raw.githubusercontent.com/fizzed/provisioning/master/scripts/install-fastfetch.ps1" | iex'
+sudo powershell -Command 'iwr "https://cdn.fizzed.com/provisioning/scripts/install-fastfetch.ps1" | iex'
 ```
 
 Or if you need a specific version, such as for Ubuntu 20.04
 
 ```shell
-curl -sfL https://raw.githubusercontent.com/fizzed/provisioning/master/scripts/install-fastfetch.sh | sudo sh -s -- --fastfetch.version 2.40.4
+curl -sfL https://cdn.fizzed.com/provisioning/scripts/install-fastfetch.sh | sudo sh -s -- --fastfetch.version 2.40.4
 ```
 
 
@@ -42,11 +54,11 @@ curl -sfL https://raw.githubusercontent.com/fizzed/provisioning/master/scripts/i
 ## Install Shell Prompt w/ Git Branch
 
 ```shell
-curl -sfL https://raw.githubusercontent.com/fizzed/provisioning/master/scripts/install-git-prompt.sh | sh
+curl -sfL https://cdn.fizzed.com/provisioning/scripts/install-git-prompt.sh | sh
 ```
 
 ```powershell
-powershell -Command 'iwr "https://raw.githubusercontent.com/fizzed/provisioning/master/scripts/install-git-prompt.ps1" | iex'
+powershell -Command 'iwr "https://cdn.fizzed.com/provisioning/scripts/install-git-prompt.ps1" | iex'
 ```
 
 

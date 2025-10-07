@@ -500,7 +500,7 @@ public class blaze {
         } else {
             // we will need to download this from the remote repository
             // https://raw.githubusercontent.com/fizzed/provisioning/master/resources/git-prompt.bash
-            final String url = "https://raw.githubusercontent.com/fizzed/provisioning/master/resources/" + resourcePath;
+            final String url = "https://cdn.fizzed.com/provisioning/resources/" + resourcePath;
             final String fileName = url.substring(url.lastIndexOf('/') + 1);
             final Path downloadFile = this.scratchDir.resolve(fileName);
 
