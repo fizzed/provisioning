@@ -82,11 +82,20 @@ public class blaze {
             .verbose()
             .run();
 
-        for (String dirName : asList("helpers", "resources", "scripts")) {
+        for (String dirName : asList("helpers", "resources")) {
             final Path sourceDir = this.projectDir.resolve(dirName);
             cp(sourceDir)
                 .verbose()
                 .recursive()
+                .target(cdnProvisioningDir)
+                .run();
+        }
+
+        // now we flatten the scripts into the provisioning dir
+        final Path sourceDir = this.projectDir.resolve("scripts");
+        for (Path scriptFile : Files.list(sourceDir).toList()) {
+            cp(scriptFile)
+                .verbose()
                 .target(cdnProvisioningDir)
                 .run();
         }
