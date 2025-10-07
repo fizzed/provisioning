@@ -427,13 +427,14 @@ public class blaze {
                     // most JDKs will install to C:\Program Files\Zulu\jdk-21 or something to that effect
                     defaultJdkLink = installEnvironment.getApplicationDir().resolve("jdk-current");
                     majorVersionJdkLink = installEnvironment.getApplicationDir().resolve("jdk-" + preferredJavaHome.getVersion().getMajor());
+                    mkdirs = true;
                 } else {
                     // we will take the preferred java home, get the parent of it, and create our links there
                     // e.g. /usr/lib/jvm/java-17-openjdk-amd64
                     defaultJdkLink = preferredJavaHome.getDirectory().getParent().resolve("jdk-current");
                     majorVersionJdkLink = preferredJavaHome.getDirectory().getParent().resolve("jdk-" + preferredJavaHome.getVersion().getMajor());
+                    mkdirs = false;
                 }
-                mkdirs = false;
             } else {
                 defaultJdkLink = installEnvironment.getOptApplicationDir().resolve("jdk-current");
                 majorVersionJdkLink = installEnvironment.getOptApplicationDir().resolve("jdk-" + preferredJavaHome.getVersion().getMajor());
