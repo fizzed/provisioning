@@ -17,5 +17,5 @@ jobs:
           run: |
             apt update
             apt -y install curl
-            linux/bootstrap-java.sh
+            sh linux/bootstrap-java.sh
             /usr/lib/jvm/current/bin/java -version

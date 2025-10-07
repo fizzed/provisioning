@@ -16,5 +16,5 @@ jobs:
           shell: /bin/sh
           run: |
             apk add curl
-            linux/bootstrap-java.sh
+            sh linux/bootstrap-java.sh
             /usr/lib/jvm/current/bin/java -version
