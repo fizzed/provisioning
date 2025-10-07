@@ -79,7 +79,7 @@ public class blaze {
     // Apache Maven Install
     //
 
-    final private String mavenVersion = config.value("maven.version").orElse("3.9.5");
+    final private String mavenVersion = config.value("maven.version").orElse("3.9.11");
 
     public void install_maven() throws Exception {
         this.before(EnvScope.SYSTEM);

@@ -24,6 +24,7 @@ import java.util.*;
 
 import static com.fizzed.blaze.Contexts.fail;
 import static com.fizzed.blaze.Contexts.withBaseDir;
+import static com.fizzed.blaze.Https.httpGet;
 import static com.fizzed.blaze.Systems.*;
 import static com.fizzed.crux.util.Maybe.maybe;
 import static java.util.Arrays.asList;
@@ -60,15 +61,16 @@ public class blaze {
     private final Path resourcesDir = projectDir.resolve("resources");
     private final Logger log = Contexts.logger();
     private final Path javaInstallersFile = dataDir.resolve("java-installers.json");
+    // where we publish to cdn or dl to
+    private final Path cdndlDir = this.projectDir.resolve("../cdndl").normalize();
+    private final Path cdnDir = cdndlDir.resolve("cdn");
+    private final Path dlDir = cdndlDir.resolve("dl");
 
-    public void publish() throws Exception {
-        // we will copy the scripts/resources to our cdn repo
-        final Path cdndlDir = this.projectDir.resolve("../cdndl").normalize();
-        if (!Files.exists(cdndlDir)) {
-            fail("The cdndl directory " + cdndlDir + " does not exist (publish is only available for maintainers, not the public at large)");
+    public void deploy() throws Exception {
+        if (!Files.exists(this.cdndlDir)) {
+            fail("The cdndl directory " + this.cdndlDir + " does not exist (deploy is only available for maintainers, not the public at large)");
         }
 
-        final Path cdnDir = cdndlDir.resolve("cdn");
         final Path cdnProvisioningDir = cdnDir.resolve("provisioning");
 
         // we will simply delete the provisioning directory and recreate it
@@ -104,33 +106,38 @@ public class blaze {
         exec("java", "-jar", "blaze.jar", "deploy")
             .workingDir(cdndlDir)
             .run();
+    }
 
-        // cdndl dir does not commit changes to cdn OR dl dirs
-        /*// any git changes to push?
-        int exitCode = (int)exec("git", "diff", "--exit-code")
-            .verbose()
+    private final String mavenVersion = "3.9.11";
+
+    public void download_and_deploy_maven() throws Exception {
+        if (!Files.exists(this.cdndlDir)) {
+            fail("The cdndl directory " + this.cdndlDir + " does not exist (deploy is only available for maintainers, not the public at large)");
+        }
+
+        final Path dlMavenDir = this.dlDir.resolve("maven");
+
+        // https://dlcdn.apache.org/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.zip
+        for (String fileExt : asList("zip", "tar.gz") ) {
+            final String url = "https://dlcdn.apache.org/maven/maven-3/" + mavenVersion + "/binaries/apache-maven-" + mavenVersion + "-bin." + fileExt;
+            final String fileName = url.substring(url.lastIndexOf('/') + 1);
+            final Path downloadFile = dlMavenDir.resolve(fileName);
+
+            if (Files.exists(downloadFile) && Files.size(downloadFile) > 7000000) {
+                log.info("Skipping download of maven, file already exists at {}", downloadFile);
+                continue;
+            }
+
+            httpGet(url)
+                .verbose()
+                .target(downloadFile)
+                .run();
+        }
+
+        // now we simply need to trigger a cdn deploy
+        exec("java", "-jar", "blaze.jar", "deploy")
             .workingDir(cdndlDir)
             .run();
-
-        if (exitCode != 0) {
-            // git commit and push changes
-            exec("git", "add", "-A")
-                .verbose()
-                .workingDir(cdndlDir)
-                .run();
-            exec("git", "commit", "-m", "Publish updated provisioning scripts")
-                .verbose()
-                .workingDir(cdndlDir)
-                .run();
-            exec("git", "push", "origin")
-                .verbose()
-                .workingDir(cdndlDir)
-                .run();
-        } else {
-            log.info("");
-            log.info("No git changes to push!");
-            log.info("");
-        }*/
     }
 
     public void build_scripts() throws Exception {
