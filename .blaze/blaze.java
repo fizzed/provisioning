@@ -96,7 +96,8 @@ public class blaze {
             .workingDir(cdndlDir)
             .run();
 
-        // any git changes to push?
+        // cdndl dir does not commit changes to cdn OR dl dirs
+        /*// any git changes to push?
         int exitCode = (int)exec("git", "diff", "--exit-code")
             .verbose()
             .workingDir(cdndlDir)
@@ -120,7 +121,7 @@ public class blaze {
             log.info("");
             log.info("No git changes to push!");
             log.info("");
-        }
+        }*/
     }
 
     public void build_scripts() throws Exception {
