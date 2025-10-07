@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.fizzed.blaze.Archives.unarchive;
+import static com.fizzed.blaze.Contexts.fail;
 import static com.fizzed.blaze.Https.httpGet;
 import static com.fizzed.blaze.Systems.*;
 import static com.fizzed.jne.Chmod.chmod;
@@ -363,11 +364,128 @@ public class blaze {
     }
 
     //
+    // Install Java Path
+    //
+
+    final private String javaMajorVersion = config.value("java.major").orNull();
+
+    public void install_java_path() throws Exception {
+        this.before(EnvScope.SYSTEM);
+        try {
+            final List<JavaHome> javaHomes = JavaHomes.detect();
+
+            log.info("Detected the following java homes:");
+            log.info("");
+            if (!javaHomes.isEmpty()) {
+                for (JavaHome javaHome : javaHomes) {
+                    log.info("  {}", javaHome);
+                }
+            } else {
+                fail("No java homes were detected on this system");
+            }
+            log.info("");
+
+            // try to parse the version into something we want
+            final Integer preferredJavaMajorVersion;
+
+            if (javaMajorVersion != null) {
+                preferredJavaMajorVersion = Integer.parseInt(javaMajorVersion);
+            } else {
+                // if no preferred version, find the greatest major version
+                final JavaVersion latestJavaVersion = javaHomes.stream()
+                    .map(JavaHome::getVersion)
+                    .max(JavaVersion::compareTo)
+                    .orElse(null);
+
+                log.info("Latest java version: {}", latestJavaVersion);
+
+                preferredJavaMajorVersion = latestJavaVersion.getMajor();
+            }
+
+            log.info("Preferred major java version: {}", preferredJavaMajorVersion);
+
+            // find the latest java for our preferred major version
+            final JavaHome preferredJavaHome = javaHomes.stream()
+                .filter(v -> preferredJavaMajorVersion.equals(v.getVersion().getMajor()))
+                .max((a, b) -> a.getVersion().compareTo(b.getVersion()))
+                .orElse(null);
+
+            if (preferredJavaHome == null) {
+                fail("Unable to find a java home for major version " + preferredJavaMajorVersion);
+            }
+
+            log.info("Preferred java home: {}", preferredJavaHome);
+
+            final InstallEnvironment installEnvironment = InstallEnvironment.detect("Java", "java", this.scope);
+
+            final Path defaultJdkLink;
+            final Path majorVersionJdkLink;
+            final boolean mkdirs;
+
+            if (this.scope == EnvScope.SYSTEM) {
+                if (installEnvironment.getOperatingSystem() == OperatingSystem.WINDOWS) {
+                    // most JDKs will install to C:\Program Files\Zulu\jdk-21 or something to that effect
+                    defaultJdkLink = installEnvironment.getApplicationDir().resolve("jdk-current");
+                    majorVersionJdkLink = installEnvironment.getApplicationDir().resolve("jdk-" + preferredJavaHome.getVersion().getMajor());
+                    mkdirs = true;
+                } else if (installEnvironment.getOperatingSystem() == OperatingSystem.MACOS) {
+                    // /Library/Java/JavaVirtualMachines/liberica-jdk-17.jdk/Contents/Home
+                    defaultJdkLink = Paths.get("/Library/Java/JavaVirtualMachines").resolve("jdk-current");
+                    majorVersionJdkLink = Paths.get("/Library/Java/JavaVirtualMachines").resolve("jdk-" + preferredJavaHome.getVersion().getMajor());
+                    mkdirs = true;
+                } else {
+                    // we will take the preferred java home, get the parent of it, and create our links there
+                    // e.g. /usr/lib/jvm/java-17-openjdk-amd64
+                    defaultJdkLink = preferredJavaHome.getDirectory().getParent().resolve("jdk-current");
+                    majorVersionJdkLink = preferredJavaHome.getDirectory().getParent().resolve("jdk-" + preferredJavaHome.getVersion().getMajor());
+                    mkdirs = false;
+                }
+            } else {
+                defaultJdkLink = installEnvironment.getOptApplicationDir().resolve("jdk-current");
+                majorVersionJdkLink = installEnvironment.getOptApplicationDir().resolve("jdk-" + preferredJavaHome.getVersion().getMajor());
+                mkdirs = true;
+            }
+
+            log.info("Creating symlinks for current & major java homes...");
+            log.info("");
+
+            for (Path link : asList(defaultJdkLink, majorVersionJdkLink) ) {
+                if (Files.exists(link)) {
+                    if (!link.toString().endsWith("-current")) {
+                        // we will just skip making this a symlink
+                        continue;
+                    }
+                    if (!Files.isSymbolicLink(link)) {
+                        fail("The symlink " + link + " already exists and is not a symbolic link. Please remove it and try again.");
+                    } else {
+                        Files.delete(link);
+                    }
+                }
+                if (mkdirs && !Files.exists(link.getParent())) {
+                    Files.createDirectories(link.getParent());
+                }
+                Files.createSymbolicLink(link, preferredJavaHome.getDirectory());
+                log.info("  {} -> {}", link, preferredJavaHome.getDirectory());
+            }
+
+            log.info("");
+
+            // we are now ready to install these as our new java environment
+            installEnvironment.installEnv(
+                asList(new EnvPath(defaultJdkLink.resolve("bin"), true)),
+                asList(new EnvVar("JAVA_HOME", defaultJdkLink))
+            );
+        } finally {
+            this.after(true);
+        }
+    }
+
+    //
     // Helpers
     //
 
     private Path getResource(String resourcePath) throws IOException {
-        // are we in a local development environment?
+        // are we in a local development environment?   
         Path localResourcesDir = Contexts.withBaseDir("../resources").toAbsolutePath();
         if (Files.exists(localResourcesDir) && Files.isDirectory(localResourcesDir)) {
             log.info("Detected local development environment. Using local resources directory: {}", localResourcesDir);
