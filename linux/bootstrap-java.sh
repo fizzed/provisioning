@@ -946,7 +946,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          : # does not exist
+          JAVA_URL="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_aarch64_linux_hotspot_25_36.tar.gz"
+          JAVA_TARGET_DISTRO="temurin"
+          JAVA_TARGET_VERSION="25.0.0.36"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           JAVA_URL="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_riscv64_linux_hotspot_25_36.tar.gz"
