@@ -42,9 +42,10 @@ The scripts below are designed to work across all platforms including Linux, Win
 This script will detect all JDKs installed on the system and properly setup your environment variables to use the
 appropriate JDK. If you provide no arguments, it will find the greatest JDK version and set it as the default. 
 Alternatively, you can provide a version to force it to use 21, 17, 11, etc. as your default instead. This script will
-first create a "jdk-current" symlink that points to your default JDK. Then it will set your JAVA_HOME environment
-variable to point to that "jdk-current" symlink, plus prepend "<path-to-it>/jdk-current/bin" to your PATH. By leveraging
-symlinks, you can easily switch/upgrade JDKs without having to modify your PATH.
+first create a "jdk-current" symlink (in the standard location for JVMs for that particular operating system) that points
+to your default JDK. Then it will set your JAVA_HOME environment variable to point to that "jdk-current" symlink, plus
+prepend "path-to-it/jdk-current/bin" to your PATH. By leveraging symlinks, you can easily switch/upgrade JDKs without
+having to modify your PATH.
 
 ```shell
 # On Linux, MacOS, and FreeBSD.
@@ -52,6 +53,19 @@ curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | sudo sh
 
 # On OpenBSD
 curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | doas sh
+
+# On Windows
+sudo powershell -Command 'iwr "https://cdn.fizzed.com/provisioning/install-java-path.ps1" | iex'
+```
+
+Or to force a specific version such as Java 17
+
+```shell
+# On Linux, MacOS, and FreeBSD.
+curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | sudo sh -s -- --version 17
+
+# On OpenBSD
+curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | doas sh -s -- --version 17
 
 # On Windows
 sudo powershell -Command 'iwr "https://cdn.fizzed.com/provisioning/install-java-path.ps1" | iex'
@@ -84,10 +98,10 @@ if you are in a git repository. Supports bash, zsh, tcsh, ksh, and powershell. S
 required.
 
 ```shell
-# On systems with bourne shell and sudo such as Linux, MacOS, FreeBSD, and OpenBSD.
+# On Linux, MacOS, FreeBSD, and OpenBSD
 curl -sfL https://cdn.fizzed.com/provisioning/install-git-prompt.sh | sh
 
-# On systems with powershell and sudo enabled such as Windows.
+# On Windows
 powershell -Command 'iwr "https://cdn.fizzed.com/provisioning/install-git-prompt.ps1" | iex'
 ```
 

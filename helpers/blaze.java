@@ -76,10 +76,10 @@ public class blaze {
     }
 
     //
-    // Apache Maven Install
+    // Maven Install
     //
 
-    final private String mavenVersion = config.value("maven.version").orElse("3.9.11");
+    final private String mavenVersion = config.value("ver").orElse("3.9.11");
 
     public void install_maven() throws Exception {
         this.before(EnvScope.SYSTEM);
@@ -163,7 +163,7 @@ public class blaze {
     // Fastfetch Install
     //
 
-    final private String fastfetchVersion = config.value("fastfetch.version").orElse("2.53.0");
+    final private String fastfetchVersion = config.value("ver").orElse("2.53.0");
 
     public void install_fastfetch() throws Exception {
         this.before(EnvScope.SYSTEM);
@@ -367,7 +367,7 @@ public class blaze {
     // Install Java Path
     //
 
-    final private String javaMajorVersion = config.value("java.major").orNull();
+    final private String javaMajorVersion = config.value("ver").orNull();
 
     public void install_java_path() throws Exception {
         this.before(EnvScope.SYSTEM);
