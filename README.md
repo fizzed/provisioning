@@ -116,7 +116,7 @@ curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | sudo sh -s 
 curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | doas sh -s -- --ver 17
 
 # On Windows
-sudo powershell -Command "& ([ScriptBlock]::Create((iwr 'https://cdn.fizzed.com/provisioning/install-java-path.ps1').Content)) --ver 17"
+sudo powershell -Command "& ([ScriptBlock]::Create((New-Object System.Net.WebClient).DownloadString('https://cdn.fizzed.com/provisioning/install-java-path.ps1'))) --ver 17"
 ```
 
 
