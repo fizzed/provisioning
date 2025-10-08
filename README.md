@@ -39,6 +39,10 @@ The scripts below are designed to work across all platforms including Linux, Win
 
 ### Maven
 
+This script will install Maven system-wide (by default) or just for the current user if you specify the `--scope user`
+argument. It will also make sure the M2_HOME environment variable is set, plus prepend the maven bin directory to
+your PATH.
+
 ```shell
 # On systems with bourne shell and sudo such as Linux, MacOS, and FreeBSD.
 curl -sfL https://cdn.fizzed.com/provisioning/install-maven.sh | sudo sh
@@ -52,13 +56,17 @@ sudo powershell -Command 'iwr "https://cdn.fizzed.com/provisioning/install-maven
 
 
 
-## Install Git Shell Prompt (cross platform: e.g. Linux, MacOS, FreeBSD, etc)
+## Shell Git Prompt
+
+This script will install an opinionated shell prompt user-specific (by default) that supports coloring and the git branch
+if you are in a git repository. Supports bash, zsh, tcsh, ksh, and powershell. Since its user-specific, sudo is not
+required.
 
 ```shell
+# On systems with bourne shell and sudo such as Linux, MacOS, FreeBSD, and OpenBSD.
 curl -sfL https://cdn.fizzed.com/provisioning/install-git-prompt.sh | sh
-```
 
-```powershell
+# On systems with powershell and sudo enabled such as Windows.
 powershell -Command 'iwr "https://cdn.fizzed.com/provisioning/install-git-prompt.ps1" | iex'
 ```
 
