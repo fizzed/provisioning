@@ -1,9 +1,56 @@
-# Provisioning Scripts
+# Provisioning Scripts by Fizzed
 
-Scripts for provisioning machines, applications, and configuration. Support for cross platform installers, as well
-as letting you decide if you want to install SYSTEM-WIDE or USER-SPECIFIC.
+Scripts for provisioning systems and applications with cross platform recipes that are BETTER than the default methods
+that most package managers will do for you.  For example, these scripts help you install the latest JDK, Maven, plus
+correctly setup your environment variables and PATH. Unlike package managers, these scripts will give you verbose
+information about what is happening and how to fix any issues that you may encounter.
 
-### Windows
+Here is an example of installing the "Java Path" script on an OpenBSD host:
+
+```shell
+bmh-build-x64-openbsd76-1$ curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | doas sh -s -- --ver 17
+doas (builder@bmh-build-x64-openbsd76-1) password: 
+mkdir: /tmp/provisioning-helpers: File exists
+[INFO] Resolving dependencies...
+[INFO] Resolved dependencies in 370 ms
+[INFO] Compiling script...
+[INFO] Compiled script in 442 ms
+[INFO] Executing ../../tmp/provisioning-helpers/blaze.java:install_java_path...
+[INFO] Detected platform OPENBSD (arch X64) (abi DEFAULT)
+[INFO] Using install scope SYSTEM
+[INFO] Confirmed you are running with elevated permissions :-)
+[INFO] Deleting /root/.provisioning-ok-to-delete
+[INFO] Creating directory /root/.provisioning-ok-to-delete
+[INFO] Detected the following java homes:
+[INFO] 
+[INFO]   JDK 17.0.12 (/usr/local/jdk-17)
+[INFO]   JDK 21.0.4 (/usr/local/jdk-21)
+[INFO]   JDK 11.0.24 (/usr/local/jdk-11)
+[INFO]   JDK 8.0.422 (/usr/local/jdk-1.8.0)
+[INFO] 
+[INFO] Preferred major java version: 17
+[INFO] Preferred java home: JDK 17.0.12 (/usr/local/jdk-17)
+[INFO] Creating symlinks for current & major java homes...
+[INFO] 
+[INFO]   /usr/local/jdk-current -> /usr/local/jdk-17
+[INFO] 
+[WARN] Unable to locate system-wide profile file for KSH, will use ~/.profile instead
+[INFO] Installed the system ksh environment by appending/replacing the following to /home/builder/.profile:
+[INFO] 
+[INFO]   # begin java environment
+[INFO]   # do not edit any text from begin to end comments
+[INFO]   
+[INFO]   export JAVA_HOME="/usr/local/jdk-current"
+[INFO]   case ":$PATH:" in *:"/usr/local/jdk-current/bin":*) ;; *) PATH="/usr/local/jdk-current/bin${PATH:+:$PATH}" ;; esac; export PATH
+[INFO]   
+[INFO]   # end java environment
+[INFO] 
+[INFO] Deleting /root/.provisioning-ok-to-delete
+[INFO] Executed ../../tmp/provisioning-helpers/blaze.java:install_java_path in 16 ms
+[INFO] Blazed in 858 ms
+```
+
+## Windows Requirements
 
 On Windows, the examples below will leverage PowerShell and the new `sudo` command you can optionally activate in
 the Windows Developer settings. You'll also need to change your security policy to allow running PowerShell scripts
@@ -37,6 +84,7 @@ curl -sfL https://cdn.fizzed.com/provisioning/bootstrap-java.sh | sudo sh -s -- 
 The scripts below are designed to work across all platforms including Linux, Windows, MacOS, FreeBSD, and OpenBSD.
 
 
+
 ### Java Path
 
 This script will detect all JDKs installed on the system and properly setup your environment variables to use the
@@ -55,21 +103,22 @@ curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | sudo sh
 curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | doas sh
 
 # On Windows
-sudo powershell -Command 'iwr "https://cdn.fizzed.com/provisioning/install-java-path.ps1" | iex'
+sudo powershell -Command 'iwr https://cdn.fizzed.com/provisioning/install-java-path.ps1 | iex'
 ```
 
 Or to force a specific version such as Java 17
 
 ```shell
 # On Linux, MacOS, and FreeBSD.
-curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | sudo sh -s -- --version 17
+curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | sudo sh -s -- --ver 17
 
 # On OpenBSD
-curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | doas sh -s -- --version 17
+curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | doas sh -s -- --ver 17
 
 # On Windows
-sudo powershell -Command 'iwr "https://cdn.fizzed.com/provisioning/install-java-path.ps1" | iex'
+sudo powershell -Command "& ([ScriptBlock]::Create((iwr 'https://cdn.fizzed.com/provisioning/install-java-path.ps1').Content)) --ver 17"
 ```
+
 
 
 ### Maven
@@ -86,7 +135,7 @@ curl -sfL https://cdn.fizzed.com/provisioning/install-maven.sh | sudo sh
 curl -sfL https://cdn.fizzed.com/provisioning/install-maven.sh | doas sh
 
 # On Windows
-sudo powershell -Command 'iwr "https://cdn.fizzed.com/provisioning/install-maven.ps1" | iex'
+sudo powershell -Command 'iwr https://cdn.fizzed.com/provisioning/install-maven.ps1 | iex'
 ```
 
 
@@ -102,7 +151,7 @@ required.
 curl -sfL https://cdn.fizzed.com/provisioning/install-git-prompt.sh | sh
 
 # On Windows
-powershell -Command 'iwr "https://cdn.fizzed.com/provisioning/install-git-prompt.ps1" | iex'
+iwr https://cdn.fizzed.com/provisioning/install-git-prompt.ps1 | iex
 ```
 
 
@@ -120,11 +169,21 @@ curl -sfL https://cdn.fizzed.com/provisioning/install-fastfetch.sh | sudo sh
 curl -sfL https://cdn.fizzed.com/provisioning/install-fastfetch.sh | doas sh
 
 # On Windows
-sudo powershell -Command 'iwr "https://cdn.fizzed.com/provisioning/install-fastfetch.ps1" | iex'
+sudo powershell -Command 'iwr https://cdn.fizzed.com/provisioning/install-fastfetch.ps1 | iex'
 ```
 
-Or if you need a specific version, such as for Ubuntu 20.04
+Or if you only wanted to install for the current user
 
 ```shell
-curl -sfL https://cdn.fizzed.com/provisioning/install-fastfetch.sh | sudo sh -s -- --fastfetch.version 2.40.4
+# On Linux, MacOS, and FreeBSD.
+curl -sfL https://cdn.fizzed.com/provisioning/install-fastfetch.sh | sudo sh -s -- --scope user
+
+# On OpenBSD
+curl -sfL https://cdn.fizzed.com/provisioning/install-fastfetch.sh | doas sh -s -- --scope user
+```
+
+For older versions of Linux or other systems, you can also request a specific version of FastFetch to install.
+
+```shell
+curl -sfL https://cdn.fizzed.com/provisioning/install-fastfetch.sh | sudo sh -s -- --ver 2.40.4
 ```
