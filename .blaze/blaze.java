@@ -1,3 +1,4 @@
+import com.fizzed.blaze.Config;
 import com.fizzed.blaze.Contexts;
 import com.fizzed.jne.ABI;
 import com.fizzed.jne.HardwareArchitecture;
@@ -54,6 +55,7 @@ import static java.util.Arrays.asList;
  */
 public class blaze {
 
+    private final Config config = Contexts.config();
     private final Path projectDir = withBaseDir("../").toAbsolutePath();
     private final Path dataDir = projectDir.resolve("data");
     private final Path linuxDir = projectDir.resolve("linux");
@@ -108,7 +110,7 @@ public class blaze {
             .run();
     }
 
-    private final String mavenVersion = "3.9.11";
+    private final String mavenVersion = this.config.value("maven.version").orElse("3.9.11");
 
     public void download_and_deploy_maven() throws Exception {
         if (!Files.exists(this.cdndlDir)) {
@@ -118,8 +120,11 @@ public class blaze {
         final Path dlMavenDir = this.dlDir.resolve("maven");
 
         // https://dlcdn.apache.org/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.zip
+        // OR
+        // https://archive.apache.org/dist/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.zip
         for (String fileExt : asList("zip", "tar.gz") ) {
-            final String url = "https://dlcdn.apache.org/maven/maven-3/" + mavenVersion + "/binaries/apache-maven-" + mavenVersion + "-bin." + fileExt;
+            final String url = "https://archive.apache.org/dist/maven/maven-3/" + mavenVersion + "/binaries/apache-maven-" + mavenVersion + "-bin." + fileExt;
+            //final String url = "https://dlcdn.apache.org/maven/maven-3/" + mavenVersion + "/binaries/apache-maven-" + mavenVersion + "-bin." + fileExt;
             final String fileName = url.substring(url.lastIndexOf('/') + 1);
             final Path downloadFile = dlMavenDir.resolve(fileName);
 
