@@ -6,7 +6,6 @@ import com.fizzed.jne.internal.Utils;
 import org.slf4j.Logger;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
@@ -95,18 +94,20 @@ public class blaze {
             final Path targetAppDir = installEnvironment.resolveOptApplicationDir(true);
 
             // "https://dl.fizzed.com/maven/apache-maven-${MAVEN_VERSION}-bin.tar.gz"
-            final String url = nlm.format("https://dl.fizzed.com/maven/apache-maven-{version}-bin.tar.gz", this.nativeTarget);
+            final String url = nlm.format("https://dl.fizzed.com/maven/apache-maven-{version}.tar.gz", this.nativeTarget);
             final Path archiveFile = this.scratchDir.resolve("maven.tar.gz");
 
             httpGet(url)
                 .verbose()
-                .target(archiveFile)
+                .progress()
+                .target(archiveFile, true)
                 .run();
 
             final Path unarchivedDir = this.scratchDir.resolve("maven");
 
             unarchive(archiveFile)
                 .verbose()
+                .progress()
                 .target(unarchivedDir)
                 .stripLeadingPath()
                 .run();
@@ -117,18 +118,8 @@ public class blaze {
                 .force()
                 .run();
 
-            //log.info("confirming {} is deleted: {}", targetAppDir, !Files.exists(targetAppDir));
-
             // this version works across filesystems on unix
             moveDirectory(unarchivedDir, targetAppDir);
-
-            //Files.move(unarchivedDir, targetAppDir);
-
-//            mv(unarchivedDir)
-//                .verbose()
-//                .target(targetAppDir)
-//                .force()
-//                .run();
 
             // we need to fix execute permissions on everything but windows
             if (this.nativeTarget.getOperatingSystem() != OperatingSystem.WINDOWS) {
@@ -138,14 +129,15 @@ public class blaze {
                 chmod(targetAppDir.resolve("bin/mvnDebug.cmd"), "755");
             }
 
-            /*log.info("Will execute `mvn -v` to validate installation...");
+            log.info("Will execute `mvn -v` to validate installation...");
             log.info("");
 
             exec("mvn", "-v")
                 .verbose()
+                .workingDir(targetAppDir.resolve("bin"))
                 .run();
 
-            log.info("");*/
+            log.info("");
 
             installEnvironment.installEnv(
                 // in case there is maven on the system, prepending should let us prefer this one
@@ -203,7 +195,8 @@ public class blaze {
 
             httpGet(url)
                 .verbose()
-                .target(archiveFile)
+                .progress()
+                .target(archiveFile, true)
                 .run();
 
             final Path unarchivedDir = this.scratchDir.resolve("fastfetch");
@@ -223,6 +216,7 @@ public class blaze {
 
             unarchive(archiveFile)
                 .verbose()
+                .progress()
                 .target(unarchivedDir)
                 .stripComponents(stripComponents)
                 .run();
@@ -506,7 +500,8 @@ public class blaze {
 
             httpGet(url)
                 .verbose()
-                .target(downloadFile)
+                .progress()
+                .target(downloadFile, true)
                 .run();
 
             return downloadFile;

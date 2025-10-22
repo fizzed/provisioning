@@ -52,8 +52,6 @@ import static java.util.Arrays.asList;
  * Alibaba Dragonwell
  * GraalVM
  * IntelliJ JBR (JetBrains Runtime)
- *
- *
  */
 public class blaze extends BaseBlaze {
 
