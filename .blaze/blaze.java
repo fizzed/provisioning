@@ -1,5 +1,7 @@
 import com.fizzed.blaze.Config;
 import com.fizzed.blaze.Contexts;
+import com.fizzed.blaze.project.BaseBlaze;
+import com.fizzed.crux.util.TemporaryPath;
 import com.fizzed.jne.ABI;
 import com.fizzed.jne.HardwareArchitecture;
 import com.fizzed.jne.OperatingSystem;
@@ -53,96 +55,70 @@ import static java.util.Arrays.asList;
  *
  *
  */
-public class blaze {
+public class blaze extends BaseBlaze {
 
     private final Config config = Contexts.config();
     private final Path projectDir = withBaseDir("../").toAbsolutePath();
+    private final Path targetDir = projectDir.resolve("target");
     private final Path dataDir = projectDir.resolve("data");
     private final Path linuxDir = projectDir.resolve("linux");
     private final Path scriptsDir = projectDir.resolve("scripts");
     private final Path resourcesDir = projectDir.resolve("resources");
     private final Logger log = Contexts.logger();
     private final Path javaInstallersFile = dataDir.resolve("java-installers.json");
-    // where we publish to cdn or dl to
-    private final Path cdndlDir = this.projectDir.resolve("../cdndl").normalize();
-    private final Path cdnDir = cdndlDir.resolve("cdn");
-    private final Path dlDir = cdndlDir.resolve("dl");
 
-    public void deploy() throws Exception {
-        if (!Files.exists(this.cdndlDir)) {
-            fail("The cdndl directory " + this.cdndlDir + " does not exist (deploy is only available for maintainers, not the public at large)");
+    public void publish() throws Exception {
+        // we need to build a directory that contains the exact structure we want to publish
+        try (TemporaryPath tempDir = TemporaryPath.tempDirectory("provisioning")) {
+            for (String dirName : asList("helpers", "resources")) {
+                final Path sourceDir = this.projectDir.resolve(dirName);
+                cp(sourceDir)
+                    .verbose()
+                    .recursive()
+                    .target(tempDir.getPath())
+                    .run();
+            }
+
+            // delete a few things to make it tidy
+            rm(tempDir.getPath().resolve("helpers/pom.xml")).verbose().force().run();
+            rm(tempDir.getPath().resolve("resources/install-template.ps1")).verbose().force().run();
+            rm(tempDir.getPath().resolve("resources/install-template.sh")).verbose().force().run();
+
+            // now we flatten the scripts into the provisioning dir
+            final Path sourceDir = this.projectDir.resolve("scripts");
+            for (Path scriptFile : Files.list(sourceDir).toList()) {
+                cp(scriptFile)
+                    .verbose()
+                    .target(tempDir.getPath())
+                    .run();
+            }
+
+            this.publishToCdn("provisioning", tempDir.getPath());
         }
-
-        final Path cdnProvisioningDir = cdnDir.resolve("provisioning");
-
-        // we will simply delete the provisioning directory and recreate it
-        rm(cdnProvisioningDir)
-            .verbose()
-            .recursive()
-            .force()
-            .run();
-
-        mkdir(cdnProvisioningDir)
-            .verbose()
-            .run();
-
-        for (String dirName : asList("helpers", "resources")) {
-            final Path sourceDir = this.projectDir.resolve(dirName);
-            cp(sourceDir)
-                .verbose()
-                .recursive()
-                .target(cdnProvisioningDir)
-                .run();
-        }
-
-        // now we flatten the scripts into the provisioning dir
-        final Path sourceDir = this.projectDir.resolve("scripts");
-        for (Path scriptFile : Files.list(sourceDir).toList()) {
-            cp(scriptFile)
-                .verbose()
-                .target(cdnProvisioningDir)
-                .run();
-        }
-
-        // now we simply need to trigger a cdn deploy
-        exec("java", "-jar", "blaze.jar", "deploy")
-            .workingDir(cdndlDir)
-            .run();
     }
 
     private final String mavenVersion = this.config.value("maven.version").orElse("3.9.11");
 
-    public void download_and_deploy_maven() throws Exception {
-        if (!Files.exists(this.cdndlDir)) {
-            fail("The cdndl directory " + this.cdndlDir + " does not exist (deploy is only available for maintainers, not the public at large)");
-        }
+    public void download_and_publish_maven() throws Exception {
+        final String url = "https://archive.apache.org/dist/maven/maven-3/" + mavenVersion + "/binaries/apache-maven-" + mavenVersion + "-bin.tar.gz";
+        String fileName = url.substring(url.lastIndexOf('/') + 1);
+        // let's strip off the annoying "-bin" on it too
+        fileName = fileName.replace("-bin.", ".");
 
-        final Path dlMavenDir = this.dlDir.resolve("maven");
+        final Path targetMavenDir = this.targetDir.resolve("maven");
+        final Path downloadFile = targetMavenDir.resolve(fileName);
 
-        // https://dlcdn.apache.org/maven/maven-3/3.9.11/binaries/apache-maven-3.9.11-bin.zip
-        // OR
-        // https://archive.apache.org/dist/maven/maven-3/3.9.6/binaries/apache-maven-3.9.6-bin.zip
-        for (String fileExt : asList("zip", "tar.gz") ) {
-            final String url = "https://archive.apache.org/dist/maven/maven-3/" + mavenVersion + "/binaries/apache-maven-" + mavenVersion + "-bin." + fileExt;
-            //final String url = "https://dlcdn.apache.org/maven/maven-3/" + mavenVersion + "/binaries/apache-maven-" + mavenVersion + "-bin." + fileExt;
-            final String fileName = url.substring(url.lastIndexOf('/') + 1);
-            final Path downloadFile = dlMavenDir.resolve(fileName);
+        mkdir(downloadFile.getParent()).parents().verbose().run();
 
-            if (Files.exists(downloadFile) && Files.size(downloadFile) > 7000000) {
-                log.info("Skipping download of maven, file already exists at {}", downloadFile);
-                continue;
-            }
-
-            httpGet(url)
-                .verbose()
-                .target(downloadFile)
-                .run();
-        }
-
-        // now we simply need to trigger a cdn deploy
-        exec("java", "-jar", "blaze.jar", "deploy")
-            .workingDir(cdndlDir)
+        httpGet(url)
+            .verbose()
+            .progress()
+            .target(downloadFile, true)
             .run();
+
+        log.info("Downloaded maven to {}", downloadFile);
+
+        this.publishToDl("maven", downloadFile);
     }
 
     public void build_scripts() throws Exception {
