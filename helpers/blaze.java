@@ -1,5 +1,6 @@
 import com.fizzed.blaze.Config;
 import com.fizzed.blaze.Contexts;
+import com.fizzed.blaze.system.Exec;
 import com.fizzed.jne.*;
 import com.fizzed.jne.internal.ShellBuilder;
 import com.fizzed.jne.internal.Utils;
@@ -150,6 +151,50 @@ public class blaze {
             );
 
             log.info("Successfully installed maven v{} with scope {}", this.mavenVersion, scope);
+        } finally {
+            this.after(true);
+        }
+    }
+
+    //
+    // Blaze Install
+    //
+
+    public void install_blaze() throws Exception {
+        this.before(EnvScope.SYSTEM);
+        try {
+            final InstallEnvironment installEnvironment = InstallEnvironment.detect("Blaze", "blaze", this.scope);
+
+            log.info("Installing blaze with scope {}...", this.scope);
+
+            final Path blazeJarFile = Contexts.withBaseDir("blaze.jar").toAbsolutePath().normalize();
+
+            // leverage blaze.jar and its built-in wrapper scripts
+            final Path localBinDir = installEnvironment.resolveLocalBinDir(true);
+
+            exec("java", "-jar", blazeJarFile, "-i", localBinDir)
+                .verbose()
+                .run();
+
+            // validate the install worked by displaying the version
+            log.info("Will execute `blaze -v` to validate installation...");
+            log.info("");
+
+            final Path blazeExe = which("blaze")
+                .path(localBinDir)
+                .run();
+
+            exec(blazeExe, "-v")
+                .run();
+
+            log.info("");
+
+            installEnvironment.installEnv(
+                singletonList(new EnvPath(localBinDir)),
+                emptyList()
+            );
+
+            log.info("Successfully installed blaze with scope {}", this.scope);
         } finally {
             this.after(true);
         }
