@@ -107,7 +107,6 @@ public class blaze {
 
             unarchive(archiveFile)
                 .verbose()
-                .progress()
                 .target(unarchivedDir)
                 .stripLeadingPath()
                 .run();
@@ -132,7 +131,12 @@ public class blaze {
             log.info("Will execute `mvn -v` to validate installation...");
             log.info("");
 
-            exec("mvn", "-v")
+            // we need to use a "which" to include the maven/bin directory since it might not yet be in the PATH
+            final Path mvnExe = which("mvn")
+                .path(targetAppDir.resolve("bin"))
+                .run();
+
+            exec(mvnExe, "-v")
                 .verbose()
                 .workingDir(targetAppDir.resolve("bin"))
                 .run();
@@ -216,7 +220,6 @@ public class blaze {
 
             unarchive(archiveFile)
                 .verbose()
-                .progress()
                 .target(unarchivedDir)
                 .stripComponents(stripComponents)
                 .run();
