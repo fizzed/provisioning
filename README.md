@@ -140,6 +140,24 @@ sudo powershell -Command 'iwr https://cdn.fizzed.com/provisioning/install-maven.
 
 
 
+### Blaze
+
+This script will install Blaze wrapper script system-wide (by default) or just for the current user if you specify the `--scope user`
+argument.
+
+```shell
+# On Linux, MacOS, and FreeBSD.
+curl -sfL https://cdn.fizzed.com/provisioning/install-blaze.sh | sudo sh
+
+# On OpenBSD
+curl -sfL https://cdn.fizzed.com/provisioning/install-blaze.sh | doas sh
+
+# On Windows
+sudo powershell -Command 'iwr https://cdn.fizzed.com/provisioning/install-blaze.ps1 | iex'
+```
+
+
+
 ### Shell Git Prompt
 
 This script will install an opinionated shell prompt user-specific (by default) that supports coloring and the git branch
