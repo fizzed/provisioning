@@ -121,7 +121,7 @@ public class blaze extends BaseBlaze {
 
     public void build_scripts() throws Exception {
         // we basically expose the methods of helpers/blaze.java into .sh and .ps1 scripts
-        final List<String> methods = asList("install_maven", "install_fastfetch", "install_git_prompt", "install_java_path", "install__blaze");
+        final List<String> methods = asList("install_maven", "install_fastfetch", "install_git_prompt", "install_java_path", "install_blaze");
 
         // we generate both .ps1 and .sh versions based on templates
         final Path shTemplateFile = resourcesDir.resolve("install-template.sh");
