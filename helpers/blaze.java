@@ -184,7 +184,9 @@ public class blaze {
                 .path(localBinDir)
                 .run();
 
+            // we have to execute "blaze" where we know a blaze.jar exists
             exec(blazeExe, "-v")
+                .workingDir(blazeJarFile.getParent())
                 .run();
 
             log.info("");
