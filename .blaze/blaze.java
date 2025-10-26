@@ -1,5 +1,6 @@
 import com.fizzed.blaze.Config;
 import com.fizzed.blaze.Contexts;
+import com.fizzed.blaze.Task;
 import com.fizzed.blaze.project.BaseBlaze;
 import com.fizzed.crux.util.TemporaryPath;
 import com.fizzed.jne.ABI;
@@ -65,61 +66,8 @@ public class blaze extends BaseBlaze {
     private final Logger log = Contexts.logger();
     private final Path javaInstallersFile = dataDir.resolve("java-installers.json");
 
-    public void publish() throws Exception {
-        // we need to build a directory that contains the exact structure we want to publish
-        try (TemporaryPath tempDir = TemporaryPath.tempDirectory("provisioning")) {
-            for (String dirName : asList("helpers", "resources")) {
-                final Path sourceDir = this.projectDir.resolve(dirName);
-                cp(sourceDir)
-                    .verbose()
-                    .recursive()
-                    .target(tempDir.getPath())
-                    .run();
-            }
-
-            // delete a few things to make it tidy
-            rm(tempDir.getPath().resolve("helpers/pom.xml")).verbose().force().run();
-            rm(tempDir.getPath().resolve("resources/install-template.ps1")).verbose().force().run();
-            rm(tempDir.getPath().resolve("resources/install-template.sh")).verbose().force().run();
-
-            // now we flatten the scripts into the provisioning dir
-            final Path sourceDir = this.projectDir.resolve("scripts");
-            for (Path scriptFile : Files.list(sourceDir).toList()) {
-                cp(scriptFile)
-                    .verbose()
-                    .target(tempDir.getPath())
-                    .run();
-            }
-
-            this.publishToCdn("provisioning", tempDir.getPath());
-        }
-    }
-
-    private final String mavenVersion = this.config.value("maven.version").orElse("3.9.11");
-
-    public void download_and_publish_maven() throws Exception {
-        final String url = "https://archive.apache.org/dist/maven/maven-3/" + mavenVersion + "/binaries/apache-maven-" + mavenVersion + "-bin.tar.gz";
-        String fileName = url.substring(url.lastIndexOf('/') + 1);
-        // let's strip off the annoying "-bin" on it too
-        fileName = fileName.replace("-bin.", ".");
-
-        final Path targetMavenDir = this.targetDir.resolve("maven");
-        final Path downloadFile = targetMavenDir.resolve(fileName);
-
-        mkdir(downloadFile.getParent()).parents().verbose().run();
-
-        httpGet(url)
-            .verbose()
-            .progress()
-            .target(downloadFile, true)
-            .run();
-
-        log.info("Downloaded maven to {}", downloadFile);
-
-        this.publishToDl("maven", downloadFile);
-    }
-
-    public void build_scripts() throws Exception {
+    @Task(order = 1)
+    public void build() throws Exception {
         // we basically expose the methods of helpers/blaze.java into .sh and .ps1 scripts
         final List<String> methods = asList("install_maven", "install_fastfetch", "install_git_prompt", "install_java_path", "install_blaze");
 
@@ -157,6 +105,64 @@ public class blaze extends BaseBlaze {
             .run();
     }
 
+    @Task(order = 2)
+    public void release() throws Exception {
+        // we need to build a directory that contains the exact structure we want to publish
+        try (TemporaryPath tempDir = TemporaryPath.tempDirectory("provisioning")) {
+            for (String dirName : asList("helpers", "resources")) {
+                final Path sourceDir = this.projectDir.resolve(dirName);
+                cp(sourceDir)
+                    .verbose()
+                    .recursive()
+                    .target(tempDir.getPath())
+                    .run();
+            }
+
+            // delete a few things to make it tidy
+            rm(tempDir.getPath().resolve("helpers/pom.xml")).verbose().force().run();
+            rm(tempDir.getPath().resolve("resources/install-template.ps1")).verbose().force().run();
+            rm(tempDir.getPath().resolve("resources/install-template.sh")).verbose().force().run();
+
+            // now we flatten the scripts into the provisioning dir
+            final Path sourceDir = this.projectDir.resolve("scripts");
+            for (Path scriptFile : Files.list(sourceDir).toList()) {
+                cp(scriptFile)
+                    .verbose()
+                    .target(tempDir.getPath())
+                    .run();
+            }
+
+            // pushing the entire directory will sync the entire directory (w/ delete) to cdn.fizzed.com
+            this.publishToCdn("provisioning", tempDir.getPath());
+        }
+    }
+
+    //@Task(order=999)
+    public void update_maven() throws Exception {
+        final String version = this.config.value("version").orElse("3.9.11");
+
+        final String url = "https://archive.apache.org/dist/maven/maven-3/" + version + "/binaries/apache-maven-" + version + "-bin.tar.gz";
+        String fileName = url.substring(url.lastIndexOf('/') + 1);
+        // let's strip off the annoying "-bin" on it too
+        fileName = fileName.replace("-bin.", ".");
+
+        final Path targetMavenDir = this.targetDir.resolve("maven");
+        final Path downloadFile = targetMavenDir.resolve(fileName);
+
+        mkdir(downloadFile.getParent()).parents().verbose().run();
+
+        httpGet(url)
+            .verbose()
+            .progress()
+            .target(downloadFile, true)
+            .run();
+
+        log.info("Downloaded maven to {}", downloadFile);
+
+        this.publishToDl("maven", downloadFile);
+    }
+
+    //@Task(order=999)
     public void update_java_installers() throws Exception {
         // we will collect all java installers into this array
         final List<JavaInstaller> allJavaInstallers = new ArrayList<>();
@@ -252,6 +258,7 @@ public class blaze extends BaseBlaze {
         return filteredJavaInstallers;
     }
 
+    //@Task(order=999)
     public void update_bootstrap_java_sh() throws Exception {
         // load the latest java installer data
         log.info("Loading java-installers from file {}", this.javaInstallersFile);

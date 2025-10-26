@@ -108,6 +108,7 @@ public class blaze {
 
             unarchive(archiveFile)
                 .verbose()
+                .progress()
                 .target(unarchivedDir)
                 .stripLeadingPath()
                 .run();
