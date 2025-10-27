@@ -8,7 +8,7 @@ information about what is happening and how to fix any issues that you may encou
 Here is an example of installing the "Java Path" script on an OpenBSD host:
 
 ```shell
-bmh-build-x64-openbsd76-1$ curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | doas sh -s -- --ver 17
+bmh-build-x64-openbsd76-1$ curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | doas sh -s -- --version 17
 doas (builder@bmh-build-x64-openbsd76-1) password: 
 mkdir: /tmp/provisioning-helpers: File exists
 [INFO] Resolving dependencies...
@@ -71,10 +71,10 @@ be installed system-wide and will be prepended to your PATH as well.
 ```shell
 
 # Install jdk 17
-curl -sfL https://cdn.fizzed.com/provisioning/bootstrap-java.sh | sudo sh -s -- --version=17
+curl -sfL https://cdn.fizzed.com/provisioning/install-java.sh | sudo sh -s -- --version=17
 
 # Install jdk 21 and set it as the default
-curl -sfL https://cdn.fizzed.com/provisioning/bootstrap-java.sh | sudo sh -s -- --version=21 --default
+curl -sfL https://cdn.fizzed.com/provisioning/install-java.sh | sudo sh -s -- --version=21 --default
 ```
 
 
@@ -110,13 +110,13 @@ Or to force a specific version such as Java 17
 
 ```shell
 # On Linux, MacOS, and FreeBSD.
-curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | sudo sh -s -- --ver 17
+curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | sudo sh -s -- --version 17
 
 # On OpenBSD
-curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | doas sh -s -- --ver 17
+curl -sfL https://cdn.fizzed.com/provisioning/install-java-path.sh | doas sh -s -- --version 17
 
 # On Windows
-sudo powershell -Command "& ([ScriptBlock]::Create((New-Object System.Net.WebClient).DownloadString('https://cdn.fizzed.com/provisioning/install-java-path.ps1'))) --ver 17"
+sudo powershell -Command "& ([ScriptBlock]::Create((New-Object System.Net.WebClient).DownloadString('https://cdn.fizzed.com/provisioning/install-java-path.ps1'))) --version 17"
 ```
 
 
@@ -203,5 +203,5 @@ curl -sfL https://cdn.fizzed.com/provisioning/install-fastfetch.sh | doas sh -s 
 For older versions of Linux or other systems, you can also request a specific version of FastFetch to install.
 
 ```shell
-curl -sfL https://cdn.fizzed.com/provisioning/install-fastfetch.sh | sudo sh -s -- --ver 2.40.4
+curl -sfL https://cdn.fizzed.com/provisioning/install-fastfetch.sh | sudo sh -s -- --version 2.40.4
 ```
