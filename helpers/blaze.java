@@ -119,8 +119,11 @@ public class blaze {
                 .force()
                 .run();
 
-            // this version works across filesystems on unix
-            moveDirectory(unarchivedDir, targetAppDir);
+            mv(unarchivedDir)
+                .verbose()
+                .target(targetAppDir)
+                .force()
+                .run();
 
             // we need to fix execute permissions on everything but windows
             if (this.nativeTarget.getOperatingSystem() != OperatingSystem.WINDOWS) {
@@ -290,14 +293,11 @@ public class blaze {
 
             rm(targetShareDir).recursive().force().run();
 
-            // this version works across filesystems on unix
-            moveDirectory(sourceShareDir, targetShareDir);
-
-            /*mv(sourceShareDir)
+            mv(sourceShareDir)
                 .verbose()
                 .target(targetShareDir)
                 .force()
-                .run();*/
+                .run();
 
             // validate the install worked by displaying the version
             log.info("Will execute `fastfetch -v` to validate installation...");
@@ -557,54 +557,6 @@ public class blaze {
 
             return downloadFile;
         }
-    }
-
-    static private void moveDirectory(Path source, Path destination) throws IOException {
-        try {
-            // Attempt a simple move first, which works for same-filesystem moves.
-            Files.move(source, destination, StandardCopyOption.REPLACE_EXISTING);
-        } catch (DirectoryNotEmptyException e) {
-            // This exception should not occur for a top-level directory rename
-            // if the move was successful, but is a good catch-all
-            System.err.println("Directory is not empty and cannot be moved by rename. Falling back to copy-and-delete.");
-            copyThenDelete(source, destination);
-        } catch (FileSystemException e) {
-            // If the simple move fails, it's likely a cross-filesystem move.
-            System.err.println("Cross-filesystem move detected. Falling back to copy-and-delete.");
-            copyThenDelete(source, destination);
-        }
-    }
-
-    private static void copyThenDelete(Path source, Path destination) throws IOException {
-        Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
-                Path targetDir = destination.resolve(source.relativize(dir));
-                Files.createDirectories(targetDir);
-                return FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                Files.copy(file, destination.resolve(source.relativize(file)), StandardCopyOption.REPLACE_EXISTING);
-                return FileVisitResult.CONTINUE;
-            }
-        });
-
-        // After copying, delete the source directory.
-        Files.walkFileTree(source, new SimpleFileVisitor<Path>() {
-            @Override
-            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                Files.delete(file);
-                return FileVisitResult.CONTINUE;
-            }
-
-            @Override
-            public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException {
-                Files.delete(dir);
-                return FileVisitResult.CONTINUE;
-            }
-        });
     }
 
 }
