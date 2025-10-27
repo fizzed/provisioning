@@ -1408,45 +1408,67 @@ ln -s "/usr/lib/jvm/$JAVA_TARGET_DIR" "/usr/lib/jvm/$JAVA_TARGET_SYMLINK"
 
 # make this the default?
 if [ "$JAVA_DEFAULT" = "yes" ]; then
-  rm -f /usr/lib/jvm/current
-  ln -s "/usr/lib/jvm/$JAVA_TARGET_SYMLINK" /usr/lib/jvm/current
+  rm -f /usr/lib/jvm/jdk-current
+  ln -s "/usr/lib/jvm/$JAVA_TARGET_SYMLINK" /usr/lib/jvm/jdk-current
+
+  # add a symlink from /usr/local/bin/java to the jdk-current/bin/java
+  TARGET_JAVA="/usr/lib/jvm/jdk-current/bin/java"
+  LINK_LOCATION="/usr/local/bin/java"
+  FALLBACK_LOCATION="/usr/bin/java"
+
+  # Check if the java executable already exists at either standard location
+  if [ ! -e "$LINK_LOCATION" ] && [ ! -e "$FALLBACK_LOCATION" ]; then
+      echo "Java not found at $LINK_LOCATION or $FALLBACK_LOCATION."
+
+      # Before creating a symlink, check if the target actually exists
+      if [ -e "$TARGET_JAVA" ]; then
+          echo "Creating symlink for $TARGET_JAVA at $LINK_LOCATION..."
+          # Create the symlink.
+          # Note: This may require superuser (sudo) permissions
+          # if /usr/local/bin is not writable by the current user.
+          ln -s "$TARGET_JAVA" "$LINK_LOCATION"
+      else
+          echo "Error: Target Java executable $TARGET_JAVA does not exist."
+          echo "Cannot create symlink."
+      fi
+  fi
 fi
 
 # does /etc/environment exist?
-if [ -f /etc/environment ]; then
-  # remove then add java to path in environment
-  echo "Adding jvm to /etc/environment"
-  sed -e 's|/usr/lib/jvm/current/bin:||g' -i /etc/environment
-  sed -e 's|PATH="\(.*\)"|PATH="/usr/lib/jvm/current/bin:\1"|g' -i /etc/environment
-
-  # add java_home to environment
-  if ! grep JAVA_HOME /etc/environment > /dev/null; then
-    echo "JAVA_HOME=/usr/lib/jvm/current" >> /etc/environment
-  fi
-fi
+#if [ -f /etc/environment ]; then
+#  # remove then add java to path in environment
+#  echo "Adding jvm to /etc/environment"
+#  sed -e 's|/usr/lib/jvm/current/bin:||g' -i /etc/environment
+#  sed -e 's|PATH="\(.*\)"|PATH="/usr/lib/jvm/current/bin:\1"|g' -i /etc/environment
+#
+#  # add java_home to environment
+#  if ! grep JAVA_HOME /etc/environment > /dev/null; then
+#    echo "JAVA_HOME=/usr/lib/jvm/current" >> /etc/environment
+#  fi
+#fi
 
 # does /etc/profile.d exist? (in case /etc/environment not used)
 if [ -d /etc/profile.d ]; then
   # always overwrite
-  echo "if [ -z \"\$JAVA_HOME\" ]; then JAVA_HOME=/usr/lib/jvm/current; export JAVA_HOME; fi" > /etc/profile.d/java.sh    
+  echo "if [ -z \"\$JAVA_HOME\" ]; then JAVA_HOME=/usr/lib/jvm/jdk-current; export JAVA_HOME; fi" > /etc/profile.d/java.sh
   # this is not portable across shells
   #echo "if ! [[ \$PATH == *\"\$JAVA_HOME\"* ]]; then PATH=\"\$JAVA_HOME/bin:\$PATH\"; export PATH; fi" >> /etc/profile.d/java.sh
   echo 'if [ ! -z "${PATH##*$JAVA_HOME*}" ]; then PATH="$JAVA_HOME/bin:$PATH"; export PATH; fi' >> /etc/profile.d/java.sh
 fi
 
 # Check if the path already exists in secure_path
-if ! grep -q "secure_path.*/usr/lib/jvm/current/bin" /etc/sudoers; then
-    # If the path doesn't exist, add it to the secure_path line
-    # This assumes secure_path is defined with "Defaults secure_path="
-    sudo sed "s#^Defaults\s*secure_path=\"\([^\"]*\)\"\(.*\)#Defaults secure_path=\"\1:/usr/lib/jvm/current/bin\"\2#" "/etc/sudoers" > /tmp/sudoers
-    sudo mv /tmp/sudoers /etc/sudoers
-    #sudo sed -i -r -e '/^\s*Defaults\s+secure_path/ s[=(.*)[=\1:/usr/lib/jvm/current/bin[' /etc/sudoers
-    #sudo sed -i -r -e '/^\s*Defaults\s+secure_path/ s[=(.*)[=\1:/usr/lib/jvm/current/bin[' /etc/sudoers
-    #sudo sed -i -r "/^Defaults\\s+secure_path/ s[=(.*)[=\\1:$SUDO_PATH[" /etc/sudoers
-    echo "Added '/usr/lib/jvm/current/bin' to secure_path in /etc/sudoers"
-else
-    echo "'/usr/lib/jvm/current/bin' already exists in secure_path in /etc/sudoers"
-fi
+#if ! grep -q "secure_path.*/usr/lib/jvm/current/bin" /etc/sudoers; then
+#    # If the path doesn't exist, add it to the secure_path line
+#    # This assumes secure_path is defined with "Defaults secure_path="
+#    sudo sed "s#^Defaults\s*secure_path=\"\([^\"]*\)\"\(.*\)#Defaults secure_path=\"\1:/usr/lib/jvm/current/bin\"\2#" "/etc/sudoers" > /tmp/sudoers
+#    sudo mv /tmp/sudoers /etc/sudoers
+#    #sudo sed -i -r -e '/^\s*Defaults\s+secure_path/ s[=(.*)[=\1:/usr/lib/jvm/current/bin[' /etc/sudoers
+#    #sudo sed -i -r -e '/^\s*Defaults\s+secure_path/ s[=(.*)[=\1:/usr/lib/jvm/current/bin[' /etc/sudoers
+#    #sudo sed -i -r "/^Defaults\\s+secure_path/ s[=(.*)[=\\1:$SUDO_PATH[" /etc/sudoers
+#    echo "Added '/usr/lib/jvm/current/bin' to secure_path in /etc/sudoers"
+#else
+#    echo "'/usr/lib/jvm/current/bin' already exists in secure_path in /etc/sudoers"
+#fi
 
 echo "###########################################################"
 echo ""

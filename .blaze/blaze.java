@@ -94,11 +94,11 @@ public class blaze extends BaseBlaze {
             log.info("Built script {}", ps1TargetFile);
         }
 
-        // now we need to update the bootstrap-java.sh file
+        // now we need to update the install-java.sh file
         update_bootstrap_java_sh();
 
-        // copy the linux/bootstrap-java.sh file to the scripts directory
-        cp(linuxDir.resolve("bootstrap-java.sh"))
+        // copy the linux/install-java.sh file to the scripts directory
+        cp(linuxDir.resolve("install-java.sh"))
             .verbose()
             .target(scriptsDir)
             .force()
@@ -334,7 +334,7 @@ public class blaze extends BaseBlaze {
         shellSnippet.append("\n");
         shellSnippet.append(endComment);
 
-        final Path bootstrapJavaShFile = this.linuxDir.resolve("bootstrap-java.sh");
+        final Path bootstrapJavaShFile = this.linuxDir.resolve("install-java.sh");
         final String bootstrapJavaShFileContent = Files.readString(bootstrapJavaShFile);
         final int startPos = bootstrapJavaShFileContent.indexOf(startComment);
         final int endPos = bootstrapJavaShFileContent.indexOf(endComment, startPos);
@@ -346,7 +346,7 @@ public class blaze extends BaseBlaze {
         final String newBootstrapJavaShFileContent = bootstrapJavaShFileContent.substring(0, startPos) + shellSnippet + bootstrapJavaShFileContent.substring(endPos+endComment.length());
 
         Files.writeString(bootstrapJavaShFile, newBootstrapJavaShFileContent, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-        log.info("Wrote bootstrap-java.sh to file {}", bootstrapJavaShFile);
+        log.info("Wrote install-java.sh to file {}", bootstrapJavaShFile);
 
         //System.out.println(shellSnippet);
     }
