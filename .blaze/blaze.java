@@ -95,14 +95,14 @@ public class blaze extends BaseBlaze {
         }
 
         // now we need to update the install-java.sh file
-        update_bootstrap_java_sh();
+        this.update_install_java_sh();
 
-        // copy the linux/install-java.sh file to the scripts directory
+        /*// copy the linux/install-java.sh file to the scripts directory
         cp(linuxDir.resolve("install-java.sh"))
             .verbose()
             .target(scriptsDir)
             .force()
-            .run();
+            .run();*/
     }
 
     @Task(order = 2)
@@ -259,7 +259,7 @@ public class blaze extends BaseBlaze {
     }
 
     //@Task(order=999)
-    public void update_bootstrap_java_sh() throws Exception {
+    public void update_install_java_sh() throws Exception {
         // load the latest java installer data
         log.info("Loading java-installers from file {}", this.javaInstallersFile);
         final byte[] javaInstallersData = Files.readAllBytes(this.javaInstallersFile);
@@ -334,7 +334,7 @@ public class blaze extends BaseBlaze {
         shellSnippet.append("\n");
         shellSnippet.append(endComment);
 
-        final Path bootstrapJavaShFile = this.linuxDir.resolve("install-java.sh");
+        final Path bootstrapJavaShFile = this.scriptsDir.resolve("install-java.sh");
         final String bootstrapJavaShFileContent = Files.readString(bootstrapJavaShFile);
         final int startPos = bootstrapJavaShFileContent.indexOf(startComment);
         final int endPos = bootstrapJavaShFileContent.indexOf(endComment, startPos);

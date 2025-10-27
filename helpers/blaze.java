@@ -79,17 +79,17 @@ public class blaze {
     // Maven Install
     //
 
-    final private String mavenVersion = config.value("ver").orElse("3.9.11");
-
     public void install_maven() throws Exception {
+        final String mavenVersion = this.config.value("version").orElse("3.9.11");
+
         this.before(EnvScope.SYSTEM);
         try {
             final InstallEnvironment installEnvironment = InstallEnvironment.detect("Apache Maven", "maven", this.scope);
 
-            log.info("Installing maven v{}} with scope {}...", this.mavenVersion, this.scope);
+            log.info("Installing maven v{}} with scope {}...", mavenVersion, this.scope);
 
             final NativeLanguageModel nlm = new NativeLanguageModel()
-                .add("version", this.mavenVersion);
+                .add("version", mavenVersion);
 
             // make sure the place we are going to is writable BEFORE we bother to download anything
             final Path targetAppDir = installEnvironment.resolveOptApplicationDir(true);
@@ -151,7 +151,7 @@ public class blaze {
                 singletonList(new EnvVar("M2_HOME", targetAppDir))
             );
 
-            log.info("Successfully installed maven v{} with scope {}", this.mavenVersion, scope);
+            log.info("Successfully installed maven v{} with scope {}", mavenVersion, scope);
         } finally {
             this.after(true);
         }
@@ -207,14 +207,14 @@ public class blaze {
     // Fastfetch Install
     //
 
-    final private String fastfetchVersion = config.value("ver").orElse("2.53.0");
-
     public void install_fastfetch() throws Exception {
+        final String fastfetchVersion = config.value("version").orElse("2.53.0");
+
         this.before(EnvScope.SYSTEM);
         try {
             final InstallEnvironment installEnvironment = InstallEnvironment.detect("FastFetch", "fastfetch", this.scope);
 
-            log.info("Installing fastfetch v{} with scope {}...", this.fastfetchVersion, this.scope);
+            log.info("Installing fastfetch v{} with scope {}...", fastfetchVersion, this.scope);
 
             // NOTE: fastfetch only publishes assets for some architectures, not all, we can make this recipe work
             // for a few more by delegating to the underlying package manager instead
@@ -232,7 +232,7 @@ public class blaze {
 
             // detect current os & arch, then translate to values that nats-server project uses
             final NativeLanguageModel nlm = new NativeLanguageModel()
-                .add("version", this.fastfetchVersion)
+                .add("version", fastfetchVersion)
                 .add(HardwareArchitecture.ARM64, "aarch64")
                 .add(HardwareArchitecture.X64, "amd64")
                 .add(HardwareArchitecture.ARMHF, "armv7l")
@@ -313,7 +313,7 @@ public class blaze {
                 emptyList()
             );
 
-            log.info("Successfully installed fastfetch v{} with scope {}", this.fastfetchVersion, this.scope);
+            log.info("Successfully installed fastfetch v{} with scope {}", fastfetchVersion, this.scope);
         } finally {
             this.after(true);
         }
@@ -412,9 +412,9 @@ public class blaze {
     // Install Java Path
     //
 
-    final private String javaMajorVersion = config.value("ver").orNull();
-
     public void install_java_path() throws Exception {
+        final String javaMajorVersion = config.value("version").orNull();
+
         this.before(EnvScope.SYSTEM);
         try {
             final List<JavaHome> javaHomes = JavaHomes.detect();
@@ -565,7 +565,7 @@ public class blaze {
             Files.move(source, destination, StandardCopyOption.REPLACE_EXISTING);
         } catch (DirectoryNotEmptyException e) {
             // This exception should not occur for a top-level directory rename
-            // if the move was successful, but is a good catch-all.
+            // if the move was successful, but is a good catch-all
             System.err.println("Directory is not empty and cannot be moved by rename. Falling back to copy-and-delete.");
             copyThenDelete(source, destination);
         } catch (FileSystemException e) {
