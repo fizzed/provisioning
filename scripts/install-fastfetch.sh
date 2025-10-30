@@ -12,15 +12,82 @@ if ! [ -x "$(command -v curl)" ]; then
   exit 1
 fi
 
-# we need to download provisioning blaze.jar, blaze.conf, blaze.java
-TEMP_DIR=/tmp
-HELPERS_DIR="$TEMP_DIR/provisioning-helpers"
-mkdir "$HELPERS_DIR"
+# Create a function to handle cleanup of temp dir even if script fails
+cleanup() {
+  echo "Cleaning up temp dir $TEMP_DIR"
+  # Remove the directory only if $TEMP_DIR is set and it's a directory
+  if [ -n "$TEMP_DIR" ] && [ -d "$TEMP_DIR" ]; then
+    rm -rf "$TEMP_DIR"
+  fi
+}
 
-curl --insecure -f -s -o "$HELPERS_DIR/blaze.jar" "https://cdn.fizzed.com/provisioning/helpers/blaze.jar"
-curl --insecure -f -s -o "$HELPERS_DIR/blaze.conf" "https://cdn.fizzed.com/provisioning/helpers/blaze.conf"
-curl --insecure -f -s -o "$HELPERS_DIR/blaze.java" "https://cdn.fizzed.com/provisioning/helpers/blaze.java"
+# Set the trap. This catches any script exit (normal, error, or signal). The 'cleanup' function will run when the script exits.
+trap cleanup EXIT
 
-java -jar "$HELPERS_DIR/blaze.jar" "$HELPERS_DIR/blaze.java" install_fastfetch "$@"
+# --- Portable Download Function ---
+#
+# @description: Downloads a URL to a specific file, using the
+#               first available tool: curl, wget, or fetch.
+#
+# @arg $1: The URL to download.
+# @arg $2: The local file path to save to.
+#
+# @exitcode 0: Success.
+# @exitcode 1: Failure (or if no download tool is found).
+#
+download_file() {
+  URL="$1"
+  OUTPUT_FILE="$2"
 
-rm -Rf "$HELPERS_DIR"
+  # Check for curl
+  if command -v curl >/dev/null 2>&1; then
+    # -f: Fail fast with non-zero exit code on server errors (404, etc.)
+    # -L: Follow redirects
+    # -s: Silent mode
+    # -o: Write to output file
+    curl -f -L -s -o "$OUTPUT_FILE" "$URL"
+    return $?
+
+  # Check for wget
+  elif command -v wget >/dev/null 2>&1; then
+    # -q: Quiet mode
+    # -O: Write to output file
+    # (wget returns non-zero on 404s and other errors by default)
+    wget -q -O "$OUTPUT_FILE" "$URL"
+    return $?
+
+  # Check for fetch (common on FreeBSD/OpenBSD)
+  elif command -v fetch >/dev/null 2>&1; then
+    # -q: Quiet mode
+    # -o: Write to output file
+    # (fetch returns non-zero on failure)
+    # NOTE: 'fetch' does not follow redirects by default
+    fetch -q -o "$OUTPUT_FILE" "$URL"
+    return $?
+
+  # Check for OpenBSD's ftp client
+  elif command -v ftp >/dev/null 2>&1 && [ "$(uname)" = "OpenBSD" ]; then
+    echo "Using OpenBSD ftp to download..."
+    # -o: specifies the output file
+    ftp -o "$OUTPUT_FILE" "$URL"
+    return $?
+
+  else
+    echo "Error: No download tool (curl, wget, fetch, or ftp) found. Please install one of those and retry." >&2
+    return 1
+  fi
+}
+
+# Create the unique temporary directory
+# mktemp -d creates a directory with a unique name
+TEMP_DIR=$(mktemp -d /tmp/provisioning.XXXXXX)
+echo "Created temp dir $TEMP_DIR"
+
+echo "Downloading blaze.jar to temp dir..."
+download_file "https://cdn.fizzed.com/provisioning/helpers/blaze.jar" "$TEMP_DIR/blaze.jar"
+download_file "https://cdn.fizzed.com/provisioning/helpers/blaze.conf" "$TEMP_DIR/blaze.conf"
+download_file "https://cdn.fizzed.com/provisioning/helpers/blaze.java" "$TEMP_DIR/blaze.java"
+
+java "-Djava.io.tmpdir=$TEMP_DIR" -jar "$TEMP_DIR/blaze.jar" "$TEMP_DIR/blaze.java" install_fastfetch "$@"
+
+rm -Rf "$TEMP_DIR"

@@ -25,7 +25,7 @@ public class blaze {
     private final Config config = Contexts.config();
     private final Logger log = Contexts.logger();
     private final Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
-    private final Path scratchDir = Contexts.withUserDir(".provisioning-ok-to-delete");
+    private final Path scratchDir = this.tempDir.resolve("work." + System.currentTimeMillis());
     private NativeTarget nativeTarget;
     private EnvScope scope;
 
