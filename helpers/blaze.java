@@ -1,6 +1,5 @@
 import com.fizzed.blaze.Config;
 import com.fizzed.blaze.Contexts;
-import com.fizzed.blaze.system.Exec;
 import com.fizzed.jne.*;
 import com.fizzed.jne.internal.ShellBuilder;
 import com.fizzed.jne.internal.Utils;
@@ -8,7 +7,6 @@ import org.slf4j.Logger;
 
 import java.io.IOException;
 import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +23,7 @@ public class blaze {
     private final Config config = Contexts.config();
     private final Logger log = Contexts.logger();
     private final Path tempDir = Paths.get(System.getProperty("java.io.tmpdir"));
-    private final Path scratchDir = this.tempDir.resolve("work." + System.currentTimeMillis());
+    private final Path scratchDir = this.tempDir.resolve("work");
     private NativeTarget nativeTarget;
     private EnvScope scope;
 

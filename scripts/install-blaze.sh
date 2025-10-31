@@ -6,12 +6,6 @@ if ! [ -x "$(command -v java)" ]; then
   exit 1
 fi
 
-# we need curl to function
-if ! [ -x "$(command -v curl)" ]; then
-  echo "Dependency 'curl' is missing. Please install it first then re-run this script"
-  exit 1
-fi
-
 # Create a function to handle cleanup of temp dir even if script fails
 cleanup() {
   echo "Cleaning up temp dir $TEMP_DIR"
