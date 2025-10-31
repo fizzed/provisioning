@@ -30,11 +30,12 @@ public class blaze {
     private void before(EnvScope defaultScope) throws Exception {
         this.nativeTarget = NativeTarget.detect();
         this.scope = this.resolveScope(defaultScope);
+        final boolean skipElevatedCheck = this.config.flag("skip-elevated-check").orElse(false);
 
         log.info("Detected platform {} (arch {}) (abi {})", nativeTarget.getOperatingSystem(), nativeTarget.getHardwareArchitecture(), nativeTarget.getAbi());
         log.info("Using install scope {}", this.scope);
 
-        if (scope == EnvScope.SYSTEM) {
+        if (!skipElevatedCheck && scope == EnvScope.SYSTEM) {
             UserEnvironment userEnvironment = UserEnvironment.detectLogical();
             if (!userEnvironment.isElevated()) {
                 throw new IllegalStateException("Cannot install to system scope without elevated permissions (maybe run it with sudo?)");
