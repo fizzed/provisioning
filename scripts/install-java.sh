@@ -141,9 +141,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-linux_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu25.30.17-ca-jdk25.0.1-linux_x64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="25.0.0.36"
+          JAVA_TARGET_VERSION="25.0.1.8"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -152,9 +152,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-linux_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu25.30.17-ca-jdk25.0.1-linux_aarch64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="25.0.0.36"
+          JAVA_TARGET_VERSION="25.0.1.8"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -177,9 +177,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-linux_musl_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu25.30.17-ca-jdk25.0.1-linux_musl_x64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="25.0.0.36"
+          JAVA_TARGET_VERSION="25.0.1.8"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -188,9 +188,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu25.28.85-ca-jdk25.0.0-linux_musl_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu25.30.17-ca-jdk25.0.1-linux_musl_aarch64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="25.0.0.36"
+          JAVA_TARGET_VERSION="25.0.1.8"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -215,9 +215,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-linux_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.46.19-ca-jdk21.0.9-linux_x64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="21.0.8.9"
+          JAVA_TARGET_VERSION="21.0.9.10"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -226,9 +226,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-linux_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.46.19-ca-jdk21.0.9-linux_aarch64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="21.0.8.9"
+          JAVA_TARGET_VERSION="21.0.9.10"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -251,9 +251,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-linux_musl_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.46.19-ca-jdk21.0.9-linux_musl_x64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="21.0.8.9"
+          JAVA_TARGET_VERSION="21.0.9.10"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -262,9 +262,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.44.17-ca-jdk21.0.8-linux_musl_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu21.46.19-ca-jdk21.0.9-linux_musl_aarch64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="21.0.8.9"
+          JAVA_TARGET_VERSION="21.0.9.10"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -286,14 +286,14 @@ if [ "$JAVA_URL" = "" ]; then
     if [ "$JAVA_VERSION" = "17" ]; then
       if [ "$JAVA_OS" = "linux" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_i686.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.62.17-ca-jdk17.0.17-linux_i686.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="17.0.16.8"
+          JAVA_TARGET_VERSION="17.0.17.10"
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.62.17-ca-jdk17.0.17-linux_x64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="17.0.16.8"
+          JAVA_TARGET_VERSION="17.0.17.10"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -304,9 +304,9 @@ if [ "$JAVA_URL" = "" ]; then
           JAVA_TARGET_VERSION="17.0.16.8"
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.62.17-ca-jdk17.0.17-linux_aarch64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="17.0.16.8"
+          JAVA_TARGET_VERSION="17.0.17.10"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -329,9 +329,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_musl_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.62.17-ca-jdk17.0.17-linux_musl_x64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="17.0.16.8"
+          JAVA_TARGET_VERSION="17.0.17.10"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -340,9 +340,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.60.17-ca-jdk17.0.16-linux_musl_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.62.17-ca-jdk17.0.17-linux_musl_aarch64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="17.0.16.8"
+          JAVA_TARGET_VERSION="17.0.17.10"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -364,14 +364,14 @@ if [ "$JAVA_URL" = "" ]; then
     if [ "$JAVA_VERSION" = "11" ]; then
       if [ "$JAVA_OS" = "linux" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_i686.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.84.17-ca-jdk11.0.29-linux_i686.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="11.0.28.6"
+          JAVA_TARGET_VERSION="11.0.29.7"
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.84.17-ca-jdk11.0.29-linux_x64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="11.0.28.6"
+          JAVA_TARGET_VERSION="11.0.29.7"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu11.82.19-ca-jdk11.0.28-linux_aarch32sf.tar.gz"
@@ -384,9 +384,9 @@ if [ "$JAVA_URL" = "" ]; then
           JAVA_TARGET_VERSION="11.0.28.6"
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.84.17-ca-jdk11.0.29-linux_aarch64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="11.0.28.6"
+          JAVA_TARGET_VERSION="11.0.29.7"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -409,9 +409,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_musl_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.84.17-ca-jdk11.0.29-linux_musl_x64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="11.0.28.6"
+          JAVA_TARGET_VERSION="11.0.29.7"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -420,9 +420,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-linux_musl_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.84.17-ca-jdk11.0.29-linux_musl_aarch64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="11.0.28.6"
+          JAVA_TARGET_VERSION="11.0.29.7"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -444,14 +444,14 @@ if [ "$JAVA_URL" = "" ]; then
     if [ "$JAVA_VERSION" = "8" ]; then
       if [ "$JAVA_OS" = "linux" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_i686.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.90.0.19-ca-jdk8.0.472-linux_i686.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="8.0.462.8"
+          JAVA_TARGET_VERSION="8.0.472.8"
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.90.0.19-ca-jdk8.0.472-linux_x64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="8.0.462.8"
+          JAVA_TARGET_VERSION="8.0.472.8"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_aarch32sf.tar.gz"
@@ -464,9 +464,9 @@ if [ "$JAVA_URL" = "" ]; then
           JAVA_TARGET_VERSION="8.0.462.8"
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.90.0.19-ca-jdk8.0.472-linux_aarch64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="8.0.462.8"
+          JAVA_TARGET_VERSION="8.0.472.8"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -489,9 +489,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_musl_x64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.90.0.19-ca-jdk8.0.472-linux_musl_x64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="8.0.462.8"
+          JAVA_TARGET_VERSION="8.0.472.8"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -500,9 +500,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_musl_aarch64.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.90.0.19-ca-jdk8.0.472-linux_musl_aarch64.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="8.0.462.8"
+          JAVA_TARGET_VERSION="8.0.472.8"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -531,9 +531,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-amd64.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/25.0.1+11/bellsoft-jdk25.0.1+11-linux-amd64.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="25.0.0.37"
+          JAVA_TARGET_VERSION="25.0.1.11"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -542,14 +542,14 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-aarch64.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/25.0.1+11/bellsoft-jdk25.0.1+11-linux-aarch64.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="25.0.0.37"
+          JAVA_TARGET_VERSION="25.0.1.11"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-riscv64.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/25.0.1+11/bellsoft-jdk25.0.1+11-linux-riscv64.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="25.0.0.37"
+          JAVA_TARGET_VERSION="25.0.1.11"
         fi
         if [ "$JAVA_ARCH" = "mips64le" ]; then
           : # does not exist
@@ -558,9 +558,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "ppc64le" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-ppc64le.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/25.0.1+11/bellsoft-jdk25.0.1+11-linux-ppc64le.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="25.0.0.37"
+          JAVA_TARGET_VERSION="25.0.1.11"
         fi
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
@@ -571,9 +571,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-x64-musl.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/25.0.1+11/bellsoft-jdk25.0.1+11-linux-x64-musl.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="25.0.0.37"
+          JAVA_TARGET_VERSION="25.0.1.11"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -582,9 +582,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/25+37/bellsoft-jdk25+37-linux-aarch64-musl.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/25.0.1+11/bellsoft-jdk25.0.1+11-linux-aarch64-musl.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="25.0.0.37"
+          JAVA_TARGET_VERSION="25.0.1.11"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -606,32 +606,32 @@ if [ "$JAVA_URL" = "" ]; then
     if [ "$JAVA_VERSION" = "21" ]; then
       if [ "$JAVA_OS" = "linux" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-i586.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/21.0.9+11/bellsoft-jdk21.0.9+11-linux-i586.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="21.0.8.12"
+          JAVA_TARGET_VERSION="21.0.9.11"
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-amd64.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/21.0.9+11/bellsoft-jdk21.0.9+11-linux-amd64.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="21.0.8.12"
+          JAVA_TARGET_VERSION="21.0.9.11"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "armhf" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-arm32-vfp-hflt.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/21.0.9+11/bellsoft-jdk21.0.9+11-linux-arm32-vfp-hflt.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="21.0.8.12"
+          JAVA_TARGET_VERSION="21.0.9.11"
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-aarch64.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/21.0.9+11/bellsoft-jdk21.0.9+11-linux-aarch64.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="21.0.8.12"
+          JAVA_TARGET_VERSION="21.0.9.11"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-riscv64.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/21.0.9+11/bellsoft-jdk21.0.9+11-linux-riscv64.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="21.0.8.12"
+          JAVA_TARGET_VERSION="21.0.9.11"
         fi
         if [ "$JAVA_ARCH" = "mips64le" ]; then
           : # does not exist
@@ -640,9 +640,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "ppc64le" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-ppc64le.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/21.0.9+11/bellsoft-jdk21.0.9+11-linux-ppc64le.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="21.0.8.12"
+          JAVA_TARGET_VERSION="21.0.9.11"
         fi
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
@@ -653,9 +653,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-x64-musl.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/21.0.9+11/bellsoft-jdk21.0.9+11-linux-x64-musl.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="21.0.8.12"
+          JAVA_TARGET_VERSION="21.0.9.11"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -664,9 +664,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/21.0.8+12/bellsoft-jdk21.0.8+12-linux-aarch64-musl.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/21.0.9+11/bellsoft-jdk21.0.9+11-linux-aarch64-musl.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="21.0.8.12"
+          JAVA_TARGET_VERSION="21.0.9.11"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -688,32 +688,32 @@ if [ "$JAVA_URL" = "" ]; then
     if [ "$JAVA_VERSION" = "17" ]; then
       if [ "$JAVA_OS" = "linux" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-i586.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/17.0.17+11/bellsoft-jdk17.0.17+11-linux-i586.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="17.0.16.12"
+          JAVA_TARGET_VERSION="17.0.17.11"
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-amd64.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/17.0.17+11/bellsoft-jdk17.0.17+11-linux-amd64.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="17.0.16.12"
+          JAVA_TARGET_VERSION="17.0.17.11"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "armhf" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-arm32-vfp-hflt.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/17.0.17+11/bellsoft-jdk17.0.17+11-linux-arm32-vfp-hflt.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="17.0.16.12"
+          JAVA_TARGET_VERSION="17.0.17.11"
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-aarch64.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/17.0.17+11/bellsoft-jdk17.0.17+11-linux-aarch64.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="17.0.16.12"
+          JAVA_TARGET_VERSION="17.0.17.11"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-riscv64.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/17.0.17+11/bellsoft-jdk17.0.17+11-linux-riscv64.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="17.0.16.12"
+          JAVA_TARGET_VERSION="17.0.17.11"
         fi
         if [ "$JAVA_ARCH" = "mips64le" ]; then
           : # does not exist
@@ -722,9 +722,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "ppc64le" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-ppc64le.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/17.0.17+11/bellsoft-jdk17.0.17+11-linux-ppc64le.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="17.0.16.12"
+          JAVA_TARGET_VERSION="17.0.17.11"
         fi
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
@@ -735,9 +735,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-x64-musl.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/17.0.17+11/bellsoft-jdk17.0.17+11-linux-x64-musl.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="17.0.16.12"
+          JAVA_TARGET_VERSION="17.0.17.11"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -746,9 +746,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/17.0.16+12/bellsoft-jdk17.0.16+12-linux-aarch64-musl.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/17.0.17+11/bellsoft-jdk17.0.17+11-linux-aarch64-musl.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="17.0.16.12"
+          JAVA_TARGET_VERSION="17.0.17.11"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -770,27 +770,27 @@ if [ "$JAVA_URL" = "" ]; then
     if [ "$JAVA_VERSION" = "11" ]; then
       if [ "$JAVA_OS" = "linux" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-i586.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/11.0.29+10/bellsoft-jdk11.0.29+10-linux-i586.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="11.0.28.12"
+          JAVA_TARGET_VERSION="11.0.29.10"
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-amd64.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/11.0.29+10/bellsoft-jdk11.0.29+10-linux-amd64.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="11.0.28.12"
+          JAVA_TARGET_VERSION="11.0.29.10"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "armhf" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-arm32-vfp-hflt.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/11.0.29+10/bellsoft-jdk11.0.29+10-linux-arm32-vfp-hflt.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="11.0.28.12"
+          JAVA_TARGET_VERSION="11.0.29.10"
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-aarch64.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/11.0.29+10/bellsoft-jdk11.0.29+10-linux-aarch64.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="11.0.28.12"
+          JAVA_TARGET_VERSION="11.0.29.10"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -802,9 +802,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "ppc64le" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-ppc64le.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/11.0.29+10/bellsoft-jdk11.0.29+10-linux-ppc64le.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="11.0.28.12"
+          JAVA_TARGET_VERSION="11.0.29.10"
         fi
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
@@ -815,9 +815,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-x64-musl.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/11.0.29+10/bellsoft-jdk11.0.29+10-linux-x64-musl.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="11.0.28.12"
+          JAVA_TARGET_VERSION="11.0.29.10"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -826,9 +826,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/11.0.28+12/bellsoft-jdk11.0.28+12-linux-aarch64-musl.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/11.0.29+10/bellsoft-jdk11.0.29+10-linux-aarch64-musl.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="11.0.28.12"
+          JAVA_TARGET_VERSION="11.0.29.10"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -850,14 +850,14 @@ if [ "$JAVA_URL" = "" ]; then
     if [ "$JAVA_VERSION" = "8" ]; then
       if [ "$JAVA_OS" = "linux" ]; then
         if [ "$JAVA_ARCH" = "x32" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-i586.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/8u472+9/bellsoft-jdk8u472+9-linux-i586.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="8.0.462.11"
+          JAVA_TARGET_VERSION="8.0.472.9"
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-amd64.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/8u472+9/bellsoft-jdk8u472+9-linux-amd64.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="8.0.462.11"
+          JAVA_TARGET_VERSION="8.0.472.9"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -866,9 +866,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-aarch64.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/8u472+9/bellsoft-jdk8u472+9-linux-aarch64.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="8.0.462.11"
+          JAVA_TARGET_VERSION="8.0.472.9"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -880,9 +880,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "ppc64le" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-ppc64le.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/8u472+9/bellsoft-jdk8u472+9-linux-ppc64le.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="8.0.462.11"
+          JAVA_TARGET_VERSION="8.0.472.9"
         fi
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
@@ -893,9 +893,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-x64-musl.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/8u472+9/bellsoft-jdk8u472+9-linux-x64-musl.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="8.0.462.11"
+          JAVA_TARGET_VERSION="8.0.472.9"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -904,9 +904,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/8u462+11/bellsoft-jdk8u462+11-linux-aarch64-musl.tar.gz"
+          JAVA_URL="https://github.com/bell-sw/Liberica/releases/download/8u472+9/bellsoft-jdk8u472+9-linux-aarch64-musl.tar.gz"
           JAVA_TARGET_DISTRO="liberica"
-          JAVA_TARGET_VERSION="8.0.462.11"
+          JAVA_TARGET_VERSION="8.0.472.9"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -935,9 +935,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_x64_linux_hotspot_25_36.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.1%2B8/OpenJDK25U-jdk_x64_linux_hotspot_25.0.1_8.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="25.0.0.36"
+          JAVA_TARGET_VERSION="25.0.1.8"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -946,27 +946,27 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_aarch64_linux_hotspot_25_36.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.1%2B8/OpenJDK25U-jdk_aarch64_linux_hotspot_25.0.1_8.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="25.0.0.36"
+          JAVA_TARGET_VERSION="25.0.1.8"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_riscv64_linux_hotspot_25_36.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.1%2B8/OpenJDK25U-jdk_riscv64_linux_hotspot_25.0.1_8.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="25.0.0.36"
+          JAVA_TARGET_VERSION="25.0.1.8"
         fi
         if [ "$JAVA_ARCH" = "mips64le" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "s390x" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_s390x_linux_hotspot_25_36.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.1%2B8/OpenJDK25U-jdk_s390x_linux_hotspot_25.0.1_8.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="25.0.0.36"
+          JAVA_TARGET_VERSION="25.0.1.8"
         fi
         if [ "$JAVA_ARCH" = "ppc64le" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_ppc64le_linux_hotspot_25_36.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.1%2B8/OpenJDK25U-jdk_ppc64le_linux_hotspot_25.0.1_8.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="25.0.0.36"
+          JAVA_TARGET_VERSION="25.0.1.8"
         fi
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
@@ -977,9 +977,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_x64_alpine-linux_hotspot_25_36.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.1%2B8/OpenJDK25U-jdk_x64_alpine-linux_hotspot_25.0.1_8.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="25.0.0.36"
+          JAVA_TARGET_VERSION="25.0.1.8"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -988,9 +988,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25%2B36/OpenJDK25U-jdk_aarch64_alpine-linux_hotspot_25_36.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin25-binaries/releases/download/jdk-25.0.1%2B8/OpenJDK25U-jdk_aarch64_alpine-linux_hotspot_25.0.1_8.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="25.0.0.36"
+          JAVA_TARGET_VERSION="25.0.1.8"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -1015,9 +1015,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_x64_linux_hotspot_21.0.8_9.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.9%2B10/OpenJDK21U-jdk_x64_linux_hotspot_21.0.9_10.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="21.0.8.9"
+          JAVA_TARGET_VERSION="21.0.9.10"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -1026,22 +1026,22 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.8_9.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.9%2B10/OpenJDK21U-jdk_aarch64_linux_hotspot_21.0.9_10.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="21.0.8.9"
+          JAVA_TARGET_VERSION="21.0.9.10"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_riscv64_linux_hotspot_21.0.8_9.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.9%2B10/OpenJDK21U-jdk_riscv64_linux_hotspot_21.0.9_10.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="21.0.8.9"
+          JAVA_TARGET_VERSION="21.0.9.10"
         fi
         if [ "$JAVA_ARCH" = "mips64le" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "s390x" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_s390x_linux_hotspot_21.0.8_9.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.9%2B10/OpenJDK21U-jdk_s390x_linux_hotspot_21.0.9_10.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="21.0.8.9"
+          JAVA_TARGET_VERSION="21.0.9.10"
         fi
         if [ "$JAVA_ARCH" = "ppc64le" ]; then
           JAVA_URL="https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_ppc64le_linux_hotspot_21.0.8_9.tar.gz"
@@ -1057,9 +1057,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_x64_alpine-linux_hotspot_21.0.8_9.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.9%2B10/OpenJDK21U-jdk_x64_alpine-linux_hotspot_21.0.9_10.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="21.0.8.9"
+          JAVA_TARGET_VERSION="21.0.9.10"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -1068,9 +1068,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_aarch64_alpine-linux_hotspot_21.0.8_9.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.9%2B10/OpenJDK21U-jdk_aarch64_alpine-linux_hotspot_21.0.9_10.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="21.0.8.9"
+          JAVA_TARGET_VERSION="21.0.9.10"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -1095,22 +1095,22 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_x64_linux_hotspot_17.0.16_8.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_x64_linux_hotspot_17.0.17_10.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="17.0.16.8"
+          JAVA_TARGET_VERSION="17.0.17.10"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "armhf" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_arm_linux_hotspot_17.0.16_8.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_arm_linux_hotspot_17.0.17_10.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="17.0.16.8"
+          JAVA_TARGET_VERSION="17.0.17.10"
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.16_8.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_aarch64_linux_hotspot_17.0.17_10.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="17.0.16.8"
+          JAVA_TARGET_VERSION="17.0.17.10"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_riscv64_linux_hotspot_17.0.16_8.tar.gz"
@@ -1139,9 +1139,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_x64_alpine-linux_hotspot_17.0.16_8.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_x64_alpine-linux_hotspot_17.0.17_10.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="17.0.16.8"
+          JAVA_TARGET_VERSION="17.0.17.10"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -1175,9 +1175,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_x64_linux_hotspot_11.0.28_6.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.29%2B7/OpenJDK11U-jdk_x64_linux_hotspot_11.0.29_7.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="11.0.28.6"
+          JAVA_TARGET_VERSION="11.0.29.7"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
@@ -1188,9 +1188,9 @@ if [ "$JAVA_URL" = "" ]; then
           JAVA_TARGET_VERSION="11.0.28.6"
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_aarch64_linux_hotspot_11.0.28_6.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.29%2B7/OpenJDK11U-jdk_aarch64_linux_hotspot_11.0.29_7.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="11.0.28.6"
+          JAVA_TARGET_VERSION="11.0.29.7"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
           : # does not exist
@@ -1217,9 +1217,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "x64" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_x64_alpine-linux_hotspot_11.0.28_6.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.29%2B7/OpenJDK11U-jdk_x64_alpine-linux_hotspot_11.0.29_7.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="11.0.28.6"
+          JAVA_TARGET_VERSION="11.0.29.7"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
           : # does not exist
