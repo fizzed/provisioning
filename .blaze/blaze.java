@@ -18,7 +18,10 @@ import com.fizzed.provisioning.liberica.LibericaClient;
 import com.fizzed.provisioning.liberica.LibericaJavaRelease;
 import com.fizzed.provisioning.zulu.ZuluClient;
 import com.fizzed.provisioning.zulu.ZuluJavaRelease;
+import io.undertow.Undertow;
+import io.undertow.server.handlers.resource.PathResourceManager;
 import org.slf4j.Logger;
+import org.xnio.Xnio;
 
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -32,6 +35,7 @@ import static com.fizzed.blaze.Https.httpGet;
 import static com.fizzed.blaze.Systems.*;
 import static com.fizzed.blaze.util.Globber.globber;
 import static com.fizzed.crux.util.Maybe.maybe;
+import static io.undertow.Handlers.resource;
 import static java.util.Arrays.asList;
 
 
@@ -80,11 +84,10 @@ public class blaze extends BaseBlaze {
     // we basically expose the methods of helpers/blaze.java into .sh and .ps1 scripts
     static private final List<String> methods = asList(
         "install_maven", "install_fastfetch", "install_git_prompt",
-        "install_java_path", "install_blaze"
+        "install_java_path", "install_blaze", "dump_environment"
     );
 
-    @Task(order = 1)
-    public void build() throws Exception {
+    private void build(boolean localDebug) throws Exception {
         rm(this.targetFzpkgDir).verbose().force().recursive().run();
         mkdir(this.targetFzpkgDir).parents().verbose().run();
 
@@ -96,8 +99,15 @@ public class blaze extends BaseBlaze {
         final String ps1TemplateContent = Files.readString(ps1TemplateFile);
 
         for (String method : methods) {
-            final String shContent = shTemplateContent.replace("install_template", method);
-            final String ps1Content = ps1TemplateContent.replace("install_template", method);
+            // swap in the actual method name we want to call
+            String shContent = shTemplateContent.replace("install_template", method);
+            String ps1Content = ps1TemplateContent.replace("install_template", method);
+
+            // if in local debug mode, we want to run stuff from http://localhost NOT https://cdn.fizzed.com
+            if (localDebug) {
+                shContent = shContent.replace("https://cdn.fizzed.com", "http://localhost:10001");
+                ps1Content = ps1Content.replace("https://cdn.fizzed.com", "http://localhost:10001");
+            }
 
             final String name = method.replace("_", "-");
 
@@ -141,10 +151,105 @@ public class blaze extends BaseBlaze {
             .run();
     }
 
+    @Task(order = 1)
+    public void build() throws Exception {
+        this.build(false);
+    }
+
     @Task(order = 2)
     public void release() throws Exception {
+        // do a production build first (ensures we won't accidentally release a debug version)
+        this.build(false);
+
         // pushing the entire directory will sync the entire directory (w/ delete) to cdn.fizzed.com
         this.publishToCdn("fzpkg", targetFzpkgDir);
+    }
+
+    public void start_test_environment() throws Exception {
+        // build scripts using the test debug
+        this.build(true);
+
+        // fire up a web server to serve up the scripts
+        final Undertow undertow = this.startHttpServer(this.targetDir);
+
+        // print some info out about running various tests
+        log.info("");
+        log.info("You can run tests with some example commands:");
+        log.info("");
+        log.info("curl -sfL http://localhost:10001/fzpkg/dump-environment.sh | sh");
+        log.info("curl -sfL http://localhost:10001/fzpkg/dump-environment.sh | sudo sh -s -- --scope system");
+        log.info("");
+
+        log.info("Press CTRL+C to stop the web server and exit.");
+        undertow.getWorker().awaitTermination();
+    }
+
+    public void test() throws Exception {
+        // build scripts using the test debug
+        this.build(true);
+
+        // fire up a web server to serve up the scripts
+        final Undertow undertow = this.startHttpServer(this.targetDir);
+
+        // trick of tailing /dev/null to keep it alive
+        final Path blazeCacheDir = this.targetDir.resolve("blaze").toAbsolutePath();
+        mkdir(blazeCacheDir).parents().verbose().run();
+        exec("podman", "run", "--replace", "-d", "--stop-timeout=0", "--network=host", "-v", blazeCacheDir+":/root/.blaze", "--name", "fzpkg-test-server", "docker.io/fizzed/buildx:x64-ubuntu22-jdk21", "tail", "-f", "/dev/null")
+            .verbose()
+            .run();
+
+        // remove maven first
+        exec("podman", "exec", "-it", "fzpkg-test-server", "rm", "-Rf", "/opt/maven")
+            .verbose()
+            .run();
+
+        exec("podman", "exec", "-it", "fzpkg-test-server", "/bin/bash", "-c", "curl -sfL http://localhost:10001/fzpkg/dump-environment.sh | sh")
+            .verbose()
+            .run();
+
+        exec("podman", "exec", "-it", "fzpkg-test-server", "/bin/bash", "-c", "curl -sfL http://localhost:10001/fzpkg/install-java-path.sh | sh")
+            .verbose()
+            .run();
+
+        exec("podman", "exec", "-it", "fzpkg-test-server", "/bin/bash", "-c", "curl -sfL http://localhost:10001/fzpkg/install-blaze.sh | sh")
+            .verbose()
+            .run();
+
+        exec("podman", "exec", "-it", "fzpkg-test-server", "/bin/bash", "-c", "curl -sfL http://localhost:10001/fzpkg/install-maven.sh | sh")
+            .verbose()
+            .run();
+
+        exec("podman", "exec", "-it", "fzpkg-test-server", "/bin/bash", "-c", "curl -sfL http://localhost:10001/fzpkg/install-fastfetch.sh | sh")
+            .verbose()
+            .run();
+
+        exec("podman", "rm", "-f", "fzpkg-test-server")
+            .verbose()
+            .run();
+    }
+
+    private Undertow startHttpServer(Path dir) {
+        // these lines help silence the http server startup logging
+        System.setProperty("org.jboss.logging.provider", "slf4j");
+        System.setProperty("org.slf4j.simpleLogger.log.io.undertow", "warn");
+        System.setProperty("org.slf4j.simpleLogger.log.org.xnio", "warn");
+
+        // we need an http server to host the "auto-install" .conf files
+        Undertow undertow = Undertow.builder()
+            .addHttpListener(10001, "0.0.0.0")
+            .setHandler(resource(new PathResourceManager(dir, 100))
+                .setDirectoryListingEnabled(true))
+            .setWorkerThreads(1)
+            .setWorker(Xnio.getInstance().createWorkerBuilder()
+                .setDaemon(true)
+                .setWorkerName("undertow-daemon-worker")
+                .build())
+            .build();
+        undertow.start();
+
+        log.info("Started HTTP server to resource path {} on {}:{}", dir, "0.0.0.0", 10001);
+
+        return undertow;
     }
 
     //@Task(order=999)

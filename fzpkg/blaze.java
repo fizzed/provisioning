@@ -75,6 +75,50 @@ public class blaze {
     }
 
     //
+    // Hello World
+    //
+
+    public void dump_environment() throws Exception {
+        this.before(EnvScope.USER);
+        try {
+            final InstallEnvironment installEnvironment = InstallEnvironment.detect("Dump Environment", "dump_env", this.scope);
+
+            log.info("");
+            log.info("Dumping install environment for scope {}...", this.scope);
+
+            if (this.scope == EnvScope.USER) {
+                log.info("");
+                log.info("Please note you can pass '--scope system' to this command to dump the system environment instead of your user environment");
+            }
+
+            log.info("");
+
+            log.info("User Environment (who initiated the script even if running as elevated e.g. via sudo) =>");
+            log.info("  user: {}", installEnvironment.getUserEnvironment().getUser());
+            log.info("  displayName: {}", installEnvironment.getUserEnvironment().getDisplayName());
+            log.info("  elevated: {}", installEnvironment.getUserEnvironment().isElevated());
+            log.info("  homeDir: {}", installEnvironment.getUserEnvironment().getHomeDir());
+            log.info("  shellType: {}", installEnvironment.getUserEnvironment().getShellType());
+            log.info("  shell: {}", installEnvironment.getUserEnvironment().getShell());
+
+            log.info("");
+
+            log.info("Install Environment (where scripts would install things to) =>");
+            log.info("  operatingSystem: {}", installEnvironment.getOperatingSystem());
+            log.info("  optApplicationDir: {}", installEnvironment.getOptApplicationDir());
+            log.info("  localApplicationDir: {}", installEnvironment.getLocalApplicationDir());
+            log.info("  localBinDir: {}", installEnvironment.getLocalBinDir());
+            log.info("  localShareDir: {}", installEnvironment.getLocalShareDir());
+            log.info("  systemBinDir: {}", installEnvironment.getSystemBinDir());
+            log.info("  systemShareDir: {}", installEnvironment.getSystemShareDir());
+
+            log.info("");
+        } finally {
+            this.after(true);
+        }
+    }
+
+    //
     // Maven Install
     //
 
