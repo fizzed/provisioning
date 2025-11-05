@@ -13,7 +13,7 @@ try {
 
     # Setup Temporary Directory and Paths
     $tempDir = $env:TEMP
-    $helpersDir = Join-Path -Path $tempDir -ChildPath "provisioning-helpers"
+    $helpersDir = Join-Path -Path $tempDir -ChildPath "fzpkg-tmp"
 
     # Create the directory. -Force suppresses errors if it already exists.
     New-Item -Path $helpersDir -ItemType Directory -Force | Out-Null
@@ -24,15 +24,15 @@ try {
     # Define files to download in a structured way
     $filesToDownload = @(
         @{
-            Uri  = "https://cdn.fizzed.com/provisioning/helpers/blaze.jar"
+            Uri  = "https://cdn.fizzed.com/fzpkg/blaze.jar"
             OutFile = "blaze.jar"
         },
         @{
-            Uri  = "https://cdn.fizzed.com/provisioning/helpers/blaze.conf"
+            Uri  = "https://cdn.fizzed.com/fzpkg/blaze.conf"
             OutFile = "blaze.conf"
         },
         @{
-            Uri  = "https://cdn.fizzed.com/provisioning/helpers/blaze.java"
+            Uri  = "https://cdn.fizzed.com/fzpkg/blaze.java"
             OutFile = "blaze.java"
         }
     )
@@ -56,7 +56,7 @@ try {
 
     # The automatic variable '$args' in PowerShell contains all arguments passed to the script,
     # just like '$@' in the shell script.
-    java -jar $jarPath $javaPath install_maven $args
+    java -jar $jarPath $javaPath install_template $args
 
 }
 finally {

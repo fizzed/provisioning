@@ -30,6 +30,7 @@ import static com.fizzed.blaze.Contexts.fail;
 import static com.fizzed.blaze.Contexts.withBaseDir;
 import static com.fizzed.blaze.Https.httpGet;
 import static com.fizzed.blaze.Systems.*;
+import static com.fizzed.blaze.util.Globber.globber;
 import static com.fizzed.crux.util.Maybe.maybe;
 import static java.util.Arrays.asList;
 
@@ -57,23 +58,39 @@ import static java.util.Arrays.asList;
 public class blaze extends BaseBlaze {
 
     private final Config config = Contexts.config();
+    private final Logger log = Contexts.logger();
     private final Path projectDir = withBaseDir("../").toAbsolutePath();
     private final Path targetDir = projectDir.resolve("target");
-    private final Path dataDir = projectDir.resolve("data");
-    private final Path linuxDir = projectDir.resolve("linux");
-    private final Path scriptsDir = projectDir.resolve("scripts");
-    private final Path resourcesDir = projectDir.resolve("resources");
-    private final Logger log = Contexts.logger();
-    private final Path javaInstallersFile = dataDir.resolve("java-installers.json");
+    private final Path fzpkgDir = projectDir.resolve("fzpkg");
+    private final Path resourcesDir = fzpkgDir.resolve("resources");
+    private final Path scriptsDir = fzpkgDir.resolve("scripts");
+    private final Path javaInstallersFile = resourcesDir.resolve("java-installers.json");
+    private final Path targetFzpkgDir = targetDir.resolve("fzpkg");
+
+    public void generate_poms() throws Exception {
+        exec("java", "-jar", "blaze.jar", "--generate-maven-project")
+            .verbose()
+            .run();
+
+        exec("java", "-jar", "blaze.jar", "-f", this.projectDir.resolve("fzpkg/blaze.java"), "--generate-maven-project")
+            .verbose()
+            .run();
+    }
+
+    // we basically expose the methods of helpers/blaze.java into .sh and .ps1 scripts
+    static private final List<String> methods = asList(
+        "install_maven", "install_fastfetch", "install_git_prompt",
+        "install_java_path", "install_blaze"
+    );
 
     @Task(order = 1)
     public void build() throws Exception {
-        // we basically expose the methods of helpers/blaze.java into .sh and .ps1 scripts
-        final List<String> methods = asList("install_maven", "install_fastfetch", "install_git_prompt", "install_java_path", "install_blaze");
+        rm(this.targetFzpkgDir).verbose().force().recursive().run();
+        mkdir(this.targetFzpkgDir).parents().verbose().run();
 
         // we generate both .ps1 and .sh versions based on templates
-        final Path shTemplateFile = resourcesDir.resolve("install-template.sh");
-        final Path ps1TemplateFile = resourcesDir.resolve("install-template.ps1");
+        final Path shTemplateFile = this.resourcesDir.resolve("install-template.sh");
+        final Path ps1TemplateFile = this.resourcesDir.resolve("install-template.ps1");
 
         final String shTemplateContent = Files.readString(shTemplateFile);
         final String ps1TemplateContent = Files.readString(ps1TemplateFile);
@@ -84,8 +101,8 @@ public class blaze extends BaseBlaze {
 
             final String name = method.replace("_", "-");
 
-            final Path shTargetFile = scriptsDir.resolve(name + ".sh");
-            final Path ps1TargetFile = scriptsDir.resolve(name + ".ps1");
+            final Path shTargetFile = this.targetFzpkgDir.resolve(name + ".sh");
+            final Path ps1TargetFile = this.targetFzpkgDir.resolve(name + ".ps1");
 
             Files.write(shTargetFile, shContent.getBytes(StandardCharsets.UTF_8), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
             log.info("Built script {}", shTargetFile);
@@ -94,47 +111,40 @@ public class blaze extends BaseBlaze {
             log.info("Built script {}", ps1TargetFile);
         }
 
-        // now we need to update the install-java.sh file
-        this.update_install_java_sh();
-
-        /*// copy the linux/install-java.sh file to the scripts directory
-        cp(linuxDir.resolve("install-java.sh"))
-            .verbose()
-            .target(scriptsDir)
+        // copy anything in the scripts directory directly to the target dir
+        cp(globber(this.scriptsDir, "*"))
+            .target(this.targetFzpkgDir)
             .force()
-            .run();*/
+            .verbose()
+            .run();
+
+        // copy anything in the scripts directory directly to the target dir
+        cp(this.resourcesDir)
+            .target(this.targetFzpkgDir)
+            .force()
+            .recursive()
+            .verbose()
+            .run();
+
+        // copy blaze.jar to target
+        cp(projectDir.resolve("blaze.jar"))
+            .target(this.targetFzpkgDir)
+            .force()
+            .verbose()
+            .run();
+
+        // copy blaze.jar to target
+        cp(globber(this.fzpkgDir, "blaz*"))
+            .target(this.targetFzpkgDir)
+            .force()
+            .verbose()
+            .run();
     }
 
     @Task(order = 2)
     public void release() throws Exception {
-        // we need to build a directory that contains the exact structure we want to publish
-        try (TemporaryPath tempDir = TemporaryPath.tempDirectory("provisioning")) {
-            for (String dirName : asList("helpers", "resources")) {
-                final Path sourceDir = this.projectDir.resolve(dirName);
-                cp(sourceDir)
-                    .verbose()
-                    .recursive()
-                    .target(tempDir.getPath())
-                    .run();
-            }
-
-            // delete a few things to make it tidy
-            rm(tempDir.getPath().resolve("helpers/pom.xml")).verbose().force().run();
-            rm(tempDir.getPath().resolve("resources/install-template.ps1")).verbose().force().run();
-            rm(tempDir.getPath().resolve("resources/install-template.sh")).verbose().force().run();
-
-            // now we flatten the scripts into the provisioning dir
-            final Path sourceDir = this.projectDir.resolve("scripts");
-            for (Path scriptFile : Files.list(sourceDir).toList()) {
-                cp(scriptFile)
-                    .verbose()
-                    .target(tempDir.getPath())
-                    .run();
-            }
-
-            // pushing the entire directory will sync the entire directory (w/ delete) to cdn.fizzed.com
-            this.publishToCdn("provisioning", tempDir.getPath());
-        }
+        // pushing the entire directory will sync the entire directory (w/ delete) to cdn.fizzed.com
+        this.publishToCdn("fzpkg", targetFzpkgDir);
     }
 
     //@Task(order=999)
@@ -259,7 +269,7 @@ public class blaze extends BaseBlaze {
     }
 
     //@Task(order=999)
-    public void update_install_java_sh() throws Exception {
+    public void update_install_java_script() throws Exception {
         // load the latest java installer data
         log.info("Loading java-installers from file {}", this.javaInstallersFile);
         final byte[] javaInstallersData = Files.readAllBytes(this.javaInstallersFile);
