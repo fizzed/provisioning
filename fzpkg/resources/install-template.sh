@@ -74,14 +74,14 @@ download_file() {
 
 # Create the unique temporary directory
 # mktemp -d creates a directory with a unique name
-TEMP_DIR=$(mktemp -d /tmp/provisioning.XXXXXX)
+TEMP_DIR=$(mktemp -d /tmp/fzpkg.XXXXXX)
 echo "Created temp dir $TEMP_DIR"
 
 echo "Downloading blaze.jar to temp dir..."
-download_file "https://cdn.fizzed.com/provisioning/helpers/blaze.jar" "$TEMP_DIR/blaze.jar"
-download_file "https://cdn.fizzed.com/provisioning/helpers/blaze.conf" "$TEMP_DIR/blaze.conf"
-download_file "https://cdn.fizzed.com/provisioning/helpers/blaze.java" "$TEMP_DIR/blaze.java"
+download_file "https://cdn.fizzed.com/fzpkg/blaze.jar" "$TEMP_DIR/blaze.jar"
+download_file "https://cdn.fizzed.com/fzpkg/blaze.conf" "$TEMP_DIR/blaze.conf"
+download_file "https://cdn.fizzed.com/fzpkg/blaze.java" "$TEMP_DIR/blaze.java"
 
-java "-Djava.io.tmpdir=$TEMP_DIR" -jar "$TEMP_DIR/blaze.jar" "$TEMP_DIR/blaze.java" install_java_path "$@"
+java "-Djava.io.tmpdir=$TEMP_DIR" -jar "$TEMP_DIR/blaze.jar" "$TEMP_DIR/blaze.java" install_template "$@"
 
 rm -Rf "$TEMP_DIR"

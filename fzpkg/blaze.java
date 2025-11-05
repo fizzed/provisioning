@@ -530,7 +530,7 @@ public class blaze {
 
     private Path getResource(String resourcePath) throws IOException {
         // are we in a local development environment?   
-        Path localResourcesDir = Contexts.withBaseDir("../resources").toAbsolutePath();
+        Path localResourcesDir = Contexts.withBaseDir("resources").toAbsolutePath();
         if (Files.exists(localResourcesDir) && Files.isDirectory(localResourcesDir)) {
             log.info("Detected local development environment. Using local resources directory: {}", localResourcesDir);
 
@@ -543,8 +543,7 @@ public class blaze {
             return file;
         } else {
             // we will need to download this from the remote repository
-            // https://raw.githubusercontent.com/fizzed/provisioning/master/resources/git-prompt.bash
-            final String url = "https://cdn.fizzed.com/provisioning/resources/" + resourcePath;
+            final String url = "https://cdn.fizzed.com/fzpkg/resources/" + resourcePath;
             final String fileName = url.substring(url.lastIndexOf('/') + 1);
             final Path downloadFile = this.scratchDir.resolve(fileName);
 

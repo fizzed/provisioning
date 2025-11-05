@@ -1044,9 +1044,9 @@ if [ "$JAVA_URL" = "" ]; then
           JAVA_TARGET_VERSION="21.0.9.10"
         fi
         if [ "$JAVA_ARCH" = "ppc64le" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.8%2B9/OpenJDK21U-jdk_ppc64le_linux_hotspot_21.0.8_9.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin21-binaries/releases/download/jdk-21.0.9%2B10/OpenJDK21U-jdk_ppc64le_linux_hotspot_21.0.9_10.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="21.0.8.9"
+          JAVA_TARGET_VERSION="21.0.9.10"
         fi
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
@@ -1113,9 +1113,9 @@ if [ "$JAVA_URL" = "" ]; then
           JAVA_TARGET_VERSION="17.0.17.10"
         fi
         if [ "$JAVA_ARCH" = "riscv64" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_riscv64_linux_hotspot_17.0.16_8.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_riscv64_linux_hotspot_17.0.17_10.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="17.0.16.8"
+          JAVA_TARGET_VERSION="17.0.17.10"
         fi
         if [ "$JAVA_ARCH" = "mips64le" ]; then
           : # does not exist
@@ -1199,9 +1199,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "s390x" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_s390x_linux_hotspot_11.0.28_6.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.29%2B7/OpenJDK11U-jdk_s390x_linux_hotspot_11.0.29_7.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="11.0.28.6"
+          JAVA_TARGET_VERSION="11.0.29.7"
         fi
         if [ "$JAVA_ARCH" = "ppc64le" ]; then
           JAVA_URL="https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_ppc64le_linux_hotspot_11.0.28_6.tar.gz"
