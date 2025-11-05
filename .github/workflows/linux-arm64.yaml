@@ -17,5 +17,5 @@ jobs:
           run: |
             apt update
             apt -y install curl
-            sh scripts/install-java.sh
+            sh fzpkg/scripts/install-java.sh
             /usr/lib/jvm/jdk-current/bin/java -version
