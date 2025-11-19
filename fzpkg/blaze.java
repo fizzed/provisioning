@@ -14,7 +14,7 @@ import static com.fizzed.blaze.Archives.unarchive;
 import static com.fizzed.blaze.Contexts.fail;
 import static com.fizzed.blaze.Https.httpGet;
 import static com.fizzed.blaze.Systems.*;
-import static com.fizzed.jne.Chmod.chmod;
+import static com.fizzed.jne.internal.Chmod.chmod;
 import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
