@@ -640,6 +640,22 @@
   "abi" : "musl"
 }, {
   "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu-embedded/bin/zulu17.62.17-ca-jdk17.0.17-c2-linux_aarch32hf.tar.gz",
+  "name" : "zulu17.62.17-ca-jdk17.0.17-c2-linux_aarch32hf.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 17,
+    "minor" : 0,
+    "security" : 17,
+    "build" : 10
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
+}, {
+  "distro" : "zulu",
   "download_url" : "https://cdn.azul.com/zulu/bin/zulu17.62.17-ca-jdk17.0.17-linux_i386.deb",
   "name" : "zulu17.62.17-ca-jdk17.0.17-linux_i386.deb",
   "version" : {
@@ -960,22 +976,6 @@
   "abi" : null
 }, {
   "distro" : "zulu",
-  "download_url" : "https://cdn.azul.com/zulu-embedded/bin/zulu17.60.17-ca-jdk17.0.16-c2-linux_aarch32hf.tar.gz",
-  "name" : "zulu17.60.17-ca-jdk17.0.16-c2-linux_aarch32hf.tar.gz",
-  "version" : {
-    "source" : null,
-    "major" : 17,
-    "minor" : 0,
-    "security" : 16,
-    "build" : 8
-  },
-  "image_type" : "jdk",
-  "installer_type" : "tar_gz",
-  "os" : "linux",
-  "arch" : "armhf",
-  "abi" : null
-}, {
-  "distro" : "zulu",
   "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.84.17-ca-jdk11.0.29-linux_arm64.deb",
   "name" : "zulu11.84.17-ca-jdk11.0.29-linux_arm64.deb",
   "version" : {
@@ -1038,6 +1038,38 @@
   "os" : "linux",
   "arch" : "arm64",
   "abi" : "musl"
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu-embedded/bin/zulu11.84.17-ca-jdk11.0.29-linux_aarch32sf.tar.gz",
+  "name" : "zulu11.84.17-ca-jdk11.0.29-linux_aarch32sf.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 29,
+    "build" : 7
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "armel",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu-embedded/bin/zulu11.84.17-ca-jdk11.0.29-linux_aarch32hf.tar.gz",
+  "name" : "zulu11.84.17-ca-jdk11.0.29-linux_aarch32hf.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 29,
+    "build" : 7
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
 }, {
   "distro" : "zulu",
   "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.84.17-ca-jdk11.0.29-linux_i386.deb",
@@ -1280,6 +1312,22 @@
   "abi" : null
 }, {
   "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.84.17-ca-jdk11.0.29-solaris_x64.zip",
+  "name" : "zulu11.84.17-ca-jdk11.0.29-solaris_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 11,
+    "minor" : 0,
+    "security" : 29,
+    "build" : 7
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "solaris",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
   "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.84.17-ca-jdk11.0.29-win_i686.msi",
   "name" : "zulu11.84.17-ca-jdk11.0.29-win_i686.msi",
   "version" : {
@@ -1340,54 +1388,6 @@
   "image_type" : "jdk",
   "installer_type" : "zip",
   "os" : "windows",
-  "arch" : "x64",
-  "abi" : null
-}, {
-  "distro" : "zulu",
-  "download_url" : "https://cdn.azul.com/zulu-embedded/bin/zulu11.82.19-ca-jdk11.0.28-linux_aarch32sf.tar.gz",
-  "name" : "zulu11.82.19-ca-jdk11.0.28-linux_aarch32sf.tar.gz",
-  "version" : {
-    "source" : null,
-    "major" : 11,
-    "minor" : 0,
-    "security" : 28,
-    "build" : 6
-  },
-  "image_type" : "jdk",
-  "installer_type" : "tar_gz",
-  "os" : "linux",
-  "arch" : "armel",
-  "abi" : null
-}, {
-  "distro" : "zulu",
-  "download_url" : "https://cdn.azul.com/zulu-embedded/bin/zulu11.82.19-ca-jdk11.0.28-linux_aarch32hf.tar.gz",
-  "name" : "zulu11.82.19-ca-jdk11.0.28-linux_aarch32hf.tar.gz",
-  "version" : {
-    "source" : null,
-    "major" : 11,
-    "minor" : 0,
-    "security" : 28,
-    "build" : 6
-  },
-  "image_type" : "jdk",
-  "installer_type" : "tar_gz",
-  "os" : "linux",
-  "arch" : "armhf",
-  "abi" : null
-}, {
-  "distro" : "zulu",
-  "download_url" : "https://cdn.azul.com/zulu/bin/zulu11.82.19-ca-jdk11.0.28-solaris_x64.zip",
-  "name" : "zulu11.82.19-ca-jdk11.0.28-solaris_x64.zip",
-  "version" : {
-    "source" : null,
-    "major" : 11,
-    "minor" : 0,
-    "security" : 28,
-    "build" : 6
-  },
-  "image_type" : "jdk",
-  "installer_type" : "zip",
-  "os" : "solaris",
   "arch" : "x64",
   "abi" : null
 }, {
@@ -1454,6 +1454,38 @@
   "os" : "linux",
   "arch" : "arm64",
   "abi" : "musl"
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu-embedded/bin/zulu8.90.0.19-ca-jdk8.0.472-linux_aarch32sf.tar.gz",
+  "name" : "zulu8.90.0.19-ca-jdk8.0.472-linux_aarch32sf.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 472,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "armel",
+  "abi" : null
+}, {
+  "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu-embedded/bin/zulu8.90.0.19-ca-jdk8.0.472-linux_aarch32hf.tar.gz",
+  "name" : "zulu8.90.0.19-ca-jdk8.0.472-linux_aarch32hf.tar.gz",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 472,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
 }, {
   "distro" : "zulu",
   "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.90.0.19-ca-jdk8.0.472-linux_i686.tar.gz",
@@ -1664,6 +1696,22 @@
   "abi" : null
 }, {
   "distro" : "zulu",
+  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.90.0.19-ca-jdk8.0.472-solaris_x64.zip",
+  "name" : "zulu8.90.0.19-ca-jdk8.0.472-solaris_x64.zip",
+  "version" : {
+    "source" : null,
+    "major" : 8,
+    "minor" : 0,
+    "security" : 472,
+    "build" : 8
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "solaris",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "zulu",
   "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.90.0.19-ca-jdk8.0.472-win_i686.msi",
   "name" : "zulu8.90.0.19-ca-jdk8.0.472-win_i686.msi",
   "version" : {
@@ -1724,54 +1772,6 @@
   "image_type" : "jdk",
   "installer_type" : "zip",
   "os" : "windows",
-  "arch" : "x64",
-  "abi" : null
-}, {
-  "distro" : "zulu",
-  "download_url" : "https://cdn.azul.com/zulu-embedded/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_aarch32sf.tar.gz",
-  "name" : "zulu8.88.0.19-ca-jdk8.0.462-linux_aarch32sf.tar.gz",
-  "version" : {
-    "source" : null,
-    "major" : 8,
-    "minor" : 0,
-    "security" : 462,
-    "build" : 8
-  },
-  "image_type" : "jdk",
-  "installer_type" : "tar_gz",
-  "os" : "linux",
-  "arch" : "armel",
-  "abi" : null
-}, {
-  "distro" : "zulu",
-  "download_url" : "https://cdn.azul.com/zulu-embedded/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_aarch32hf.tar.gz",
-  "name" : "zulu8.88.0.19-ca-jdk8.0.462-linux_aarch32hf.tar.gz",
-  "version" : {
-    "source" : null,
-    "major" : 8,
-    "minor" : 0,
-    "security" : 462,
-    "build" : 8
-  },
-  "image_type" : "jdk",
-  "installer_type" : "tar_gz",
-  "os" : "linux",
-  "arch" : "armhf",
-  "abi" : null
-}, {
-  "distro" : "zulu",
-  "download_url" : "https://cdn.azul.com/zulu/bin/zulu8.88.0.19-ca-jdk8.0.462-solaris_x64.zip",
-  "name" : "zulu8.88.0.19-ca-jdk8.0.462-solaris_x64.zip",
-  "version" : {
-    "source" : null,
-    "major" : 8,
-    "minor" : 0,
-    "security" : 462,
-    "build" : 8
-  },
-  "image_type" : "jdk",
-  "installer_type" : "zip",
-  "os" : "solaris",
   "arch" : "x64",
   "abi" : null
 }, {
@@ -4800,6 +4800,22 @@
   "abi" : null
 }, {
   "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_ppc64le_linux_hotspot_17.0.17_10.tar.gz",
+  "name" : "OpenJDK17U-jdk_ppc64le_linux_hotspot_17.0.17_10.tar.gz",
+  "version" : {
+    "source" : "17.0.17+10",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 17,
+    "build" : 10
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "ppc64le",
+  "abi" : null
+}, {
+  "distro" : "temurin",
   "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_riscv64_linux_hotspot_17.0.17_10.tar.gz",
   "name" : "OpenJDK17U-jdk_riscv64_linux_hotspot_17.0.17_10.tar.gz",
   "version" : {
@@ -4813,6 +4829,22 @@
   "installer_type" : "tar_gz",
   "os" : "linux",
   "arch" : "riscv64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_s390x_linux_hotspot_17.0.17_10.tar.gz",
+  "name" : "OpenJDK17U-jdk_s390x_linux_hotspot_17.0.17_10.tar.gz",
+  "version" : {
+    "source" : "17.0.17+10",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 17,
+    "build" : 10
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "s390x",
   "abi" : null
 }, {
   "distro" : "temurin",
@@ -4864,6 +4896,22 @@
   "abi" : null
 }, {
   "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_x64_mac_hotspot_17.0.17_10.tar.gz",
+  "name" : "OpenJDK17U-jdk_x64_mac_hotspot_17.0.17_10.tar.gz",
+  "version" : {
+    "source" : "17.0.17+10",
+    "major" : 17,
+    "minor" : 0,
+    "security" : 17,
+    "build" : 10
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
   "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_x64_windows_hotspot_17.0.17_10.zip",
   "name" : "OpenJDK17U-jdk_x64_windows_hotspot_17.0.17_10.zip",
   "version" : {
@@ -4876,54 +4924,6 @@
   "image_type" : "jdk",
   "installer_type" : "zip",
   "os" : "windows",
-  "arch" : "x64",
-  "abi" : null
-}, {
-  "distro" : "temurin",
-  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_ppc64le_linux_hotspot_17.0.16_8.tar.gz",
-  "name" : "OpenJDK17U-jdk_ppc64le_linux_hotspot_17.0.16_8.tar.gz",
-  "version" : {
-    "source" : "17.0.16+8",
-    "major" : 17,
-    "minor" : 0,
-    "security" : 16,
-    "build" : 8
-  },
-  "image_type" : "jdk",
-  "installer_type" : "tar_gz",
-  "os" : "linux",
-  "arch" : "ppc64le",
-  "abi" : null
-}, {
-  "distro" : "temurin",
-  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_s390x_linux_hotspot_17.0.16_8.tar.gz",
-  "name" : "OpenJDK17U-jdk_s390x_linux_hotspot_17.0.16_8.tar.gz",
-  "version" : {
-    "source" : "17.0.16+8",
-    "major" : 17,
-    "minor" : 0,
-    "security" : 16,
-    "build" : 8
-  },
-  "image_type" : "jdk",
-  "installer_type" : "tar_gz",
-  "os" : "linux",
-  "arch" : "s390x",
-  "abi" : null
-}, {
-  "distro" : "temurin",
-  "download_url" : "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_x64_mac_hotspot_17.0.16_8.tar.gz",
-  "name" : "OpenJDK17U-jdk_x64_mac_hotspot_17.0.16_8.tar.gz",
-  "version" : {
-    "source" : "17.0.16+8",
-    "major" : 17,
-    "minor" : 0,
-    "security" : 16,
-    "build" : 8
-  },
-  "image_type" : "jdk",
-  "installer_type" : "tar_gz",
-  "os" : "macos",
   "arch" : "x64",
   "abi" : null
 }, {
@@ -4973,6 +4973,38 @@
   "installer_type" : "tar_gz",
   "os" : "linux",
   "arch" : "arm64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.29%2B7/OpenJDK11U-jdk_arm_linux_hotspot_11.0.29_7.tar.gz",
+  "name" : "OpenJDK11U-jdk_arm_linux_hotspot_11.0.29_7.tar.gz",
+  "version" : {
+    "source" : "11.0.29+7",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 29,
+    "build" : 7
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "armhf",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.29%2B7/OpenJDK11U-jdk_ppc64le_linux_hotspot_11.0.29_7.tar.gz",
+  "name" : "OpenJDK11U-jdk_ppc64le_linux_hotspot_11.0.29_7.tar.gz",
+  "version" : {
+    "source" : "11.0.29+7",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 29,
+    "build" : 7
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "linux",
+  "arch" : "ppc64le",
   "abi" : null
 }, {
   "distro" : "temurin",
@@ -5040,6 +5072,38 @@
   "abi" : null
 }, {
   "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.29%2B7/OpenJDK11U-jdk_x64_mac_hotspot_11.0.29_7.tar.gz",
+  "name" : "OpenJDK11U-jdk_x64_mac_hotspot_11.0.29_7.tar.gz",
+  "version" : {
+    "source" : "11.0.29+7",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 29,
+    "build" : 7
+  },
+  "image_type" : "jdk",
+  "installer_type" : "tar_gz",
+  "os" : "macos",
+  "arch" : "x64",
+  "abi" : null
+}, {
+  "distro" : "temurin",
+  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.29%2B7/OpenJDK11U-jdk_x86-32_windows_hotspot_11.0.29_7.zip",
+  "name" : "OpenJDK11U-jdk_x86-32_windows_hotspot_11.0.29_7.zip",
+  "version" : {
+    "source" : "11.0.29+7",
+    "major" : 11,
+    "minor" : 0,
+    "security" : 29,
+    "build" : 7
+  },
+  "image_type" : "jdk",
+  "installer_type" : "zip",
+  "os" : "windows",
+  "arch" : "x32",
+  "abi" : null
+}, {
+  "distro" : "temurin",
   "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.29%2B7/OpenJDK11U-jdk_x64_windows_hotspot_11.0.29_7.zip",
   "name" : "OpenJDK11U-jdk_x64_windows_hotspot_11.0.29_7.zip",
   "version" : {
@@ -5053,69 +5117,5 @@
   "installer_type" : "zip",
   "os" : "windows",
   "arch" : "x64",
-  "abi" : null
-}, {
-  "distro" : "temurin",
-  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_arm_linux_hotspot_11.0.28_6.tar.gz",
-  "name" : "OpenJDK11U-jdk_arm_linux_hotspot_11.0.28_6.tar.gz",
-  "version" : {
-    "source" : "11.0.28+6",
-    "major" : 11,
-    "minor" : 0,
-    "security" : 28,
-    "build" : 6
-  },
-  "image_type" : "jdk",
-  "installer_type" : "tar_gz",
-  "os" : "linux",
-  "arch" : "armhf",
-  "abi" : null
-}, {
-  "distro" : "temurin",
-  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_ppc64le_linux_hotspot_11.0.28_6.tar.gz",
-  "name" : "OpenJDK11U-jdk_ppc64le_linux_hotspot_11.0.28_6.tar.gz",
-  "version" : {
-    "source" : "11.0.28+6",
-    "major" : 11,
-    "minor" : 0,
-    "security" : 28,
-    "build" : 6
-  },
-  "image_type" : "jdk",
-  "installer_type" : "tar_gz",
-  "os" : "linux",
-  "arch" : "ppc64le",
-  "abi" : null
-}, {
-  "distro" : "temurin",
-  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_x64_mac_hotspot_11.0.28_6.tar.gz",
-  "name" : "OpenJDK11U-jdk_x64_mac_hotspot_11.0.28_6.tar.gz",
-  "version" : {
-    "source" : "11.0.28+6",
-    "major" : 11,
-    "minor" : 0,
-    "security" : 28,
-    "build" : 6
-  },
-  "image_type" : "jdk",
-  "installer_type" : "tar_gz",
-  "os" : "macos",
-  "arch" : "x64",
-  "abi" : null
-}, {
-  "distro" : "temurin",
-  "download_url" : "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_x86-32_windows_hotspot_11.0.28_6.zip",
-  "name" : "OpenJDK11U-jdk_x86-32_windows_hotspot_11.0.28_6.zip",
-  "version" : {
-    "source" : "11.0.28+6",
-    "major" : 11,
-    "minor" : 0,
-    "security" : 28,
-    "build" : 6
-  },
-  "image_type" : "jdk",
-  "installer_type" : "zip",
-  "os" : "windows",
-  "arch" : "x32",
   "abi" : null
 } ]

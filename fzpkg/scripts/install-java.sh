@@ -299,9 +299,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "armhf" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu17.60.17-ca-jdk17.0.16-c2-linux_aarch32hf.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu17.62.17-ca-jdk17.0.17-c2-linux_aarch32hf.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="17.0.16.8"
+          JAVA_TARGET_VERSION="17.0.17.10"
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
           JAVA_URL="https://cdn.azul.com/zulu/bin/zulu17.62.17-ca-jdk17.0.17-linux_aarch64.tar.gz"
@@ -374,14 +374,14 @@ if [ "$JAVA_URL" = "" ]; then
           JAVA_TARGET_VERSION="11.0.29.7"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu11.82.19-ca-jdk11.0.28-linux_aarch32sf.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu11.84.17-ca-jdk11.0.29-linux_aarch32sf.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="11.0.28.6"
+          JAVA_TARGET_VERSION="11.0.29.7"
         fi
         if [ "$JAVA_ARCH" = "armhf" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu11.82.19-ca-jdk11.0.28-linux_aarch32hf.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu11.84.17-ca-jdk11.0.29-linux_aarch32hf.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="11.0.28.6"
+          JAVA_TARGET_VERSION="11.0.29.7"
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
           JAVA_URL="https://cdn.azul.com/zulu/bin/zulu11.84.17-ca-jdk11.0.29-linux_aarch64.tar.gz"
@@ -454,14 +454,14 @@ if [ "$JAVA_URL" = "" ]; then
           JAVA_TARGET_VERSION="8.0.472.8"
         fi
         if [ "$JAVA_ARCH" = "armel" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_aarch32sf.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu8.90.0.19-ca-jdk8.0.472-linux_aarch32sf.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="8.0.462.8"
+          JAVA_TARGET_VERSION="8.0.472.8"
         fi
         if [ "$JAVA_ARCH" = "armhf" ]; then
-          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu8.88.0.19-ca-jdk8.0.462-linux_aarch32hf.tar.gz"
+          JAVA_URL="https://cdn.azul.com/zulu-embedded/bin/zulu8.90.0.19-ca-jdk8.0.472-linux_aarch32hf.tar.gz"
           JAVA_TARGET_DISTRO="zulu"
-          JAVA_TARGET_VERSION="8.0.462.8"
+          JAVA_TARGET_VERSION="8.0.472.8"
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
           JAVA_URL="https://cdn.azul.com/zulu/bin/zulu8.90.0.19-ca-jdk8.0.472-linux_aarch64.tar.gz"
@@ -1121,14 +1121,14 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "s390x" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_s390x_linux_hotspot_17.0.16_8.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_s390x_linux_hotspot_17.0.17_10.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="17.0.16.8"
+          JAVA_TARGET_VERSION="17.0.17.10"
         fi
         if [ "$JAVA_ARCH" = "ppc64le" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.16%2B8/OpenJDK17U-jdk_ppc64le_linux_hotspot_17.0.16_8.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.17%2B10/OpenJDK17U-jdk_ppc64le_linux_hotspot_17.0.17_10.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="17.0.16.8"
+          JAVA_TARGET_VERSION="17.0.17.10"
         fi
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
@@ -1183,9 +1183,9 @@ if [ "$JAVA_URL" = "" ]; then
           : # does not exist
         fi
         if [ "$JAVA_ARCH" = "armhf" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_arm_linux_hotspot_11.0.28_6.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.29%2B7/OpenJDK11U-jdk_arm_linux_hotspot_11.0.29_7.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="11.0.28.6"
+          JAVA_TARGET_VERSION="11.0.29.7"
         fi
         if [ "$JAVA_ARCH" = "arm64" ]; then
           JAVA_URL="https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.29%2B7/OpenJDK11U-jdk_aarch64_linux_hotspot_11.0.29_7.tar.gz"
@@ -1204,9 +1204,9 @@ if [ "$JAVA_URL" = "" ]; then
           JAVA_TARGET_VERSION="11.0.29.7"
         fi
         if [ "$JAVA_ARCH" = "ppc64le" ]; then
-          JAVA_URL="https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.28%2B6/OpenJDK11U-jdk_ppc64le_linux_hotspot_11.0.28_6.tar.gz"
+          JAVA_URL="https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.29%2B7/OpenJDK11U-jdk_ppc64le_linux_hotspot_11.0.29_7.tar.gz"
           JAVA_TARGET_DISTRO="temurin"
-          JAVA_TARGET_VERSION="11.0.28.6"
+          JAVA_TARGET_VERSION="11.0.29.7"
         fi
         if [ "$JAVA_ARCH" = "ppc64" ]; then
           : # does not exist
