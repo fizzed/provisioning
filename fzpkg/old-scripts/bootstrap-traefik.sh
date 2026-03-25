@@ -26,7 +26,6 @@ chmod 755 /var/log/traefik
 #touch /var/log/traefik.log
 #chown traefik:traefik /var/log/traefik.log
 
-if [ ! -f /etc/traefik/traefik.yaml ]; then
 cat <<EOF > /etc/traefik/traefik.yaml
 global:
   checkNewVersion: false
@@ -59,7 +58,6 @@ log:
 accessLog:
   filePath: "/var/log/traefik/access.log"  
 EOF
-fi
 
 
 chown -R traefik:traefik /etc/traefik/*
