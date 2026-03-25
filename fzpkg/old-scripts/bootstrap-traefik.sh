@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # https://devpress.csdn.net/cloudnative/62f2dd72c6770329307f7265.html
-wget https://github.com/traefik/traefik/releases/download/v3.5.2/traefik_v3.5.2_linux_amd64.tar.gz
-tar zxvf ./traefik_v3.5.2_linux_amd64.tar.gz
+wget https://github.com/traefik/traefik/releases/download/v3.6.11/traefik_v3.6.11_linux_amd64.tar.gz
+tar zxvf ./traefik_v3.6.11_linux_amd64.tar.gz
 
 cp ./traefik /usr/local/bin
 chown root:root /usr/local/bin/traefik
@@ -18,8 +18,13 @@ mkdir -p /etc/traefik/acme
 mkdir -p /etc/traefik/dynamic
 chown -R root:root /etc/traefik
 
-touch /var/log/traefik.log
-chown traefik:traefik /var/log/traefik.log
+mkdir -p /var/log/traefik
+chown -R traefik:traefik /var/log/traefik
+chmod 755 /var/log/traefik
+
+# old method
+#touch /var/log/traefik.log
+#chown traefik:traefik /var/log/traefik.log
 
 if [ ! -f /etc/traefik/traefik.yaml ]; then
 cat <<EOF > /etc/traefik/traefik.yaml
@@ -49,7 +54,10 @@ providers:
 
 log:
   level: INFO
-  filePath: "/var/log/traefik.log"
+  filePath: "/var/log/traefik/traefik.log"
+
+accessLog:
+  filePath: "/var/log/traefik/access.log"  
 EOF
 fi
 
